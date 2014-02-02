@@ -7,10 +7,12 @@ package org.bitbucket.cowwoc.servicelocator;
 /**
  * A reference that initializes a single value on demand.
  * <p>
+ * The implementation is thread-safe. All subclasses must be too.
+ * <p>
  * @author Gili Tzabari
  * @param <T> the type of object being referenced
  */
-public abstract class LazyReference<T>
+public abstract class LazyReference<T> implements ValueGenerator<T>
 {
 	/**
 	 * True if the value was created.
@@ -30,9 +32,7 @@ public abstract class LazyReference<T>
 		return initialized;
 	}
 
-	/**
-	 * @return the value
-	 */
+	@Override
 	public final T getValue()
 	{
 		if (!initialized)

@@ -14,15 +14,8 @@ import java.io.Closeable;
  * @param <T> the type of the value
  * @author Gili Tzabari
  */
-public interface Factory<T> extends Closeable
+public interface Factory<T> extends ValueGenerator<T>, Closeable
 {
-	/**
-	 * Returns the value. Subsequent invocations of this method must return the same value.
-	 * <p>
-	 * @return an object of type {@code <T>}
-	 */
-	T getValue();
-
 	/**
 	 * Disposes the Factory and the value. Subsequent invocations of this method have no effect.
 	 * Invoking any other method after this one results in an undefined behavior.

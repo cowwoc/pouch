@@ -9,6 +9,8 @@ import org.bitbucket.cowwoc.preconditions.Preconditions;
 /**
  * A factory that returns a pre-existing value.
  * <p>
+ * The implementation is thread-safe.
+ * <p>
  * @author Gili Tzabari
  * @param <T> the type of value returned by the factor
  */
