@@ -7,24 +7,24 @@ package org.bitbucket.cowwoc.servicelocator;
 import org.bitbucket.cowwoc.preconditions.Preconditions;
 
 /**
- * A factory that returns a pre-existing value.
+ * A {@code ValueGenerator} that returns a pre-existing value.
  * <p>
  * The implementation is thread-safe.
  * <p>
  * @author Gili Tzabari
- * @param <T> the type of value returned by the factor
+ * @param <T> the type of value returned by the generator
  */
-public final class ConstantFactory<T> implements Factory<T>
+public final class ConstantGenerator<T> implements ValueGenerator<T>
 {
 	private final T value;
 
 	/**
-	 * Creates a new ConstantFactory.
+	 * Creates a new ConstantGenerator.
 	 * <p>
 	 * @param value the value
 	 * @throws NullPointerException if value is null
 	 */
-	public ConstantFactory(T value)
+	public ConstantGenerator(T value)
 	{
 		Preconditions.requireThat(value, "value").isNotNull();
 		this.value = value;
@@ -34,10 +34,5 @@ public final class ConstantFactory<T> implements Factory<T>
 	public T getValue() throws IllegalStateException
 	{
 		return value;
-	}
-
-	@Override
-	public void close()
-	{
 	}
 }
