@@ -11,7 +11,7 @@
 	</parent>
 	<groupId>org.bitbucket.cowwoc.servicelocator</groupId>
 	<artifactId>servicelocator</artifactId>
-	<version>1.2-SNAPSHOT</version>
+	<version>1.2</version>
 	<packaging>jar</packaging>
 	<name>ServiceLocator</name>
 	<description>A Java library for implementing the Service Locator design pattern.</description>
@@ -29,7 +29,7 @@
 		<url>https://bitbucket.org/cowwoc/servicelocator/</url>
 		<connection>scm:hg:https://bitbucket.org/cowwoc/servicelocator/</connection>
 		<developerConnection>scm:hg:https://bitbucket.org/cowwoc/servicelocator/</developerConnection>
-		<tag>HEAD</tag>
+		<tag>release-1.2</tag>
 	</scm>
 
 	<developers>
