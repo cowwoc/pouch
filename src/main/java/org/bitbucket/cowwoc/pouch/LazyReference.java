@@ -2,17 +2,18 @@
  * Copyright 2014 Gili Tzabari.
  * Licensed under the Apache License, Version 2.0: http://www.apache.org/licenses/LICENSE-2.0
  */
-package org.bitbucket.cowwoc.servicelocator;
+package org.bitbucket.cowwoc.pouch;
 
 /**
- * A reference that initializes a single value on demand.
+ * A reference that initializes a value on demand.
  * <p>
- * The implementation is not thread-safe.
+ * Instances of LazyFactory are not safe for use by multiple threads. If such synchronization is
+ * required then it is recommended that {@link ConcurrentLazyReference} be used.
  * <p>
  * @author Gili Tzabari
  * @param <T> the type of object being referenced
  */
-public abstract class LazyReference<T> implements ValueGenerator<T>
+public abstract class LazyReference<T> implements Reference<T>
 {
 	/**
 	 * True if the value was created.

@@ -2,17 +2,17 @@
  * Copyright 2014 Gili Tzabari.
  * Licensed under the Apache License, Version 2.0: http://www.apache.org/licenses/LICENSE-2.0
  */
-package org.bitbucket.cowwoc.servicelocator;
+package org.bitbucket.cowwoc.pouch;
 
 /**
- * A reference that initializes a single value on demand.
+ * A thread-safe reference that initializes a value on demand.
  * <p>
  * The implementation is thread-safe.
  * <p>
  * @author Gili Tzabari
  * @param <T> the type of object being referenced
  */
-public abstract class ConcurrentLazyReference<T> implements ValueGenerator<T>
+public abstract class ConcurrentLazyReference<T> implements Reference<T>
 {
 	/**
 	 * True if the value was created.

@@ -2,12 +2,13 @@
  * Copyright 2014 Gili Tzabari.
  * Licensed under the Apache License, Version 2.0: http://www.apache.org/licenses/LICENSE-2.0
  */
-package org.bitbucket.cowwoc.servicelocator;
+package org.bitbucket.cowwoc.pouch;
 
 /**
- * A factory that initializes the value lazily.
+ * A factory that initializes a value on demand.
  * <p>
- * The implementation is not thread-safe.
+ * Instances of LazyFactory are not safe for use by multiple threads. If such synchronization is
+ * required then it is recommended that {@link ConcurrentLazyFactory} be used.
  * <p>
  * @param <T> the type of the value
  * @author Gili Tzabari

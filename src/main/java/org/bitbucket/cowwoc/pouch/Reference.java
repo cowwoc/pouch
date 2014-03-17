@@ -2,15 +2,15 @@
  * Copyright 2014 Gili Tzabari.
  * Licensed under the Apache License, Version 2.0: http://www.apache.org/licenses/LICENSE-2.0
  */
-package org.bitbucket.cowwoc.servicelocator;
+package org.bitbucket.cowwoc.pouch;
 
 /**
- * Generates a single value.
+ * A reference to a value.
  * <p>
  * @author Gili Tzabari
- * @param <T> the type of variable returned by the generator
+ * @param <T> the type of value returned by the object
  */
-public interface ValueGenerator<T>
+public interface Reference<T>
 {
 	/**
 	 * Returns the value. Subsequent invocations of this method return the same value.
