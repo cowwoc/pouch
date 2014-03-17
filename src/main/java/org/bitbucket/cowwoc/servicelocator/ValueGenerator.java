@@ -7,8 +7,6 @@ package org.bitbucket.cowwoc.servicelocator;
 /**
  * Generates a single value.
  * <p>
- * Implementations must be thread-safe.
- * <p>
  * @author Gili Tzabari
  * @param <T> the type of variable returned by the generator
  */

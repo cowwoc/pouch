@@ -7,76 +7,54 @@ package org.bitbucket.cowwoc.servicelocator;
 /**
  * A factory that initializes the value lazily.
  * <p>
- * The implementation is thread-safe. All subclasses must be too.
+ * The implementation is not thread-safe.
  * <p>
  * @param <T> the type of the value
  * @author Gili Tzabari
  */
-public abstract class LazyFactory<T> implements Factory<T>
+public abstract class LazyFactory<T> extends LazyReference<T>
+	implements Factory<T>
 {
-	/**
-	 * True if the value was created.
-	 */
-	private volatile boolean initialized;
 	/**
 	 * True if the factory was closed.
 	 */
 	private boolean closed;
-	/**
-	 * The value. This variable uses <a href="http://stackoverflow.com/a/6169551/14731">piggybacking
-	 * synchronization</a>.
-	 */
-	private T value;
 
 	/**
-	 * Returns the value. Subsequent invocations of this method return the same value.
+	 * Disposes the value.
+	 * <p>
+	 * This method is invoked the first time {@link #close()} is invoked, and only if the value was
+	 * already initialized. This method may not invoke any other method as the factory is already
+	 * marked as closed.
+	 * <p>
+	 * @param value the value to dispose
+	 */
+	protected abstract void disposeValue(T value);
+
+	/**
+	 * {@inheritDoc}
 	 * <p>
 	 * @return an object of type {@code <T>}
 	 * @throws IllegalStateException if the factory is closed
 	 */
 	@Override
 	public final T getValue()
+		throws IllegalStateException
 	{
-		if (!initialized)
-		{
-			synchronized (this)
-			{
-				if (closed)
-					throw new IllegalStateException("Factory is closed");
-				if (!initialized)
-				{
-					this.value = createValue();
-					initialized = true;
-				}
-			}
-		}
-		return this.value;
+		if (closed)
+			throw new IllegalStateException("Factory is closed");
+		return super.getValue();
 	}
-
-	/**
-	 * Creates the value. This method is invoked the first time {@link #getValue()} is invoked.
-	 * <p>
-	 * @return the value
-	 */
-	protected abstract T createValue();
-
-	/**
-	 * Disposes the value. This method is invoked the first time {@link #close()} is invoked, and only
-	 * if the value was already initialized.
-	 */
-	protected abstract void disposeValue();
 
 	@Override
 	public final void close()
 	{
-		synchronized (this)
-		{
-			if (closed)
-				return;
-			closed = true;
-			if (!initialized)
-				return;
-		}
-		disposeValue();
+		if (closed)
+			return;
+		closed = true;
+		if (!isInitialized())
+			return;
+		T value = super.getValue();
+		disposeValue(value);
 	}
 }
