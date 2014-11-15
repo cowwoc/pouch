@@ -20,8 +20,7 @@ public abstract class LazyReference<T> implements Reference<T>
 	 */
 	private boolean initialized;
 	/**
-	 * The value. This variable uses <a href="http://stackoverflow.com/a/6169551/14731">piggybacking
-	 * synchronization</a>.
+	 * The value.
 	 */
 	private T value;
 
