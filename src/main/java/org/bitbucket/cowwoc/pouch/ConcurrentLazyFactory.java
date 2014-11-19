@@ -4,7 +4,6 @@
  */
 package org.bitbucket.cowwoc.pouch;
 
-import java.io.Closeable;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -52,14 +51,14 @@ public abstract class ConcurrentLazyFactory<T> implements Factory<T>
 
 	/**
 	 * Creates a new {@code ConcurrentLazyFactory} that disposes its value by invoking
-	 * {@code close()}. If {@code close()} throws an {@code IOException}, it is wrapped in a
-	 * {@code UncheckedIOException}.
+	 * {@code close()}. If {@code close()} throws a checked exception, it is wrapped in a
+	 * {@code RuntimeException} or an exception that extends it.
 	 * <p>
 	 * @param <T>      the type of value returned by the factory
 	 * @param supplier supplies the factory value
 	 * @return a new ConcurrentLazyFactory
 	 */
-	public static <T extends Closeable> ConcurrentLazyFactory<T> create(final Supplier<T> supplier)
+	public static <T extends AutoCloseable> ConcurrentLazyFactory<T> create(final Supplier<T> supplier)
 	{
 		return create(supplier, (closeable) ->
 		{
@@ -70,6 +69,10 @@ public abstract class ConcurrentLazyFactory<T> implements Factory<T>
 			catch (IOException e)
 			{
 				throw new UncheckedIOException(e);
+			}
+			catch (Exception e)
+			{
+				throw new RuntimeException(e);
 			}
 		});
 	}

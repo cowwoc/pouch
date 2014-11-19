@@ -4,7 +4,6 @@
  */
 package org.bitbucket.cowwoc.pouch;
 
-import java.io.Closeable;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.util.function.Consumer;
@@ -49,13 +48,14 @@ public abstract class LazyFactory<T> extends AbstractLazyFactory<T>
 
 	/**
 	 * Creates a new {@code LazyFactory} that disposes its value by invoking {@code close()}. If
-	 * {@code close()} throws an {@code IOException}, it is wrapped in a {@code UncheckedIOException}.
+	 * {@code close()} throws a checked exception, it is wrapped in a {@code RuntimeException} or an
+	 * exception that extends it.
 	 * <p>
 	 * @param <T>      the type of value returned by the factory
 	 * @param supplier supplies the factory value
 	 * @return a new LazyFactory
 	 */
-	public static <T extends Closeable> LazyFactory<T> create(final Supplier<T> supplier)
+	public static <T extends AutoCloseable> LazyFactory<T> create(final Supplier<T> supplier)
 	{
 		return create(supplier, (closeable) ->
 		{
@@ -66,6 +66,10 @@ public abstract class LazyFactory<T> extends AbstractLazyFactory<T>
 			catch (IOException e)
 			{
 				throw new UncheckedIOException(e);
+			}
+			catch (Exception e)
+			{
+				throw new RuntimeException(e);
 			}
 		});
 	}
