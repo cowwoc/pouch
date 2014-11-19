@@ -45,20 +45,20 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.1</version>
+				<version>3.2</version>
 				<configuration>
 					<showDeprecation>true</showDeprecation>
 					<compilerArgs>
 						<arg>-Xlint</arg>
 					</compilerArgs>
-					<source>1.7</source>
-					<target>1.7</target>
+					<source>1.8</source>
+					<target>1.8</target>
 				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.6.5.201403032054</version>
+				<version>0.7.2.201409121644</version>
 				<executions>
 					<execution>
 						<goals>
@@ -90,7 +90,7 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-release-plugin</artifactId>
-					<version>2.4.2</version>
+					<version>2.5.1</version>
 					<configuration>
 						<autoVersionSubmodules>true</autoVersionSubmodules>
 						<tagNameFormat>release-@{project.version}</tagNameFormat>
@@ -108,7 +108,7 @@
 		<dependency>
 			<groupId>org.bitbucket.cowwoc</groupId>
 			<artifactId>preconditions</artifactId>
-			<version>1.5</version>
+			<version>1.12</version>
 		</dependency>
 	</dependencies>
 </project>

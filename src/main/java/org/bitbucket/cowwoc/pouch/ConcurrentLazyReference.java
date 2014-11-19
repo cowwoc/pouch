@@ -4,6 +4,8 @@
  */
 package org.bitbucket.cowwoc.pouch;
 
+import java.util.function.Supplier;
+
 /**
  * A thread-safe reference that initializes a value on demand.
  * <p>
@@ -14,6 +16,22 @@ package org.bitbucket.cowwoc.pouch;
  */
 public abstract class ConcurrentLazyReference<T> implements Reference<T>
 {
+	/**
+	 * @param <T>      the type of value returned by the reference
+	 * @param supplier supplies the reference value
+	 * @return a new ConcurrentLazyReference
+	 */
+	public static <T> ConcurrentLazyReference<T> create(final Supplier<T> supplier)
+	{
+		return new ConcurrentLazyReference<T>()
+		{
+			@Override
+			protected T createValue()
+			{
+				return supplier.get();
+			}
+		};
+	}
 	/**
 	 * True if the value was created.
 	 */

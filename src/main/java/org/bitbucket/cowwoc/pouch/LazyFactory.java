@@ -4,6 +4,12 @@
  */
 package org.bitbucket.cowwoc.pouch;
 
+import java.io.Closeable;
+import java.io.IOException;
+import java.io.UncheckedIOException;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
+
 /**
  * A factory that initializes a value on demand.
  * <p>
@@ -13,49 +19,54 @@ package org.bitbucket.cowwoc.pouch;
  * @param <T> the type of the value
  * @author Gili Tzabari
  */
-public abstract class LazyFactory<T> extends LazyReference<T>
-	implements Factory<T>
+public abstract class LazyFactory<T> extends AbstractLazyFactory<T>
 {
 	/**
-	 * True if the factory was closed.
-	 */
-	private boolean closed;
-
-	/**
-	 * Disposes the value.
+	 * Creates a new LazyFactory.
 	 * <p>
-	 * This method is invoked the first time {@link #close()} is invoked, and only if the value was
-	 * already initialized. This method may not invoke any other method as the factory is already
-	 * marked as closed.
-	 * <p>
-	 * @param value the value to dispose
+	 * @param <T>      the type of value returned by the factory
+	 * @param supplier supplies the factory value
+	 * @param disposer implements {@link #disposeValue(java.lang.Object) disposeValue(T)}
+	 * @return a new LazyFactory
 	 */
-	protected abstract void disposeValue(T value);
-
-	/**
-	 * {@inheritDoc}
-	 * <p>
-	 * @return an object of type {@code <T>}
-	 * @throws IllegalStateException if the factory is closed
-	 */
-	@Override
-	public final T getValue()
-		throws IllegalStateException
+	public static <T> LazyFactory<T> create(final Supplier<T> supplier, final Consumer<T> disposer)
 	{
-		if (closed)
-			throw new IllegalStateException("Factory is closed");
-		return super.getValue();
+		return new LazyFactory<T>()
+		{
+			@Override
+			protected T createValue()
+			{
+				return supplier.get();
+			}
+
+			@Override
+			protected void disposeValue(T value)
+			{
+				disposer.accept(value);
+			}
+		};
 	}
 
-	@Override
-	public final void close()
+	/**
+	 * Creates a new {@code LazyFactory} that disposes its value by invoking {@code close()}. If
+	 * {@code close()} throws an {@code IOException}, it is wrapped in a {@code UncheckedIOException}.
+	 * <p>
+	 * @param <T>      the type of value returned by the factory
+	 * @param supplier supplies the factory value
+	 * @return a new LazyFactory
+	 */
+	public static <T extends Closeable> LazyFactory<T> create(final Supplier<T> supplier)
 	{
-		if (closed)
-			return;
-		closed = true;
-		if (!isInitialized())
-			return;
-		T value = super.getValue();
-		disposeValue(value);
+		return create(supplier, (closeable) ->
+		{
+			try
+			{
+				closeable.close();
+			}
+			catch (IOException e)
+			{
+				throw new UncheckedIOException(e);
+			}
+		});
 	}
 }

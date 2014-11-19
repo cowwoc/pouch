@@ -4,6 +4,8 @@
  */
 package org.bitbucket.cowwoc.pouch;
 
+import java.util.function.Supplier;
+
 /**
  * A reference that initializes a value on demand.
  * <p>
@@ -13,40 +15,22 @@ package org.bitbucket.cowwoc.pouch;
  * @author Gili Tzabari
  * @param <T> the type of object being referenced
  */
-public abstract class LazyReference<T> implements Reference<T>
+public abstract class LazyReference<T> extends AbstractLazyReference<T>
 {
 	/**
-	 * True if the value was created.
+	 * @param <T>      the type of value returned by the reference
+	 * @param supplier supplies the reference value
+	 * @return a new LazyReference
 	 */
-	private boolean initialized;
-	/**
-	 * The value.
-	 */
-	private T value;
-
-	/**
-	 * Creates the value. This method is invoked the first time {@link #getValue()} is invoked.
-	 * <p>
-	 * @return the value
-	 */
-	protected abstract T createValue();
-
-	/**
-	 * @return true if the value was initialized
-	 */
-	public boolean isInitialized()
+	public static <T> LazyReference<T> create(final Supplier<T> supplier)
 	{
-		return initialized;
-	}
-
-	@Override
-	public T getValue()
-	{
-		if (!initialized)
+		return new LazyReference<T>()
 		{
-			this.value = createValue();
-			initialized = true;
-		}
-		return this.value;
+			@Override
+			protected T createValue()
+			{
+				return supplier.get();
+			}
+		};
 	}
 }
