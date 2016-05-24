@@ -60,7 +60,7 @@ public abstract class ConcurrentLazyFactory<T> implements Factory<T>
 	 */
 	public static <T extends AutoCloseable> ConcurrentLazyFactory<T> create(final Supplier<T> supplier)
 	{
-		return create(supplier, (closeable) ->
+		return create(supplier, closeable ->
 		{
 			try
 			{

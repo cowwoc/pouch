@@ -57,7 +57,7 @@ public abstract class LazyFactory<T> extends AbstractLazyFactory<T>
 	 */
 	public static <T extends AutoCloseable> LazyFactory<T> create(final Supplier<T> supplier)
 	{
-		return create(supplier, (closeable) ->
+		return create(supplier, closeable ->
 		{
 			try
 			{
