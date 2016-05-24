@@ -25,8 +25,8 @@ import org.slf4j.LoggerFactory;
  * <ul>
  * <li>Parent scope is not closed.</li>
  * <li>Child scope implementations of {@code close()} are
- * <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/AutoCloseable.html#close--">idempotent<a>.</li>
- * <ul>
+ * <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/AutoCloseable.html#close--">idempotent</a>.</li>
+ * </ul>
  *
  * @author Gili Tzabari
  */
