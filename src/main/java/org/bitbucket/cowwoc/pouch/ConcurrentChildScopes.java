@@ -12,7 +12,7 @@ import java.util.concurrent.Phaser;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.function.Supplier;
-import org.bitbucket.cowwoc.preconditions.Preconditions;
+import static org.bitbucket.cowwoc.requirements.Requirements.requireThat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -80,7 +80,7 @@ public final class ConcurrentChildScopes
 	public <T extends AutoCloseable> T createChildScope(Supplier<T> supplier)
 		throws NullPointerException
 	{
-		Preconditions.requireThat(supplier, "supplier").isNotNull();
+		requireThat(supplier, "supplier").isNotNull();
 		openScopes.register();
 		try
 		{

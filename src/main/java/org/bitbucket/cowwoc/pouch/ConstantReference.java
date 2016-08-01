@@ -4,7 +4,7 @@
  */
 package org.bitbucket.cowwoc.pouch;
 
-import org.bitbucket.cowwoc.preconditions.Preconditions;
+import static org.bitbucket.cowwoc.requirements.Requirements.requireThat;
 
 /**
  * A {@code Reference} that returns a pre-existing value.
@@ -26,7 +26,7 @@ public final class ConstantReference<T> implements Reference<T>
 	 */
 	public ConstantReference(T value)
 	{
-		Preconditions.requireThat(value, "value").isNotNull();
+		requireThat(value, "value").isNotNull();
 		this.value = value;
 	}
 

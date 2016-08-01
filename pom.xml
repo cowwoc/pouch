@@ -122,8 +122,8 @@
 		</dependency>
 		<dependency>
 			<groupId>org.bitbucket.cowwoc</groupId>
-			<artifactId>preconditions</artifactId>
-			<version>1.29</version>
+			<artifactId>requirements</artifactId>
+			<version>2.0.0</version>
 		</dependency>
 	</dependencies>
 </project>
