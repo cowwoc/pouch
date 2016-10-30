@@ -4,15 +4,14 @@
  */
 package org.bitbucket.cowwoc.pouch;
 
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
 import java.time.Duration;
 import java.util.Arrays;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.Phaser;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.function.Supplier;
-import static org.bitbucket.cowwoc.requirements.Requirements.requireThat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -48,8 +47,8 @@ public final class ConcurrentChildScopes
 	/**
 	 * A map from a child scope to the thread that created it.
 	 */
-	private final Cache<AutoCloseable, Thread> childScopes = CacheBuilder.newBuilder().weakKeys().
-		build();
+	@SuppressWarnings("CollectionWithoutInitialCapacity")
+	private final ConcurrentMap<AutoCloseable, Thread> childScopes = new ConcurrentHashMap<>();
 	/**
 	 * Counts the number of open scopes.
 	 */
@@ -80,7 +79,8 @@ public final class ConcurrentChildScopes
 	public <T extends AutoCloseable> T createChildScope(Supplier<T> supplier)
 		throws NullPointerException
 	{
-		requireThat(supplier, "supplier").isNotNull();
+		if (supplier == null)
+			throw new NullPointerException("supplier may not be null");
 		openScopes.register();
 		try
 		{
@@ -103,9 +103,9 @@ public final class ConcurrentChildScopes
 	 */
 	public void onClosed(AutoCloseable scope) throws NullPointerException
 	{
-		Thread expected = childScopes.getIfPresent(scope);
+		Thread expected = childScopes.get(scope);
 		assert (validThread(expected)): "Expecting " + expected + " but got " + Thread.currentThread();
-		childScopes.invalidate(scope);
+		childScopes.remove(scope);
 		openScopes.arriveAndDeregister();
 	}
 
@@ -132,10 +132,10 @@ public final class ConcurrentChildScopes
 		}
 		catch (TimeoutException e)
 		{
-			log.warn("Child scope leaked by " + childScopes.asMap().values(), e);
+			log.warn("Child scope leaked by " + childScopes.values(), e);
 			result = false;
 		}
-		for (AutoCloseable scope: childScopes.asMap().keySet())
+		for (AutoCloseable scope: childScopes.keySet())
 		{
 			try
 			{
@@ -143,10 +143,10 @@ public final class ConcurrentChildScopes
 			}
 			catch (Exception e)
 			{
-				log.warn("", e);
+				log.warn("Failed to close scope", e);
 			}
 		}
-		childScopes.invalidateAll();
+		childScopes.clear();
 		return result;
 	}
 }

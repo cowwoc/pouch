@@ -120,10 +120,5 @@
 			<artifactId>slf4j-api</artifactId>
 			<version>1.7.21</version>
 		</dependency>
-		<dependency>
-			<groupId>org.bitbucket.cowwoc</groupId>
-			<artifactId>requirements</artifactId>
-			<version>2.0.0</version>
-		</dependency>
 	</dependencies>
 </project>
