@@ -182,4 +182,21 @@ public abstract class ConcurrentLazyFactory<T> implements Factory<T>
 			readLock.unlock();
 		}
 	}
+
+	@Override
+	public String toString()
+	{
+		StringBuilder result = new StringBuilder("ConcurrentLazyFactory\n" +
+			"{\n" +
+			"  initialized: " + initialized);
+		if (initialized)
+		{
+			result.append(",\n").
+				append("  value: ").append(getValue());
+		}
+		result.append("\n").
+			append("  closed: ").append(closed).append("\n").
+			append("}");
+		return result.toString();
+	}
 }

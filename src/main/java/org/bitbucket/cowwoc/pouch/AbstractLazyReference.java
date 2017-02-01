@@ -47,4 +47,19 @@ abstract class AbstractLazyReference<T> implements Reference<T>
 		return this.value;
 	}
 
+	@Override
+	public String toString()
+	{
+		StringBuilder result = new StringBuilder("LazyReference\n" +
+			"{\n" +
+			"  initialized: " + initialized);
+		if (initialized)
+		{
+			result.append(",\n").
+				append("  value: ").append(value);
+		}
+		result.append("\n").
+			append("}");
+		return result.toString();
+	}
 }

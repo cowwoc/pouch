@@ -73,4 +73,20 @@ public abstract class ConcurrentLazyReference<T> implements Reference<T>
 	 * @return the value
 	 */
 	protected abstract T createValue();
+
+	@Override
+	public String toString()
+	{
+		StringBuilder result = new StringBuilder("ConcurrentLazyReference\n" +
+			"{\n" +
+			"  initialized: " + initialized);
+		if (initialized)
+		{
+			result.append(",\n").
+				append("  value: ").append(value);
+		}
+		result.append("\n").
+			append("}");
+		return result.toString();
+	}
 }
