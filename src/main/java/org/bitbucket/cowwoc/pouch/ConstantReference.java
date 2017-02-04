@@ -34,4 +34,10 @@ public final class ConstantReference<T> implements Reference<T>
 	{
 		return value;
 	}
+
+	@Override
+	public boolean isInitialized()
+	{
+		return true;
+	}
 }

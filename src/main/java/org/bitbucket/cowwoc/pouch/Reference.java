@@ -18,4 +18,9 @@ public interface Reference<T>
 	 * @return an object of type {@code <T>}
 	 */
 	T getValue();
+
+	/**
+	 * @return true if the value is initialized
+	 */
+	boolean isInitialized();
 }

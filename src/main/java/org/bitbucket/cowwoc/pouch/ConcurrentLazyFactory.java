@@ -153,6 +153,12 @@ public abstract class ConcurrentLazyFactory<T> implements Factory<T>
 	}
 
 	@Override
+	public boolean isInitialized()
+	{
+		return initialized;
+	}
+
+	@Override
 	public final void close()
 	{
 		readLock.lock();

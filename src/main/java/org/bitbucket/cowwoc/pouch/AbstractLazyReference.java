@@ -28,9 +28,7 @@ abstract class AbstractLazyReference<T> implements Reference<T>
 	 */
 	protected abstract T createValue();
 
-	/**
-	 * @return true if the value was initialized
-	 */
+	@Override
 	public boolean isInitialized()
 	{
 		return initialized;
