@@ -20,7 +20,12 @@ public interface Reference<T>
 	T getValue();
 
 	/**
-	 * @return true if the value is initialized
+	 * Indicates if the value was initialized.
+	 * <p>
+	 * A value may get initialized immediately after this method returns {@code false} but once it
+	 * returns {@code true} it will continue to do so indefinitely.
+	 *
+	 * @return true if the value was initialized
 	 */
 	boolean isInitialized();
 }

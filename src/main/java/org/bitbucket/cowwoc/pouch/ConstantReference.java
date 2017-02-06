@@ -10,22 +10,19 @@ package org.bitbucket.cowwoc.pouch;
  * The implementation is thread-safe.
  * <p>
  * @author Gili Tzabari
- * @param <T> the type of value returned by the generator
+ * @param <T> the type of value returned by the reference
  */
 public final class ConstantReference<T> implements Reference<T>
 {
 	private final T value;
 
 	/**
-	 * Creates a new ConstantGenerator.
+	 * Creates a new ConstantReference.
 	 * <p>
 	 * @param value the value
-	 * @throws NullPointerException if value is null
 	 */
 	public ConstantReference(T value)
 	{
-		if (value == null)
-			throw new NullPointerException("value may not be null");
 		this.value = value;
 	}
 
