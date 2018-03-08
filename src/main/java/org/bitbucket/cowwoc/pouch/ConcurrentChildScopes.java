@@ -5,7 +5,6 @@
 package org.bitbucket.cowwoc.pouch;
 
 import java.time.Duration;
-import java.util.Arrays;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.Phaser;
@@ -32,23 +31,10 @@ import org.slf4j.LoggerFactory;
 public final class ConcurrentChildScopes
 {
 	/**
-	 * @param expected the {@code Thread} expected to invoke
-	 *                 {@link ConcurrentChildScopes#onClosed(AutoCloseable)}
-	 * @return true if the method was invoked by an acceptable thread
-	 */
-	private static boolean validThread(Thread expected)
-	{
-		if (Thread.currentThread().equals(expected))
-			return true;
-		// Forcibly closed after timeout
-		return Arrays.toString(new Exception().getStackTrace()).contains(ConcurrentChildScopes.class.
-			getSimpleName() + ".close");
-	}
-	/**
 	 * A map from a child scope to the thread that created it.
 	 */
 	@SuppressWarnings("CollectionWithoutInitialCapacity")
-	private final ConcurrentMap<AutoCloseable, Thread> childScopes = new ConcurrentHashMap<>();
+	private final ConcurrentMap<AutoCloseable, Thread> childScopeToCreator = new ConcurrentHashMap<>();
 	/**
 	 * Counts the number of open scopes.
 	 */
@@ -77,7 +63,6 @@ public final class ConcurrentChildScopes
 			"BroadCatchBlock", "TooBroadCatch"
 		})
 	public <T extends AutoCloseable> T createChildScope(Supplier<T> supplier)
-		throws NullPointerException
 	{
 		if (supplier == null)
 			throw new NullPointerException("supplier may not be null");
@@ -85,7 +70,7 @@ public final class ConcurrentChildScopes
 		try
 		{
 			T result = supplier.get();
-			childScopes.put(result, Thread.currentThread());
+			childScopeToCreator.put(result, Thread.currentThread());
 			return result;
 		}
 		catch (RuntimeException e)
@@ -99,14 +84,15 @@ public final class ConcurrentChildScopes
 	 * Notifies the parent scope that a child has closed.
 	 * <p>
 	 * @param scope the scope that was closed
+	 * @return true on success; false if the scope was not found or was already closed
 	 * @throws NullPointerException if {@code scope} is null
 	 */
-	public void onClosed(AutoCloseable scope) throws NullPointerException
+	public boolean onClosed(AutoCloseable scope)
 	{
-		Thread expected = childScopes.get(scope);
-		assert (validThread(expected)): "Expecting " + expected + " but got " + Thread.currentThread();
-		childScopes.remove(scope);
-		openScopes.arriveAndDeregister();
+		boolean result = childScopeToCreator.remove(scope) != null;
+		if (result)
+			openScopes.arriveAndDeregister();
+		return result;
 	}
 
 	/**
@@ -132,10 +118,11 @@ public final class ConcurrentChildScopes
 		}
 		catch (TimeoutException e)
 		{
-			log.warn("Child scope leaked by " + childScopes.values(), e);
+			log.warn("Child scopes leaked. Here is a mapping from each leaked scope to the " +
+				"thread that created it: " + childScopeToCreator, e);
 			result = false;
 		}
-		for (AutoCloseable scope: childScopes.keySet())
+		for (AutoCloseable scope: childScopeToCreator.keySet())
 		{
 			try
 			{
@@ -143,10 +130,10 @@ public final class ConcurrentChildScopes
 			}
 			catch (Exception e)
 			{
-				log.warn("Failed to close scope", e);
+				log.warn("Failed to close scope: " + scope, e);
 			}
 		}
-		childScopes.clear();
+		childScopeToCreator.clear();
 		return result;
 	}
 }
