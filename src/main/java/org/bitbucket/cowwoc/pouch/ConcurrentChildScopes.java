@@ -4,6 +4,9 @@
  */
 package org.bitbucket.cowwoc.pouch;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.time.Duration;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -11,8 +14,6 @@ import java.util.concurrent.Phaser;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.function.Supplier;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Graceful shutdown of child scopes from a parent scope that requires thread-safety.
@@ -58,10 +59,6 @@ public final class ConcurrentChildScopes
 	 * @return a new child scope
 	 * @throws NullPointerException if {@code supplier} is null
 	 */
-	@SuppressWarnings(
-		{
-			"BroadCatchBlock", "TooBroadCatch"
-		})
 	public <T extends AutoCloseable> T createChildScope(Supplier<T> supplier)
 	{
 		if (supplier == null)
@@ -83,6 +80,7 @@ public final class ConcurrentChildScopes
 	/**
 	 * Notifies the parent scope that a child has closed.
 	 * <p>
+	 *
 	 * @param scope the scope that was closed
 	 * @return true on success; false if the scope was not found or was already closed
 	 * @throws NullPointerException if {@code scope} is null
@@ -122,7 +120,7 @@ public final class ConcurrentChildScopes
 				"thread that created it: " + childScopeToCreator, e);
 			result = false;
 		}
-		for (AutoCloseable scope: childScopeToCreator.keySet())
+		for (AutoCloseable scope : childScopeToCreator.keySet())
 		{
 			try
 			{
