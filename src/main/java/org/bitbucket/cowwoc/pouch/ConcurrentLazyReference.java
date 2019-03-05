@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Gili Tzabari.
+ * Copyright (c) 2014 Gili Tzabari
  * Licensed under the Apache License, Version 2.0: http://www.apache.org/licenses/LICENSE-2.0
  */
 package org.bitbucket.cowwoc.pouch;
@@ -10,20 +10,21 @@ import java.util.function.Supplier;
  * A thread-safe reference that initializes a value on demand.
  * <p>
  * The implementation is thread-safe.
- * <p>
- * @author Gili Tzabari
+ *
  * @param <T> the type of object being referenced
  */
 public abstract class ConcurrentLazyReference<T> implements Reference<T>
 {
 	/**
+	 * Creates a new {@code ConcurrentLazyReference}.
+	 *
 	 * @param <T>      the type of value returned by the reference
 	 * @param supplier supplies the reference value
-	 * @return a new ConcurrentLazyReference
+	 * @return a new {@code ConcurrentLazyReference}
 	 */
-	public static <T> ConcurrentLazyReference<T> create(final Supplier<T> supplier)
+	public static <T> ConcurrentLazyReference<T> create(Supplier<T> supplier)
 	{
-		return new ConcurrentLazyReference<T>()
+		return new ConcurrentLazyReference<>()
 		{
 			@Override
 			protected T createValue()
@@ -32,6 +33,7 @@ public abstract class ConcurrentLazyReference<T> implements Reference<T>
 			}
 		};
 	}
+
 	/**
 	 * True if the value was created.
 	 */
@@ -43,6 +45,8 @@ public abstract class ConcurrentLazyReference<T> implements Reference<T>
 	private T value;
 
 	/**
+	 * Returns true if the value was initialized.
+	 *
 	 * @return true if the value was initialized
 	 */
 	public boolean isInitialized()
@@ -69,7 +73,7 @@ public abstract class ConcurrentLazyReference<T> implements Reference<T>
 
 	/**
 	 * Creates the value. This method is invoked the first time {@link #getValue()} is invoked.
-	 * <p>
+	 *
 	 * @return the value
 	 */
 	protected abstract T createValue();

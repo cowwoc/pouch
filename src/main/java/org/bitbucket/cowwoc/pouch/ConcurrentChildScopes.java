@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Gili Tzabari.
+ * Copyright (c) 2016 Gili Tzabari
  * Licensed under the Apache License, Version 2.0: http://www.apache.org/licenses/LICENSE-2.0
  */
 package org.bitbucket.cowwoc.pouch;
@@ -26,8 +26,6 @@ import java.util.function.Supplier;
  * <li>Child scope implementations of {@code close()} are
  * <a href="http://docs.oracle.com/javase/8/docs/api/java/lang/AutoCloseable.html#close--">idempotent</a>.</li>
  * </ul>
- *
- * @author Gili Tzabari
  */
 public final class ConcurrentChildScopes
 {

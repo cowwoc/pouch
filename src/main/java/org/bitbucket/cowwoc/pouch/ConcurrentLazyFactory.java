@@ -1,11 +1,9 @@
 /*
- * Copyright 2014 Gili Tzabari.
+ * Copyright (c) 2014 Gili Tzabari
  * Licensed under the Apache License, Version 2.0: http://www.apache.org/licenses/LICENSE-2.0
  */
 package org.bitbucket.cowwoc.pouch;
 
-import java.io.IOException;
-import java.io.UncheckedIOException;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock.ReadLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock.WriteLock;
@@ -16,24 +14,22 @@ import java.util.function.Supplier;
  * A thread-safe factory that initializes a value on demand.
  * <p>
  * The implementation is thread-safe.
- * <p>
+ *
  * @param <T> the type of the value
- * @author Gili Tzabari
  */
 public abstract class ConcurrentLazyFactory<T> implements Factory<T>
 {
 	/**
-	 * Creates a new ConcurrentLazyFactory.
-	 * <p>
+	 * Creates a new {@code ConcurrentLazyFactory}.
+	 *
 	 * @param <T>      the type of value returned by the factory
 	 * @param supplier supplies the factory value
 	 * @param disposer implements {@link #disposeValue(java.lang.Object) disposeValue(T)}
-	 * @return a new ConcurrentLazyFactory
+	 * @return a new {@code ConcurrentLazyFactory}
 	 */
-	public static <T> ConcurrentLazyFactory<T> create(final Supplier<T> supplier,
-		final Consumer<T> disposer)
+	public static <T> ConcurrentLazyFactory<T> create(Supplier<T> supplier, Consumer<T> disposer)
 	{
-		return new ConcurrentLazyFactory<T>()
+		return new ConcurrentLazyFactory<>()
 		{
 			@Override
 			protected T createValue()
@@ -53,29 +49,16 @@ public abstract class ConcurrentLazyFactory<T> implements Factory<T>
 	 * Creates a new {@code ConcurrentLazyFactory} that disposes its value by invoking
 	 * {@code close()}. If {@code close()} throws a checked exception, it is wrapped in a
 	 * {@code RuntimeException} or an exception that extends it.
-	 * <p>
+	 *
 	 * @param <T>      the type of value returned by the factory
 	 * @param supplier supplies the factory value
-	 * @return a new ConcurrentLazyFactory
+	 * @return a new {@code ConcurrentLazyFactory}
 	 */
-	public static <T extends AutoCloseable> ConcurrentLazyFactory<T> create(final Supplier<T> supplier)
+	public static <T extends AutoCloseable> ConcurrentLazyFactory<T> create(Supplier<T> supplier)
 	{
-		return create(supplier, closeable ->
-		{
-			try
-			{
-				closeable.close();
-			}
-			catch (IOException e)
-			{
-				throw new UncheckedIOException(e);
-			}
-			catch (Exception e)
-			{
-				throw new RuntimeException(e);
-			}
-		});
+		return create(supplier, Closeables::closeWithRuntimeException);
 	}
+
 	private final ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
 	private final ReadLock readLock = lock.readLock();
 	private final WriteLock writeLock = lock.writeLock();
@@ -94,7 +77,7 @@ public abstract class ConcurrentLazyFactory<T> implements Factory<T>
 
 	/**
 	 * Creates the value. This method is invoked the first time {@link #getValue()} is invoked.
-	 * <p>
+	 *
 	 * @return the value
 	 */
 	protected abstract T createValue();
@@ -105,14 +88,14 @@ public abstract class ConcurrentLazyFactory<T> implements Factory<T>
 	 * This method is invoked the first time {@link #close()} is invoked, and only if the value was
 	 * already initialized. This method may not invoke any other method as the factory is already
 	 * marked as closed.
-	 * <p>
+	 *
 	 * @param value the value to dispose
 	 */
 	protected abstract void disposeValue(T value);
 
 	/**
 	 * Returns the value. Subsequent invocations of this method return the same value.
-	 * <p>
+	 *
 	 * @return an object of type {@code <T>}
 	 * @throws IllegalStateException if the factory is closed
 	 */
