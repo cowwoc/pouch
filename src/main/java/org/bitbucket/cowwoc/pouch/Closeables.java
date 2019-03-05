@@ -11,7 +11,7 @@ import java.io.UncheckedIOException;
 /**
  * Closeable helper functions.
  */
-public final class Closeables
+final class Closeables
 {
 	/**
 	 * Prevent construction.
