@@ -8,7 +8,7 @@
 	</parent>
 	<groupId>org.bitbucket.cowwoc.pouch</groupId>
 	<artifactId>pouch</artifactId>
-	<version>1.14</version>
+	<version>1.15-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>pouch</name>
 	<description>A Java library for implementing the Service Locator design pattern.</description>
@@ -26,7 +26,7 @@
 		<url>https://bitbucket.org/cowwoc/pouch/</url>
 		<connection>scm:hg:https://bitbucket.org/cowwoc/pouch/</connection>
 		<developerConnection>scm:hg:https://bitbucket.org/cowwoc/pouch/</developerConnection>
-		<tag>release-1.14</tag>
+		<tag>HEAD</tag>
 	</scm>
 
 	<developers>
