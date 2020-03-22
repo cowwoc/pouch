@@ -22,9 +22,9 @@ The concepts presented herein represent one possible design. They do not represe
 
 These extensions facilitate integration with 3rd-party libraries:
 
-* [Jersey 1](../pouch-jersey1/wiki/Home): Integrates pouch with Jersey 1.
-* [Jersey 2](../pouch-jersey2/wiki/Home): Integrates pouch with Jersey 2.
-* [Dropwizard](../pouch-dropwizard/wiki/Home): Integrates pouch with Dropwizard.
+* [Jersey 1](../../../pouch-jersey1/wiki/Home): Integrates pouch with Jersey 1.
+* [Jersey 2](../../../pouch-jersey2/wiki/Home): Integrates pouch with Jersey 2.
+* [Dropwizard](../../../pouch-dropwizard/wiki/Home): Integrates pouch with Dropwizard.
 
 # Design pattern #
 
@@ -253,7 +253,7 @@ public class MainApplicationScope extends AbstractApplicationScope
 
 ## Try it! ##
 
-The [pouch-jersey2 code repository](../pouch-jersey2/src) contains a working example. Download a copy and try it for yourself.
+The [pouch-jersey2 code repository](../../../pouch-jersey2/src) contains a working example. Download a copy and try it for yourself.
 
 # Class guide #
 
@@ -261,7 +261,7 @@ The [pouch-jersey2 code repository](../pouch-jersey2/src) contains a working exa
 
 # Related projects #
 
-* [Requirements](../requirements.java/): Fluent Design by Contract for Java APIs.
+* [Requirements](../../../requirements.java/): Fluent Design by Contract for Java APIs.
 * [JayWire](https://github.com/vanillasource/jaywire) promises to provide the power of dependency injection without the "magic".
 
 # License #
