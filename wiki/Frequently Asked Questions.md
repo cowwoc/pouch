@@ -97,7 +97,6 @@ To reiterate, both the Service Locator and Dependency Injection design patterns 
 The main downside of Dependency Injection frameworks is their inability to mix constructor injection with user-provided parameters. For example:
 
 ```java
-
 @Inject
 public Person(double salary, TaxCalculator calculator)
 {
@@ -122,16 +121,16 @@ On the flip side, if you use a Service Locator you will gain the following benef
 
 Guava provides comparable functionality:
 
-* [Reference](http://cowwoc.github.io/pouch/1.15/docs/api/com/github/cowwoc/pouch/Reference.html) <-> [Supplier](https://guava.dev/releases/28.0-jre/api/docs/com/google/common/base/Supplier.html)
-* [ConstantReference](http://cowwoc.github.io/pouch/1.15/docs/api/com/github/cowwoc/pouch/ConstantReference.html) <-> [Suppliers.ofInstance()](https://guava.dev/releases/28.0-jre/api/docs/com/google/common/base/Suppliers.html#ofInstance-T-)
-* [LazyReference](http://cowwoc.github.io/pouch/1.15/docs/api/com/github/cowwoc/pouch/LazyReference.html) <-> [Suppliers.memoize()](https://guava.dev/releases/28.0-jre/api/docs/com/google/common/base/Suppliers.html#memoize-com.google.common.base.Supplier-)
+* [Reference](http://cowwoc.github.io/pouch/2.0/docs/api/com/github/cowwoc/pouch/Reference.html) <-> [Supplier](https://guava.dev/releases/28.0-jre/api/docs/com/google/common/base/Supplier.html)
+* [ConstantReference](http://cowwoc.github.io/pouch/2.0/docs/api/com/github/cowwoc/pouch/ConstantReference.html) <-> [Suppliers.ofInstance()](https://guava.dev/releases/28.0-jre/api/docs/com/google/common/base/Suppliers.html#ofInstance-T-)
+* [LazyReference](http://cowwoc.github.io/pouch/2.0/docs/api/com/github/cowwoc/pouch/LazyReference.html) <-> [Suppliers.memoize()](https://guava.dev/releases/28.0-jre/api/docs/com/google/common/base/Suppliers.html#memoize-com.google.common.base.Supplier-)
 
 While it is true that [Suppliers](https://guava.dev/releases/28.0-jre/api/docs/com/google/common/base/Suppliers.html) provides some very powerful general-purpose functionality, it isn't as convenient for implementing the [Service Locator](http://martinfowler.com/articles/injection.html#UsingAServiceLocator) design pattern as this library.
 
 Specifically:
 
-1. [Suppliers.memoize()](https://guava.dev/releases/28.0-jre/api/docs/com/google/common/base/Suppliers.html#memoize-com.google.common.base.Supplier-) doesn't provide a mechanism for checking whether the underlying value has been initialized. This is important because when implementing [Factory.close()](http://cowwoc.github.io/pouch/1.15/docs/api/com/github/cowwoc/pouch/Factory.html#close()) you want to avoid initializing the value if it has never been initialized before.
-2. We provide convenience classes, such as [LazyFactory](http://cowwoc.github.io/pouch/1.15/docs/api/com/github/cowwoc/pouch/LazyFactory.html) which unify [LazyReference](http://cowwoc.github.io/pouch/1.15/docs/api/com/github/cowwoc/pouch/LazyReference.html) and [Closeable](http://docs.oracle.com/javase/7/docs/api/java/io/Closeable.html) into a single class and in so doing we shield you from thread-safety concerns.
+1. [Suppliers.memoize()](https://guava.dev/releases/28.0-jre/api/docs/com/google/common/base/Suppliers.html#memoize-com.google.common.base.Supplier-) doesn't provide a mechanism for checking whether the underlying value has been initialized. This is important because when implementing [Factory.close()](http://cowwoc.github.io/pouch/2.0/docs/api/com/github/cowwoc/pouch/Factory.html#close()) you want to avoid initializing the value if it has never been initialized before.
+2. We provide convenience classes, such as [LazyFactory](http://cowwoc.github.io/pouch/2.0/docs/api/com/github/cowwoc/pouch/LazyFactory.html) which unify [LazyReference](http://cowwoc.github.io/pouch/2.0/docs/api/com/github/cowwoc/pouch/LazyReference.html) and [Closeable](http://docs.oracle.com/javase/7/docs/api/java/io/Closeable.html) into a single class and in so doing we shield you from thread-safety concerns.
 
 So yes, Guava provides better general-purpose functionality, but for under 10k we provide yous with a more targeted form of this functionality that is easier to use.
 
@@ -146,8 +145,8 @@ In Dependency Injection terms, unscoped `Provider`s return a new instance on eve
 
 In Dependency Injection terms, you can inject `Provider<Foo>` instead of `Foo` if you want to defer the construction of `Foo`.
 
-In our case, you could either inject the scope (e.g. `ApplicationScope`) and look up `Foo` at a later time, or you can inject a `Reference<Foo>` that will look up `Foo` from the scope when [Reference.getValue()](http://cowwoc.github.io/pouch/1.15/docs/api/com/github/cowwoc/pouch/Reference.html#getValue()) is invoked. In either case, the scope is your proxy.
+In our case, you could either inject the scope (e.g. `ApplicationScope`) and look up `Foo` at a later time, or you can inject a `Reference<Foo>` that will look up `Foo` from the scope when [Reference.getValue()](http://cowwoc.github.io/pouch/2.0/docs/api/com/github/cowwoc/pouch/Reference.html#getValue()) is invoked. In either case, the scope is your proxy.
 
 ### What's the difference between LazyFactory and ConcurrentLazyFactory? ###
 
-The library contains two class hierarchies: one for single-threaded access, and another for multi-threaded access. For example, [ConcurrentLazyFactory](http://cowwoc.github.io/pouch/1.15/docs/api/com/github/cowwoc/pouch/ConcurrentLazyFactory.html) is the multi-threaded equivalent of [LazyFactory](http://cowwoc.github.io/pouch/1.15/docs/api/com/github/cowwoc/pouch/LazyFactory.html). `LazyFactory` is faster than `ConcurrentLazyFactory`, but may not be accessed by multiple threads. We recommend using the concurrent classes for multi-threaded scopes (such as the application scope) and the normal classes for single-threaded scopes (such as the request scope).
+The library contains two class hierarchies: one for single-threaded access, and another for multi-threaded access. For example, [ConcurrentLazyFactory](http://cowwoc.github.io/pouch/2.0/docs/api/com/github/cowwoc/pouch/ConcurrentLazyFactory.html) is the multi-threaded equivalent of [LazyFactory](http://cowwoc.github.io/pouch/2.0/docs/api/com/github/cowwoc/pouch/LazyFactory.html). `LazyFactory` is faster than `ConcurrentLazyFactory`, but may not be accessed by multiple threads. We recommend using the concurrent classes for multi-threaded scopes (such as the application scope) and the normal classes for single-threaded scopes (such as the request scope).

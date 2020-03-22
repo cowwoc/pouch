@@ -1,0 +1,9 @@
+syntax: glob
+target
+release.properties
+pom.xml.releaseBackup
+documentation/*
+
+# IntelliJ IDEA
+.idea/
+*.iml

@@ -1,5 +1,5 @@
-module org.bitbucket.cowwoc.pouch {
-	requires org.slf4j;
+module com.github.cowwoc.pouch {
+    requires org.slf4j;
 
-	exports org.bitbucket.cowwoc.pouch;
+    exports com.github.cowwoc.pouch;
 }
