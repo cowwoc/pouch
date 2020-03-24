@@ -2,7 +2,7 @@ syntax: glob
 target
 release.properties
 pom.xml.releaseBackup
-documentation/*
+documentation/
 
 # IntelliJ IDEA
 .idea/

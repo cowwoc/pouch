@@ -22,9 +22,8 @@ The concepts presented herein represent one possible design. They do not represe
 
 These extensions facilitate integration with 3rd-party libraries:
 
-* [Jersey 1](../../../pouch-jersey1/wiki/Home): Integrates pouch with Jersey 1.
-* [Jersey 2](../../../pouch-jersey2/wiki/Home): Integrates pouch with Jersey 2.
-* [Dropwizard](../../../pouch-dropwizard/wiki/Home): Integrates pouch with Dropwizard.
+* [Jersey](jersey/): Integrates pouch with Jersey.
+* [Dropwizard](dropwizard/): Integrates pouch with Dropwizard.
 
 # Design pattern #
 
@@ -253,7 +252,7 @@ public class MainApplicationScope extends AbstractApplicationScope
 
 ## Try it! ##
 
-The [pouch-jersey2 code repository](../../../pouch-jersey2/src) contains a working example. Download a copy and try it for yourself.
+The [jersey plugin](jersey/src) contains a working example. Download a copy and try it for yourself.
 
 # Class guide #
 
