@@ -1,9 +1,11 @@
 syntax: glob
-target
-release.properties
-pom.xml.releaseBackup
+target/
 documentation/
 
 # IntelliJ IDEA
 .idea/
 *.iml
+
+release.bat
+release.properties
+pom.xml.releaseBackup
