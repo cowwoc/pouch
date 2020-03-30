@@ -38,14 +38,10 @@ abstract class AbstractTransactionScope implements TransactionScope
 			// Any uncommitted changes should be rolled back before before returning a connection to
 			// the pool.
 			// @see http://stackoverflow.com/a/9644783/14731
-			try
+			try (theConnection)
 			{
 				if (!theConnection.getAutoCommit() && !theConnection.isClosed())
 					theConnection.rollback();
-			}
-			finally
-			{
-				theConnection.close();
 			}
 		}
 		catch (SQLException e)

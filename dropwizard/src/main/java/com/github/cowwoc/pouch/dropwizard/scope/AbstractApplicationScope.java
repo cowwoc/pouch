@@ -36,8 +36,7 @@ abstract class AbstractApplicationScope implements ApplicationScopeSpi
 	 */
 	private final AtomicBoolean closed = new AtomicBoolean();
 	protected final ConcurrentChildScopes children = new ConcurrentChildScopes();
-	private final Factory<ScheduledExecutorService> schedulerFactory
-		= new ConcurrentLazyFactory<ScheduledExecutorService>()
+	private final Factory<ScheduledExecutorService> schedulerFactory = new ConcurrentLazyFactory<>()
 	{
 		@Override
 		protected ScheduledExecutorService createValue()

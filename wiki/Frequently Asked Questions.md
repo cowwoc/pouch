@@ -1,10 +1,10 @@
-### Isn't the Service Locator an Anti-Pattern? ###
+### Isn't the Service Locator an Anti-Pattern?
 
 The term *Service Locator* means different things to different people. Historically, this was used to refer to a singleton that held references to global variables. As Martin Fowler [points out](http://martinfowler.com/articles/injection.html) "[a] service locator is a registry not a singleton. A singleton provides a simple way of implementing a registry, but that implementation decision is easily changed."
 
 A Service Locator, thought of as a registry, is a perfectly valid counterpart to *Dependency Injection*. The goal is *Inversion of Control*, not Service Locator or Dependency Injection. Both are perfectly valid options with their own strengths and weaknesses.
 
-### What's the difference between Inversion of Control and Dependency Injection? ###
+### What's the difference between Inversion of Control and Dependency Injection?
 
 Imagine that `Person` wants to calculate their taxes using a `TaxCalculator` instance. Historically, `Person` would pull a `TaxCalculator` instance as follows:
 
@@ -90,7 +90,7 @@ Notice that we are no longer able to declare `salary` as a `final` variable. Thi
 * We can no longer depend on instances to be valid after construction. What happens if someone forgets to invoke the setter?
 * Instances are no longer immutable.
 
-### What about Dependency Injection? ###
+### What about Dependency Injection?
 
 To reiterate, both the Service Locator and Dependency Injection design patterns are valid instances of Inversion of Control, but each has its own strengths and weaknesses.
 
@@ -117,7 +117,7 @@ On the flip side, if you use a Service Locator you will gain the following benef
 * **No magic**: All classes are plain Java objects and are instantiated using the *new* operator.
 * The resulting code is cleaner and easier to maintain.
 
-### Why would I use this library instead of Guava's [Supplier](https://guava.dev/releases/28.0-jre/api/docs/com/google/common/base/Supplier.html) which does the same or even more? ###
+### Why would I use this library instead of Guava's [Supplier](https://guava.dev/releases/28.0-jre/api/docs/com/google/common/base/Supplier.html) which does the same or even more?
 
 Guava provides comparable functionality:
 
@@ -134,19 +134,19 @@ Specifically:
 
 So yes, Guava provides better general-purpose functionality, but for under 10k we provide yous with a more targeted form of this functionality that is easier to use.
 
-### How do I return a new instance of a class on every invocation? ###
+### How do I return a new instance of a class on every invocation?
 
 In Dependency Injection terms, unscoped `Provider`s return a new instance on every invocation. We don't provide explicit support for unscoped variables so our suggestion is to do one of the following:
 
 * Construct `Foo` yourself (`new Foo()`, no magic), or
 * Have the scope return a [Builder](https://en.wikipedia.org/wiki/Builder_pattern) that returns a new instance of `Foo` on every invocation. Java 8's [Supplier](http://docs.oracle.com/javase/8/docs/api/java/util/function/Supplier.html) is a good fit for most cases.
 
-### How do I return a proxy to an object? ###
+### How do I return a proxy to an object?
 
 In Dependency Injection terms, you can inject `Provider<Foo>` instead of `Foo` if you want to defer the construction of `Foo`.
 
 In our case, you could either inject the scope (e.g. `ApplicationScope`) and look up `Foo` at a later time, or you can inject a `Reference<Foo>` that will look up `Foo` from the scope when [Reference.getValue()](http://cowwoc.github.io/pouch/2.0/docs/api/com/github/cowwoc/pouch/Reference.html#getValue()) is invoked. In either case, the scope is your proxy.
 
-### What's the difference between LazyFactory and ConcurrentLazyFactory? ###
+### What's the difference between LazyFactory and ConcurrentLazyFactory?
 
 The library contains two class hierarchies: one for single-threaded access, and another for multi-threaded access. For example, [ConcurrentLazyFactory](http://cowwoc.github.io/pouch/2.0/docs/api/com/github/cowwoc/pouch/ConcurrentLazyFactory.html) is the multi-threaded equivalent of [LazyFactory](http://cowwoc.github.io/pouch/2.0/docs/api/com/github/cowwoc/pouch/LazyFactory.html). `LazyFactory` is faster than `ConcurrentLazyFactory`, but may not be accessed by multiple threads. We recommend using the concurrent classes for multi-threaded scopes (such as the application scope) and the normal classes for single-threaded scopes (such as the request scope).

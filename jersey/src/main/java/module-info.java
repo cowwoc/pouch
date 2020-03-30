@@ -18,4 +18,5 @@ module com.github.cowwoc.pouch.jersey
 
 	opens com.github.cowwoc.pouch.jersey.scope;
 	exports com.github.cowwoc.pouch.jersey.resource to jersey.server;
+	exports com.github.cowwoc.pouch.jersey.scope to jersey.server;
 }
