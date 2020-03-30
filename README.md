@@ -2,11 +2,11 @@
 
 # Pouch #
 
-A Java library for implementing the Service Locator design pattern. ([Isn't the Service Locator an Anti-Pattern?](wiki/Frequently%20Asked%20Questions.md#isnt-the-service-locator-an-anti-pattern))
+A Java library for implementing the Service Locator design pattern. ([Isn't the Service Locator an Anti-Pattern?](wiki/Frequently_Asked_Questions.md#isnt-the-service-locator-an-anti-pattern))
 
 The goal of this library is to provide the benefits of [Inversion of Control](http://martinfowler.com/articles/injection.html) (IoC), without the downsides of Dependency Injection.
 
-See the [FAQ](wiki/Frequently%20Asked%20Questions.md) for common questions.
+See the [FAQ](wiki/Frequently_Asked_Questions.md) for common questions.
 
 Pouch consists of two parts:
 
