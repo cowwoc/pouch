@@ -1,4 +1,4 @@
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.cowwoc.pouch/java/badge.svg)](https://search.maven.org/search?q=g:com.github.cowwoc.pouch) [![API](https://img.shields.io/badge/api_docs-5B45D5.svg)](http://cowwoc.github.io/pouch/2.0/docs/api/) [![Changelog](https://img.shields.io/badge/changelog-A345D5.svg)](wiki/Changelog.md)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.cowwoc.pouch/java/badge.svg)](https://search.maven.org/search?q=g:com.github.cowwoc.pouch) [![API](https://img.shields.io/badge/api_docs-5B45D5.svg)](http://cowwoc.github.io/pouch/2.1/docs/api/) [![Changelog](https://img.shields.io/badge/changelog-A345D5.svg)](wiki/Changelog.md)
 
 # Pouch #
 
@@ -201,7 +201,7 @@ abstract class AbstractHttpScope
 
 ## Waiting for child scopes to shut down ##
 
-When running in a multi-threaded environment, such as a web server, you might want to wait for ongoing HTTP requests to complete before shutting down the server. You can use the [ConcurrentChildScopes](http://cowwoc.github.io/pouch/2.0/docs/api/com/github/cowwoc/pouch/ConcurrentChildScopes.html) class to implement this as follows:
+When running in a multi-threaded environment, such as a web server, you might want to wait for ongoing HTTP requests to complete before shutting down the server. You can use the [ConcurrentChildScopes](http://cowwoc.github.io/pouch/2.1/docs/api/com/github/cowwoc/pouch/ConcurrentChildScopes.html) class to implement this as follows:
 
 ```java
 abstract class AbstractApplicationScope implements ApplicationScopeSpi
