@@ -48,7 +48,6 @@ public final class MainPouchBinder extends AbstractBinder
 
 		/**
 		 * Creates a new HttpScopeFactory.
-		 * <p>
 		 *
 		 * @param applicationScope the application scope
 		 * @throws NullPointerException if {@code applicationScope} is null

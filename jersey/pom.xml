@@ -5,10 +5,10 @@
 	<parent>
 		<groupId>com.github.cowwoc.pouch</groupId>
 		<artifactId>root</artifactId>
-		<version>2.2-SNAPSHOT</version>
+		<version>2.3-SNAPSHOT</version>
 	</parent>
 	<artifactId>jersey</artifactId>
-	<version>2.2-SNAPSHOT</version>
+	<version>2.3-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<description>Example of integrating Pouch with Jersey.</description>
 
@@ -29,7 +29,7 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
-				<version>1.6.0</version>
+				<version>3.0.0</version>
 				<executions>
 					<execution>
 						<goals>
@@ -96,7 +96,7 @@
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
-			<version>28.2-jre</version>
+			<version>30.1.1-jre</version>
 		</dependency>
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
