@@ -9,13 +9,12 @@ import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.glassfish.jersey.servlet.ServletContainer;
-import static org.glassfish.jersey.servlet.ServletProperties.JAXRS_APPLICATION_CLASS;
 import org.slf4j.bridge.SLF4JBridgeHandler;
+
+import static org.glassfish.jersey.servlet.ServletProperties.JAXRS_APPLICATION_CLASS;
 
 /**
  * The main entry point.
- *
- * @author Gili Tzabari
  */
 public class Main
 {

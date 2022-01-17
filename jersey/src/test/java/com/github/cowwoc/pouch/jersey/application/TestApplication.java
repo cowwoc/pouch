@@ -4,20 +4,18 @@
  */
 package com.github.cowwoc.pouch.jersey.application;
 
-import com.github.cowwoc.pouch.jersey.scope.TestPouchBinder;
 import com.github.cowwoc.pouch.jersey.resource.HelloWorldResource;
+import com.github.cowwoc.pouch.jersey.scope.TestPouchBinder;
 import org.glassfish.jersey.server.ResourceConfig;
 
 /**
  * Jersey application for the "test" codebase.
- *
- * @author Gili Tzabari
  */
 public final class TestApplication extends ResourceConfig
 {
 	public TestApplication()
 	{
-		register(new TestPouchBinder());
+		register(TestPouchBinder.class);
 		register(HelloWorldResource.class);
 	}
 }

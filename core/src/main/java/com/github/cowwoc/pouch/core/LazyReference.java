@@ -25,7 +25,7 @@ public abstract class LazyReference<T> extends AbstractLazyReference<T>
 	 */
 	public static <T> LazyReference<T> create(Supplier<T> supplier)
 	{
-		return new LazyReference<>()
+		return new LazyReference<T>()
 		{
 			@Override
 			protected T createValue()

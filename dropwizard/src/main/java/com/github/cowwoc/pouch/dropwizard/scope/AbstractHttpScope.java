@@ -14,13 +14,11 @@ import java.util.concurrent.ScheduledExecutorService;
 
 /**
  * HttpScope common to main and test codebases.
- *
- * @author Gili Tzabari
  */
 abstract class AbstractHttpScope
 	implements HttpScope
 {
-	private final ApplicationScopeSpi parent;
+	private final JvmScope parent;
 	private final TransactionScope transaction;
 	private final ServiceLocator serviceLocator;
 	private boolean closed;
@@ -32,8 +30,7 @@ abstract class AbstractHttpScope
 	 * @param serviceLocator the Jersey dependency-injection mechanism
 	 * @throws NullPointerException if any of the arguments are null
 	 */
-	AbstractHttpScope(ApplicationScopeSpi parent, ServiceLocator serviceLocator)
-		throws NullPointerException
+	AbstractHttpScope(JvmScope parent, ServiceLocator serviceLocator)
 	{
 		if (parent == null)
 			throw new NullPointerException("parent may not be null");
@@ -96,11 +93,12 @@ abstract class AbstractHttpScope
 	}
 
 	@Override
-	public void close() throws RuntimeException
+	public void close()
 	{
 		if (closed)
 			return;
 		closed = true;
+		AbstractJvmScope parent = (AbstractJvmScope) this.parent;
 		try
 		{
 			transaction.close();

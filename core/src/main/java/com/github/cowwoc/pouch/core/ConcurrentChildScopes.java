@@ -77,7 +77,6 @@ public final class ConcurrentChildScopes
 
 	/**
 	 * Notifies the parent scope that a child has closed.
-	 * <p>
 	 *
 	 * @param scope the scope that was closed
 	 * @return true on success; false if the scope was not found or was already closed
@@ -115,7 +114,7 @@ public final class ConcurrentChildScopes
 		catch (TimeoutException e)
 		{
 			log.warn("Child scopes leaked. Here is a mapping from each leaked scope to the " +
-				"thread that created it: " + childScopeToCreator, e);
+				"thread that created it: {}", childScopeToCreator, e);
 			result = false;
 		}
 		for (AutoCloseable scope : childScopeToCreator.keySet())
@@ -126,7 +125,7 @@ public final class ConcurrentChildScopes
 			}
 			catch (Exception e)
 			{
-				log.warn("Failed to close scope: " + scope, e);
+				log.warn("Failed to close scope: {}", scope, e);
 			}
 		}
 		childScopeToCreator.clear();

@@ -10,8 +10,6 @@ import java.net.URI;
  * Values specific to an HTTP request.
  * <p>
  * Implementations are not thread-safe.
- *
- * @author Gili Tzabari
  */
 public interface HttpScope extends TransactionScope
 {

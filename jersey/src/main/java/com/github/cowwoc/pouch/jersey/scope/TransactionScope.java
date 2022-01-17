@@ -10,10 +10,8 @@ import java.sql.Connection;
  * Values specific to a database transaction.
  * <p>
  * Implementations are not thread-safe.
- *
- * @author Gili Tzabari
  */
-public interface TransactionScope extends ApplicationScope
+public interface TransactionScope extends JvmScope
 {
 	/**
 	 * @return the database connection associated with the transaction

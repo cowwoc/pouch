@@ -5,15 +5,11 @@
 package com.github.cowwoc.pouch.jersey.resource;
 
 import com.github.cowwoc.pouch.jersey.scope.HttpScope;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Produces;
 
-import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-
-/**
- * @author Gili Tzabari
- */
 @Path("helloworld")
 public final class HelloWorldResource
 {
@@ -28,7 +24,6 @@ public final class HelloWorldResource
 	@Inject
 	public HelloWorldResource(HttpScope scope)
 	{
-		// Injecting either ApplicationScope or HttpScope will work
 		if (scope == null)
 			throw new NullPointerException("scope may not be null");
 		this.scope = scope;

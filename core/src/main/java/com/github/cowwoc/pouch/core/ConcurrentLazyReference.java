@@ -24,7 +24,7 @@ public abstract class ConcurrentLazyReference<T> implements Reference<T>
 	 */
 	public static <T> ConcurrentLazyReference<T> create(Supplier<T> supplier)
 	{
-		return new ConcurrentLazyReference<>()
+		return new ConcurrentLazyReference<T>()
 		{
 			@Override
 			protected T createValue()
@@ -35,7 +35,7 @@ public abstract class ConcurrentLazyReference<T> implements Reference<T>
 	}
 
 	/**
-	 * True if the value was created.
+	 * {@code true} if the value was created.
 	 */
 	private volatile boolean initialized;
 	/**
@@ -45,9 +45,9 @@ public abstract class ConcurrentLazyReference<T> implements Reference<T>
 	private T value;
 
 	/**
-	 * Returns true if the value was initialized.
+	 * Returns {@code true} if the value was initialized.
 	 *
-	 * @return true if the value was initialized
+	 * @return {@code true} if the value was initialized
 	 */
 	public boolean isInitialized()
 	{

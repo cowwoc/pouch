@@ -4,34 +4,32 @@
  */
 package com.github.cowwoc.pouch.dropwizard.scope;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import org.glassfish.hk2.api.Factory;
 import org.glassfish.hk2.api.ServiceLocator;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.glassfish.jersey.process.internal.RequestScoped;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 /**
- * Integrates Pouch scopes with Jersey's dependency injection {@code ServiceLocator} for the "test"
- * codebase.
- *
- * @author Gili Tzabari
+ * Integrates Pouch scopes with Jersey's dependency injection {@code ServiceLocator} for the "test" codebase.
  */
 public final class TestPouchBinder extends AbstractBinder
 {
 	/**
-	 * Binds an ApplicationScope.
+	 * Binds an JvmScope.
 	 */
-	private static class ApplicationScopeFactory implements Factory<ApplicationScope>
+	private static class JvmScopeFactory implements Factory<JvmScope>
 	{
 		@Override
-		public ApplicationScope provide()
+		public JvmScope provide()
 		{
-			return new TestApplicationScope();
+			return new TestJvmScope();
 		}
 
 		@Override
-		public void dispose(ApplicationScope instance)
+		public void dispose(JvmScope instance)
 		{
 			instance.close();
 		}
@@ -43,30 +41,30 @@ public final class TestPouchBinder extends AbstractBinder
 	private static class HttpScopeFactory implements Factory<HttpScope>
 	{
 		private final ServiceLocator serviceLocator;
-		private final ApplicationScope applicationScope;
+		private final JvmScope jvmScope;
 
 		/**
 		 * Creates a new HttpScopeFactory.
-		 * <p>
-		 * @param applicationScope the application scope
+		 *
+		 * @param jvmScope the application scope
 		 * @throws NullPointerException if any of the arguments are null
 		 */
 		@Inject
-		HttpScopeFactory(ApplicationScope applicationScope, ServiceLocator serviceLocator)
+		HttpScopeFactory(JvmScope jvmScope, ServiceLocator serviceLocator)
 		{
-			if (applicationScope == null)
-				throw new NullPointerException("applicationScope may not be null");
+			if (jvmScope == null)
+				throw new NullPointerException("jvmScope may not be null");
 			if (serviceLocator == null)
 				throw new NullPointerException("serviceLocator may not be null");
-			this.applicationScope = applicationScope;
+			this.jvmScope = jvmScope;
 			this.serviceLocator = serviceLocator;
 		}
 
 		@Override
 		public HttpScope provide()
 		{
-			ApplicationScopeSpi spi = (ApplicationScopeSpi) applicationScope;
-			return spi.createHttpScope(serviceLocator);
+			AbstractJvmScope jvmScope = (AbstractJvmScope) this.jvmScope;
+			return jvmScope.createHttpScope(serviceLocator);
 		}
 
 		@Override
@@ -79,7 +77,7 @@ public final class TestPouchBinder extends AbstractBinder
 	@Override
 	protected void configure()
 	{
-		bindFactory(ApplicationScopeFactory.class).to(ApplicationScope.class).in(Singleton.class);
+		bindFactory(JvmScopeFactory.class).to(JvmScope.class).in(Singleton.class);
 		bindFactory(HttpScopeFactory.class).to(HttpScope.class).in(RequestScoped.class);
 	}
 }

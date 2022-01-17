@@ -5,16 +5,12 @@
 package com.github.cowwoc.pouch.jersey.resource;
 
 import com.github.cowwoc.pouch.jersey.application.TestApplication;
+import jakarta.ws.rs.core.Application;
 import org.glassfish.jersey.test.JerseyTest;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.slf4j.bridge.SLF4JBridgeHandler;
 
-import javax.ws.rs.core.Application;
-
-/**
- * @author Gili Tzabari
- */
 public final class TestHelloWorld extends JerseyTest
 {
 	@BeforeClass

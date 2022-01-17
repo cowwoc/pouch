@@ -26,7 +26,7 @@ public final class ConstantReference<T> implements Reference<T>
 	}
 
 	@Override
-	public T getValue() throws IllegalStateException
+	public T getValue()
 	{
 		return value;
 	}
