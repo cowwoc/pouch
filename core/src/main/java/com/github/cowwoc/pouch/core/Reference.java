@@ -24,7 +24,7 @@ public interface Reference<T>
 	 * A value may get initialized immediately after this method returns {@code false} but once it
 	 * returns {@code true} it will continue to do so indefinitely.
 	 *
-	 * @return true if the value was initialized
+	 * @return {@code true} if the value was initialized
 	 */
 	boolean isInitialized();
 }

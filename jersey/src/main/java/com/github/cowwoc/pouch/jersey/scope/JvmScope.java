@@ -4,17 +4,15 @@
  */
 package com.github.cowwoc.pouch.jersey.scope;
 
-import java.util.concurrent.ScheduledExecutorService;
 import javax.sql.DataSource;
+import java.util.concurrent.ScheduledExecutorService;
 
 /**
- * Values specific to an application run.
+ * Values specific to the current JVM.
  * <p>
  * Implementations must be thread-safe.
- *
- * @author Gili Tzabari
  */
-public interface ApplicationScope extends AutoCloseable
+public interface JvmScope extends AutoCloseable
 {
 	/**
 	 * @return a database connection factory
@@ -35,13 +33,13 @@ public interface ApplicationScope extends AutoCloseable
 	 * @return a new transaction scope
 	 * @throws IllegalStateException if {@link #isClosed()}
 	 */
-	TransactionScope createTransactionScope() throws IllegalStateException;
+	TransactionScope createTransactionScope();
 
 	/**
-	 * @return true if the scope is closed
+	 * @return {@code true} if the scope is closed
 	 */
 	boolean isClosed();
 
 	@Override
-	void close() throws RuntimeException;
+	void close();
 }

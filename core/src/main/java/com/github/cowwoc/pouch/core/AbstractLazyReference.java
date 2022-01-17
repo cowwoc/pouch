@@ -12,7 +12,7 @@ package com.github.cowwoc.pouch.core;
 abstract class AbstractLazyReference<T> implements Reference<T>
 {
 	/**
-	 * True if the value was created.
+	 * {@code true} if the value was created.
 	 */
 	private boolean initialized;
 	/**

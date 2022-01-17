@@ -6,8 +6,6 @@ package com.github.cowwoc.pouch.jersey.scope;
 
 /**
  * TransactionScope for the test codebase.
- *
- * @author Gili Tzabari
  */
 public final class TestTransactionScope extends AbstractTransactionScope
 {
@@ -17,8 +15,7 @@ public final class TestTransactionScope extends AbstractTransactionScope
 	 * @param parent the parent scope
 	 * @throws NullPointerException if {@code parent} is null
 	 */
-	TestTransactionScope(ApplicationScopeSpi parent)
-		throws NullPointerException
+	TestTransactionScope(JvmScope parent)
 	{
 		super(parent);
 	}

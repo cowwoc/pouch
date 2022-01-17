@@ -28,7 +28,7 @@ public abstract class LazyFactory<T> extends AbstractLazyReference<T>
 	 */
 	public static <T> LazyFactory<T> create(Supplier<T> supplier, Consumer<T> disposer)
 	{
-		return new LazyFactory<>()
+		return new LazyFactory<T>()
 		{
 			@Override
 			protected T createValue()
@@ -55,11 +55,11 @@ public abstract class LazyFactory<T> extends AbstractLazyReference<T>
 	 */
 	public static <T extends AutoCloseable> LazyFactory<T> create(Supplier<T> supplier)
 	{
-		return create(supplier, Closeables::closeWithRuntimeException);
+		return create(supplier, value -> WrappedCheckedException.wrap(value::close));
 	}
 
 	/**
-	 * True if the factory was closed.
+	 * {@code true} if the factory was closed.
 	 */
 	private boolean closed;
 
@@ -82,7 +82,6 @@ public abstract class LazyFactory<T> extends AbstractLazyReference<T>
 	 */
 	@Override
 	public final T getValue()
-		throws IllegalStateException
 	{
 		if (closed)
 			throw new IllegalStateException("Factory is closed");

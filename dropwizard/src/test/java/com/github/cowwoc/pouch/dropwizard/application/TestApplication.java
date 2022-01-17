@@ -12,15 +12,13 @@ import io.dropwizard.setup.Environment;
 
 /**
  * Jersey application for the "test" codebase.
- *
- * @author Gili Tzabari
  */
 public final class TestApplication extends Application<Configuration>
 {
 	@Override
 	public void run(Configuration configuration, Environment environment)
 	{
-		environment.jersey().register(new TestPouchBinder());
+		environment.jersey().register(TestPouchBinder.class);
 		environment.jersey().register(HelloWorldResource.class);
 	}
 }

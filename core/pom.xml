@@ -5,11 +5,13 @@
 	<parent>
 		<groupId>com.github.cowwoc.pouch</groupId>
 		<artifactId>root</artifactId>
-		<version>2.3-SNAPSHOT</version>
+		<version>3.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>core</artifactId>
-	<version>2.3-SNAPSHOT</version>
 	<packaging>jar</packaging>
+	<properties>
+		<slf4j.version>2.0.0-alpha6</slf4j.version>
+	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -17,4 +19,124 @@
 			<version>${slf4j.version}</version>
 		</dependency>
 	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>default-compile</id>
+						<goals>
+							<goal>compile</goal>
+						</goals>
+						<configuration>
+							<source>8</source>
+							<target>8</target>
+							<jdkToolchain>
+								<version>8</version>
+							</jdkToolchain>
+							<showDeprecation>true</showDeprecation>
+							<showWarnings>true</showWarnings>
+							<compilerArgs>
+								<arg>-Werror</arg>
+							</compilerArgs>
+							<excludes>
+								<exclude>module-info.java</exclude>
+							</excludes>
+						</configuration>
+					</execution>
+					<execution>
+						<id>compile-module-info</id>
+						<goals>
+							<goal>compile</goal>
+						</goals>
+						<configuration>
+							<release>${maven.release.version}</release>
+							<jdkToolchain>
+								<version>${maven.release.version}</version>
+							</jdkToolchain>
+							<compileSourceRoots>
+								<compileSourceRoot>${project.build.sourceDirectory}</compileSourceRoot>
+							</compileSourceRoots>
+							<includes>
+								<include>module-info.java</include>
+							</includes>
+							<multiReleaseOutput>true</multiReleaseOutput>
+							<showDeprecation>true</showDeprecation>
+							<showWarnings>true</showWarnings>
+							<compilerArgs>
+								<arg>-Xlint:-requires-automatic</arg>
+								<arg>-Werror</arg>
+							</compilerArgs>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>attach-javadocs</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+						<configuration>
+							<!--
+							WARNING: Must use the latest JDK 11 release to avoid
+							https://bugs.openjdk.java.net/browse/JDK-8208269
+							-->
+							<jdkToolchain>
+								<version>${maven.release.version}</version>
+							</jdkToolchain>
+							<source>1.8</source>
+							<show>public</show>
+							<additionalOptions>
+								<!-- https://stackoverflow.com/a/54468139/14731 -->
+								<option>--override-methods</option>
+								<option>summary</option>
+							</additionalOptions>
+							<sourcepath>${project.build.sourceDirectory}</sourcepath>
+							<doclint>all,-missing</doclint>
+						</configuration>
+					</execution>
+					<execution>
+						<id>default-cli</id>
+						<goals>
+							<goal>aggregate</goal>
+						</goals>
+						<configuration>
+							<!--
+							WARNING: Must use the latest JDK 11 release to avoid
+							https://bugs.openjdk.java.net/browse/JDK-8208269
+							-->
+							<jdkToolchain>
+								<version>${maven.release.version}</version>
+							</jdkToolchain>
+							<show>public</show>
+							<additionalOptions>
+								<!-- https://stackoverflow.com/a/54468139/14731 -->
+								<option>--override-methods</option>
+								<option>summary</option>
+							</additionalOptions>
+							<sourcepath>${project.build.sourceDirectory}</sourcepath>
+							<doclint>all,-missing</doclint>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifestEntries>
+							<Multi-Release>true</Multi-Release>
+						</manifestEntries>
+					</archive>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>

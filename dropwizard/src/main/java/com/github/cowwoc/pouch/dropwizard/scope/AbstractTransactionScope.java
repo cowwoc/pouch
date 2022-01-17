@@ -14,12 +14,10 @@ import java.util.concurrent.ScheduledExecutorService;
 
 /**
  * TransactionScope common to main and test codebases.
- *
- * @author Gili Tzabari
  */
 abstract class AbstractTransactionScope implements TransactionScope
 {
-	protected final ApplicationScopeSpi parent;
+	protected final JvmScope parent;
 	private final Factory<Connection> connection = LazyFactory.create(() ->
 	{
 		DataSource ds = getDataSource();
@@ -56,8 +54,7 @@ abstract class AbstractTransactionScope implements TransactionScope
 	 * @param parent the parent scope
 	 * @throws NullPointerException if {@code parent} is null
 	 */
-	AbstractTransactionScope(ApplicationScopeSpi parent)
-		throws NullPointerException
+	AbstractTransactionScope(JvmScope parent)
 	{
 		if (parent == null)
 			throw new NullPointerException("parent may not be null");
@@ -101,11 +98,12 @@ abstract class AbstractTransactionScope implements TransactionScope
 	}
 
 	@Override
-	public void close() throws RuntimeException
+	public void close()
 	{
 		if (closed)
 			return;
 		closed = true;
+		AbstractJvmScope parent = (AbstractJvmScope) this.parent;
 		try
 		{
 			connection.close();

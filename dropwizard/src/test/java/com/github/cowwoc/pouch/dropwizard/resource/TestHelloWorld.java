@@ -14,9 +14,6 @@ import org.junit.jupiter.api.Test;
 
 import javax.ws.rs.client.Client;
 
-/**
- * @author Gili Tzabari
- */
 public final class TestHelloWorld
 {
 	private static final DropwizardTestSupport<Configuration> DROPWIZARD = new DropwizardTestSupport<>(

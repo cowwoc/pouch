@@ -29,7 +29,7 @@ public abstract class ConcurrentLazyFactory<T> implements Factory<T>
 	 */
 	public static <T> ConcurrentLazyFactory<T> create(Supplier<T> supplier, Consumer<T> disposer)
 	{
-		return new ConcurrentLazyFactory<>()
+		return new ConcurrentLazyFactory<T>()
 		{
 			@Override
 			protected T createValue()
@@ -56,18 +56,18 @@ public abstract class ConcurrentLazyFactory<T> implements Factory<T>
 	 */
 	public static <T extends AutoCloseable> ConcurrentLazyFactory<T> create(Supplier<T> supplier)
 	{
-		return create(supplier, Closeables::closeWithRuntimeException);
+		return create(supplier, value -> WrappedCheckedException.wrap(value::close));
 	}
 
 	private final ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
 	private final ReadLock readLock = lock.readLock();
 	private final WriteLock writeLock = lock.writeLock();
 	/**
-	 * True if the value was created.
+	 * {@code true} if the value was created.
 	 */
 	private boolean initialized;
 	/**
-	 * True if the factory was closed.
+	 * {@code true} if the factory was closed.
 	 */
 	private boolean closed;
 	/**

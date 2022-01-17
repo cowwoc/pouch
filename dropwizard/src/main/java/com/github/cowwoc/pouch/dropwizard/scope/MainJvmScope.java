@@ -17,38 +17,36 @@ import java.sql.SQLException;
 import java.util.concurrent.TimeUnit;
 
 /**
- * ApplicationScope for the main codebase.
- *
- * @author Gili Tzabari
+ * JvmScope for the main codebase.
  */
-public final class MainApplicationScope extends AbstractApplicationScope
+public final class MainJvmScope extends AbstractJvmScope
 {
 	/**
 	 * Example task that monitors database uptime.
 	 */
 	private static class CheckDatabase implements Runnable
 	{
-		private final ApplicationScope applicationScope;
+		private final JvmScope jvmScope;
 		private final Logger log = LoggerFactory.getLogger(CheckDatabase.class);
 
 		/**
-		 * @param applicationScope values specific to an application run
-		 * @throws NullPointerException if {@code applicationScope} is null
+		 * @param jvmScope values specific to an application run
+		 * @throws NullPointerException if {@code jvmScope} is null
 		 */
-		CheckDatabase(ApplicationScope applicationScope)
+		CheckDatabase(JvmScope jvmScope)
 		{
-			if (applicationScope == null)
-				throw new NullPointerException("applicationScope may not be null");
-			this.applicationScope = applicationScope;
+			if (jvmScope == null)
+				throw new NullPointerException("jvmScope may not be null");
+			this.jvmScope = jvmScope;
 		}
 
 		@Override
 		public void run()
 		{
-			try (TransactionScope transaction = applicationScope.createTransactionScope())
+			try (TransactionScope transaction = jvmScope.createTransactionScope())
 			{
 				Connection connection = transaction.getConnection();
-				log.info("Database is up at " + connection.getMetaData().getURL());
+				log.info("Database is up at {}", connection.getMetaData().getURL());
 			}
 			catch (SQLException e)
 			{
@@ -72,9 +70,9 @@ public final class MainApplicationScope extends AbstractApplicationScope
 	});
 
 	/**
-	 * Creates a new MainApplicationScope.
+	 * Creates a new MainJvmScope.
 	 */
-	public MainApplicationScope() throws NullPointerException
+	public MainJvmScope()
 	{
 		getScheduler().scheduleWithFixedDelay(new CheckDatabase(this), 5, 5, TimeUnit.SECONDS);
 	}
@@ -93,7 +91,6 @@ public final class MainApplicationScope extends AbstractApplicationScope
 
 	@Override
 	public TransactionScope createTransactionScope()
-		throws IllegalStateException
 	{
 		if (isClosed())
 			throw new IllegalStateException("Scope is closed");
@@ -102,7 +99,6 @@ public final class MainApplicationScope extends AbstractApplicationScope
 
 	@Override
 	public HttpScope createHttpScope(ServiceLocator serviceLocator)
-		throws NullPointerException, IllegalStateException
 	{
 		if (isClosed())
 			throw new IllegalStateException("Scope is closed");

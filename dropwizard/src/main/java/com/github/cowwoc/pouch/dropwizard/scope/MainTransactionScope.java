@@ -6,8 +6,6 @@ package com.github.cowwoc.pouch.dropwizard.scope;
 
 /**
  * TransactionScope for the main codebase.
- *
- * @author Gili Tzabari
  */
 public final class MainTransactionScope extends AbstractTransactionScope
 {
@@ -17,8 +15,7 @@ public final class MainTransactionScope extends AbstractTransactionScope
 	 * @param parent the parent scope
 	 * @throws NullPointerException if {@code parent} is null
 	 */
-	MainTransactionScope(ApplicationScopeSpi parent)
-		throws NullPointerException
+	MainTransactionScope(JvmScope parent)
 	{
 		super(parent);
 	}

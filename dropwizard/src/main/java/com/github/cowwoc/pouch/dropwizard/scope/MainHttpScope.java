@@ -8,8 +8,6 @@ import org.glassfish.hk2.api.ServiceLocator;
 
 /**
  * HttpScope for the main codebase.
- *
- * @author Gili Tzabari
  */
 public final class MainHttpScope extends AbstractHttpScope
 {
@@ -20,8 +18,7 @@ public final class MainHttpScope extends AbstractHttpScope
 	 * @param serviceLocator the Jersey dependency-injection mechanism
 	 * @throws NullPointerException if any of the arguments are null
 	 */
-	MainHttpScope(ApplicationScopeSpi parent, ServiceLocator serviceLocator)
-		throws NullPointerException
+	MainHttpScope(JvmScope parent, ServiceLocator serviceLocator)
 	{
 		super(parent, serviceLocator);
 	}
