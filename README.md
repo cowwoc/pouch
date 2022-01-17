@@ -1,4 +1,4 @@
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.cowwoc.pouch/java/badge.svg)](https://search.maven.org/search?q=g:com.github.cowwoc.pouch) [![API](https://img.shields.io/badge/api_docs-5B45D5.svg)](http://cowwoc.github.io/pouch/2.1/docs/api/) [![Changelog](https://img.shields.io/badge/changelog-A345D5.svg)](wiki/Changelog.md)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.cowwoc.pouch/core/badge.svg)](https://search.maven.org/search?q=g:com.github.cowwoc.pouch) [![API](https://img.shields.io/badge/api_docs-5B45D5.svg)](http://cowwoc.github.io/pouch/2.1/docs/api/) [![Changelog](https://img.shields.io/badge/changelog-A345D5.svg)](wiki/Changelog.md)
 
 # Pouch #
 
