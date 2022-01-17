@@ -35,7 +35,7 @@ abstract class AbstractTransactionScope implements TransactionScope
 	{
 		try
 		{
-			// Any uncommitted changes should be rolled back before before returning a connection to
+			// Any uncommitted changes should be rolled back before returning a connection to
 			// the pool.
 			// @see http://stackoverflow.com/a/9644783/14731
 			try (theConnection)

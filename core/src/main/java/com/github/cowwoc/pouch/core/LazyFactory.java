@@ -28,7 +28,7 @@ public abstract class LazyFactory<T> extends AbstractLazyReference<T>
 	 */
 	public static <T> LazyFactory<T> create(Supplier<T> supplier, Consumer<T> disposer)
 	{
-		return new LazyFactory<>()
+		return new LazyFactory<T>()
 		{
 			@Override
 			protected T createValue()

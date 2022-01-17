@@ -29,7 +29,7 @@ public abstract class ConcurrentLazyFactory<T> implements Factory<T>
 	 */
 	public static <T> ConcurrentLazyFactory<T> create(Supplier<T> supplier, Consumer<T> disposer)
 	{
-		return new ConcurrentLazyFactory<>()
+		return new ConcurrentLazyFactory<T>()
 		{
 			@Override
 			protected T createValue()

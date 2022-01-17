@@ -77,7 +77,6 @@ public final class ConcurrentChildScopes
 
 	/**
 	 * Notifies the parent scope that a child has closed.
-	 * <p>
 	 *
 	 * @param scope the scope that was closed
 	 * @return true on success; false if the scope was not found or was already closed

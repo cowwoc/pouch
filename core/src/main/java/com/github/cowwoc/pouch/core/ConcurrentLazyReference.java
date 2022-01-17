@@ -24,7 +24,7 @@ public abstract class ConcurrentLazyReference<T> implements Reference<T>
 	 */
 	public static <T> ConcurrentLazyReference<T> create(Supplier<T> supplier)
 	{
-		return new ConcurrentLazyReference<>()
+		return new ConcurrentLazyReference<T>()
 		{
 			@Override
 			protected T createValue()

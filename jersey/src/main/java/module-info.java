@@ -4,11 +4,11 @@ module com.github.cowwoc.pouch.jersey
 	requires org.slf4j;
 	requires jul.to.slf4j;
 	requires com.h2database;
-	requires java.ws.rs;
+	requires jakarta.ws.rs;
 	requires java.naming;
 	requires jakarta.inject;
 	requires java.sql;
-	requires hk2.api;
+	requires org.glassfish.hk2.api;
 	requires jersey.common;
 	requires jersey.server;
 	requires jersey.container.servlet.core;

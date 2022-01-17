@@ -7,7 +7,7 @@ package com.github.cowwoc.pouch.jersey.scope;
 import org.glassfish.hk2.api.ServiceLocator;
 
 import javax.sql.DataSource;
-import javax.ws.rs.core.UriInfo;
+import jakarta.ws.rs.core.UriInfo;
 import java.net.URI;
 import java.sql.Connection;
 import java.util.concurrent.ScheduledExecutorService;
