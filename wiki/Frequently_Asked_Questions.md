@@ -25,7 +25,7 @@ public class Person
 }
 ```
 
-Inversion of Control refers to the fact that dependencies are passed into the class instead of pulling them in:
+Inversion of Control refers to the fact that dependencies are passed into an object instead of being pulled in:
 
 ```java
 public class Person
@@ -51,7 +51,7 @@ Inversion of Control does not mandate *how* the dependencies are passed into `Pe
 * `TaxCalculator` could be passed directly to the constructor, or through some intermediary object.
 * `Person` could be constructed by the developer, or by some other mechanism.
 
-Dependency of Injection is a form of Inversion of Control where a framework constructs the `Person` on the developer's behalf. This means that the developer is not supposed to instantiate `Person` themselves:
+Dependency Injection is a form of Inversion of Control where a framework constructs the `Person` on the developer's behalf. This means that the developer is not supposed to instantiate `Person` themselves:
 ```java
 public class Person
 {
@@ -132,7 +132,7 @@ Specifically:
 1. [Suppliers.memoize()](https://guava.dev/releases/30.1.1-jre/api/docs/com/google/common/base/Suppliers.html#memoize-com.google.common.base.Supplier-) doesn't provide a mechanism for checking whether the underlying value has been initialized. This is important because when implementing [Factory.close()](http://cowwoc.github.io/pouch/2.1/docs/api/com/github/cowwoc/pouch/Factory.html#close()) you want to avoid initializing the value if it has never been initialized before.
 2. We provide convenience classes, such as [LazyFactory](http://cowwoc.github.io/pouch/2.1/docs/api/com/github/cowwoc/pouch/LazyFactory.html) which unify [LazyReference](http://cowwoc.github.io/pouch/2.1/docs/api/com/github/cowwoc/pouch/LazyReference.html) and [Closeable](http://docs.oracle.com/javase/7/docs/api/java/io/Closeable.html) into a single class and in so doing we shield you from thread-safety concerns.
 
-So yes, Guava provides better general-purpose functionality, but for under 10k we provide yous with a more targeted form of this functionality that is easier to use.
+So yes, Guava provides better general-purpose functionality, but for under 10kb we provide you with a more targeted form of this functionality that is easier to use.
 
 ### How do I return a new instance of a class on every invocation?
 
