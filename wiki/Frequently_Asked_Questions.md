@@ -25,7 +25,7 @@ public class Person
 }
 ```
 
-Inversion of Control refers to the fact that dependencies are passed into the class instead of pulling them in:
+Inversion of Control refers to the fact that dependencies are passed into an object instead of being pulled in:
 
 ```java
 public class Person
@@ -51,7 +51,7 @@ Inversion of Control does not mandate *how* the dependencies are passed into `Pe
 * `TaxCalculator` could be passed directly to the constructor, or through some intermediary object.
 * `Person` could be constructed by the developer, or by some other mechanism.
 
-Dependency of Injection is a form of Inversion of Control where a framework constructs the `Person` on the developer's behalf. This means that the developer is not supposed to instantiate `Person` themselves:
+Dependency Injection is a form of Inversion of Control where a framework constructs the `Person` on the developer's behalf. This means that the developer is not supposed to instantiate `Person` themselves:
 ```java
 public class Person
 {
