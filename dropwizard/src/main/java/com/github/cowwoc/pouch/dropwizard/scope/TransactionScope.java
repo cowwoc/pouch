@@ -13,7 +13,7 @@ import java.sql.Connection;
  *
  * @author Gili Tzabari
  */
-public interface TransactionScope extends ApplicationScope
+public interface TransactionScope extends JvmScope
 {
 	/**
 	 * @return the database connection associated with the transaction

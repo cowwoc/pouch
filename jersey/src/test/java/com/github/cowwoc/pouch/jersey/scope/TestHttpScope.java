@@ -20,8 +20,7 @@ public final class TestHttpScope extends AbstractHttpScope
 	 * @param serviceLocator the Jersey dependency-injection mechanism
 	 * @throws NullPointerException if any of the arguments are null
 	 */
-	TestHttpScope(ApplicationScopeSpi parent, ServiceLocator serviceLocator)
-		throws NullPointerException
+	TestHttpScope(JvmScope parent, ServiceLocator serviceLocator)
 	{
 		super(parent, serviceLocator);
 	}

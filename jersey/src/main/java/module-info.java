@@ -15,6 +15,7 @@ module com.github.cowwoc.pouch.jersey
 	requires org.eclipse.jetty.server;
 	requires org.eclipse.jetty.servlet;
 	requires com.google.common;
+	requires jakarta.xml.bind;
 
 	opens com.github.cowwoc.pouch.jersey.scope;
 	exports com.github.cowwoc.pouch.jersey.resource to jersey.server;

@@ -8,7 +8,6 @@
 		<version>2.2-SNAPSHOT</version>
 	</parent>
 	<artifactId>core</artifactId>
-	<version>2.2-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<properties>
 		<slf4j.version>2.0.0-alpha6</slf4j.version>
@@ -36,7 +35,7 @@
 							<source>1.8</source>
 							<target>1.8</target>
 							<jdkToolchain>
-								<version>8</version>
+								<version>1.8</version>
 							</jdkToolchain>
 							<showDeprecation>true</showDeprecation>
 							<showWarnings>true</showWarnings>
@@ -54,12 +53,10 @@
 							<goal>compile</goal>
 						</goals>
 						<configuration>
-							<!-- Provide module-info to the earliest version that supports it -->
-							<release>9</release>
+							<release>${maven.release.version}</release>
 							<jdkToolchain>
-								<version>9</version>
+								<version>${maven.release.version}</version>
 							</jdkToolchain>
-							<fork>true</fork>
 							<compileSourceRoots>
 								<compileSourceRoot>${project.build.sourceDirectory}</compileSourceRoot>
 							</compileSourceRoots>
@@ -92,8 +89,9 @@
 							https://bugs.openjdk.java.net/browse/JDK-8208269
 							-->
 							<jdkToolchain>
-								<version>11</version>
+								<version>${maven.release.version}</version>
 							</jdkToolchain>
+							<source>1.8</source>
 							<show>public</show>
 							<additionalOptions>
 								<!-- https://stackoverflow.com/a/54468139/14731 -->
@@ -115,7 +113,7 @@
 							https://bugs.openjdk.java.net/browse/JDK-8208269
 							-->
 							<jdkToolchain>
-								<version>11</version>
+								<version>${maven.release.version}</version>
 							</jdkToolchain>
 							<show>public</show>
 							<additionalOptions>

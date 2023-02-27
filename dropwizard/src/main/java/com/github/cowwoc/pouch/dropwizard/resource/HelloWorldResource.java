@@ -27,7 +27,6 @@ public final class HelloWorldResource
 	@Inject
 	public HelloWorldResource(HttpScope scope)
 	{
-		// Injecting either ApplicationScope or HttpScope will work
 		if (scope == null)
 			throw new NullPointerException("scope may not be null");
 		this.scope = scope;

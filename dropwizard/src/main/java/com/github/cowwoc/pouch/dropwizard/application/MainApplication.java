@@ -25,7 +25,7 @@ public final class MainApplication extends Application<Configuration>
 	@Override
 	public void run(Configuration configuration, Environment environment)
 	{
-		environment.jersey().register(new MainPouchBinder());
+		environment.jersey().register(MainPouchBinder.class);
 		environment.jersey().register(HelloWorldResource.class);
 	}
 }

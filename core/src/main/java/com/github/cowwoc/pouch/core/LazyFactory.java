@@ -82,7 +82,6 @@ public abstract class LazyFactory<T> extends AbstractLazyReference<T>
 	 */
 	@Override
 	public final T getValue()
-		throws IllegalStateException
 	{
 		if (closed)
 			throw new IllegalStateException("Factory is closed");

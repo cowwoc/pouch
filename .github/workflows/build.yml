@@ -1,0 +1,35 @@
+name: Build
+on: [ push ]
+
+jobs:
+  build:
+    name: Build
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ windows-latest, ubuntu-latest, macos-latest ]
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v3
+        with:
+          java-version: 17
+          distribution: "zulu"
+
+      - name: Cache Dependencies
+        uses: actions/cache@v3
+        with:
+          # Avoid caching generated artifacts
+          path: |
+            ~/.m2/repository/*
+            !~/.m2/repository/com/github/cowwoc/pouch
+          key: ${{ runner.OS }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.OS }}-maven-
+
+      - name: Show versions
+        run: |
+          java --version
+          ./mvnw --version
+
+      - name: Build
+        run: ./mvnw install -e

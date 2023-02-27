@@ -4,8 +4,8 @@
  */
 package com.github.cowwoc.pouch.jersey.application;
 
-import com.github.cowwoc.pouch.jersey.scope.MainPouchBinder;
 import com.github.cowwoc.pouch.jersey.resource.HelloWorldResource;
+import com.github.cowwoc.pouch.jersey.scope.MainPouchBinder;
 import org.glassfish.jersey.server.ResourceConfig;
 
 /**
@@ -17,7 +17,7 @@ public final class MainApplication extends ResourceConfig
 {
 	public MainApplication()
 	{
-		register(new MainPouchBinder());
+		register(MainPouchBinder.class);
 		register(HelloWorldResource.class);
 	}
 }
