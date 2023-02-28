@@ -1,9 +1,7 @@
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.cowwoc.pouch/java/badge.svg)](https://search.maven.org/search?q=g:com.github.cowwoc.pouch) [![API](https://img.shields.io/badge/api_docs-5B45D5.svg)](http://cowwoc.github.io/pouch/3.0/docs/api/) [![Changelog](https://img.shields.io/badge/changelog-A345D5.svg)](wiki/Changelog.md)
 [![build-status](../../workflows/Build/badge.svg)](../../actions?query=workflow%3ABuild)
 
-# <img alt="pouch" src="wiki/pouch.svg" width="128" height="146"/> Inversion of Control for the masses
-
-# Pouch
+# <img alt="pouch" src="wiki/pouch.svg" width="128" height="146"/> Pouch: Inversion of Control for the Masses
 
 An [Inversion of Control](http://martinfowler.com/articles/injection.html) design pattern that is:
 
