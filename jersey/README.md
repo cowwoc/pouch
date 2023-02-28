@@ -34,8 +34,8 @@ or [Spring @Configuration](http://docs.spring.io/autorepo/docs/spring/3.2.x/spri
 
 First, you'll need to implement an HK2 Binder (
 e.g. [MainPouchBinder](http://cowwoc.github.io/pouch/src/main/java/com/github/cowwoc/pouch/jersey/scope/MainPouchBinder.java)),
-then you'll need to register the Binder with Jersey (
-e.g. [MainApplication](http://cowwoc.github.io/pouch/src/main/java/com/github/cowwoc/pouch/jersey/application/MainApplication.java)).
+then you'll need to register the Binder with Jersey (e.g.
+[MainApplication](http://cowwoc.github.io/pouch/src/main/java/com/github/cowwoc/pouch/jersey/application/MainApplication.java)).
 
 ## Step 4: Inject scopes into Jersey resources ##
 
