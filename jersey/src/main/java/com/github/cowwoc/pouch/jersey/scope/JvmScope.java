@@ -15,27 +15,37 @@ import java.util.concurrent.ScheduledExecutorService;
 public interface JvmScope extends AutoCloseable
 {
 	/**
+	 * Returns a database connection factory.
+	 *
 	 * @return a database connection factory
 	 */
 	DataSource getDataSource();
 
 	/**
+	 * Returns the execution mode (e.g. "main", "test").
+	 *
 	 * @return the execution mode (e.g. "main", "test")
 	 */
 	String getMode();
 
 	/**
+	 * Returns the scheduler to use for background tasks.
+	 *
 	 * @return the scheduler to use for background tasks
 	 */
 	ScheduledExecutorService getScheduler();
 
 	/**
+	 * Returns a new transaction scope.
+	 *
 	 * @return a new transaction scope
 	 * @throws IllegalStateException if {@link #isClosed()}
 	 */
 	TransactionScope createTransactionScope();
 
 	/**
+	 * Returns {@code true} if the scope is closed.
+	 *
 	 * @return {@code true} if the scope is closed
 	 */
 	boolean isClosed();
