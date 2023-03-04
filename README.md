@@ -11,7 +11,7 @@ An [Inversion of Control](http://martinfowler.com/articles/injection.html) desig
   * No bytecode generation
   * No proxies
   * No annotations
-* Easy to maintain (the full dependency graph is validated at compile-time)
+* Easy to debug (dependency graph is verified at compile-time)
 * Dependency-free
 
 To get started, add this Maven dependency:
