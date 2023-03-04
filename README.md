@@ -37,7 +37,7 @@ Scopes guarantee that values will remain unchanged during their lifetime.
 ## Example
 
 Pouch doesn't advocate specific designs. You're expected to use whatever design best suits your use-case.
-Here is one design that I've personally used
+Here is one design that has worked for me:
 
 ### Scope Types
 
