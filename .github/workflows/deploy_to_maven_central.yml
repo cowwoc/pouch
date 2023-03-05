@@ -17,8 +17,9 @@ jobs:
             8
             11
           server-id: maven-central-releases
-          server-username: MAVEN_USERNAME
-          server-password: MAVEN_PASSWORD
+          # Server authentication corresponds to "user token" returned by https://oss.sonatype.org/
+          server-username: OSSRH_USERNAME
+          server-password: OSSRH_TOKEN
           gpg-private-key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
           gpg-passphrase: MAVEN_GPG_PASSPHRASE
 
