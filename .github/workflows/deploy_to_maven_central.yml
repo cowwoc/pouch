@@ -23,18 +23,13 @@ jobs:
           gpg-private-key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
           gpg-passphrase: MAVEN_GPG_PASSPHRASE
 
-      - name: Show versions
-        run: |
-          java --version
-          ./mvnw --version
-
       - name: Configure Git User
         run: |
           git config user.email "cowwoc2020@gmail.com"
           git config user.name "Gili"
 
       - name: Deploy to Maven Central
-        run: ./mvnw release:prepare release:perform --batch-mode -Darguments="-Ddeploy" -e
+        run: ./mvnw --batch-mode -Darguments="-Ddeploy" --batch-mode -V -e release:prepare release:perform
         env:
           MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
