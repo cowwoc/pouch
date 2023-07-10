@@ -4,13 +4,12 @@
  */
 package com.github.cowwoc.pouch.dropwizard.scope;
 
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 import org.glassfish.hk2.api.Factory;
 import org.glassfish.hk2.api.ServiceLocator;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.glassfish.jersey.process.internal.RequestScoped;
-
-import javax.inject.Inject;
-import javax.inject.Singleton;
 
 /**
  * Integrates Pouch scopes with Jersey's dependency injection {@code ServiceLocator} for the "main"
@@ -37,12 +36,12 @@ public final class MainPouchBinder extends AbstractBinder
 	}
 
 	/**
-	 * Binds an HttpScope.
+	 * Binds a RequestScope.
 	 */
-	private static class HttpScopeFactory implements Factory<HttpScope>
+	private static class RequestScopeFactory implements Factory<RequestScope>
 	{
 		private final ServiceLocator serviceLocator;
-		private final JvmScope jvmScope;
+		private final ServerScope serverScope;
 
 		/**
 		 * Creates a new HttpScopeFactory.
@@ -51,25 +50,25 @@ public final class MainPouchBinder extends AbstractBinder
 		 * @throws NullPointerException if any of the arguments are null
 		 */
 		@Inject
-		HttpScopeFactory(JvmScope jvmScope, ServiceLocator serviceLocator)
+		RequestScopeFactory(JvmScope jvmScope, ServiceLocator serviceLocator)
 		{
 			if (jvmScope == null)
 				throw new NullPointerException("jvmScope may not be null");
 			if (serviceLocator == null)
 				throw new NullPointerException("serviceLocator may not be null");
-			this.jvmScope = jvmScope;
+			DatabaseScope databaseScope = new MainDatabaseScope(jvmScope);
+			this.serverScope = new MainServerScope(databaseScope);
 			this.serviceLocator = serviceLocator;
 		}
 
 		@Override
-		public HttpScope provide()
+		public RequestScope provide()
 		{
-			AbstractJvmScope jvmScope = (AbstractJvmScope) this.jvmScope;
-			return jvmScope.createHttpScope(serviceLocator);
+			return new MainRequestScope(serverScope, serviceLocator);
 		}
 
 		@Override
-		public void dispose(HttpScope instance)
+		public void dispose(RequestScope instance)
 		{
 			instance.close();
 		}
@@ -79,6 +78,6 @@ public final class MainPouchBinder extends AbstractBinder
 	protected void configure()
 	{
 		bindFactory(JvmScopeFactory.class).to(JvmScope.class).in(Singleton.class);
-		bindFactory(HttpScopeFactory.class).to(HttpScope.class).in(RequestScoped.class);
+		bindFactory(RequestScopeFactory.class).to(RequestScope.class).in(RequestScoped.class);
 	}
 }

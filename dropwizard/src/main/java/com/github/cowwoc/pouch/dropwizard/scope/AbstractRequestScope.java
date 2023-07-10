@@ -2,7 +2,7 @@
  * Copyright 2016 Gili Tzabari.
  * Licensed under the Apache License, Version 2.0: http://www.apache.org/licenses/LICENSE-2.0
  */
-package com.github.cowwoc.pouch.jersey.scope;
+package com.github.cowwoc.pouch.dropwizard.scope;
 
 import jakarta.ws.rs.core.UriInfo;
 import org.glassfish.hk2.api.ServiceLocator;
@@ -10,16 +10,15 @@ import org.glassfish.hk2.api.ServiceLocator;
 import javax.sql.DataSource;
 import java.net.URI;
 import java.sql.Connection;
+import java.time.Duration;
 import java.util.concurrent.ScheduledExecutorService;
 
 /**
- * HttpScope common to main and test codebases.
+ * RequestScope common to main and test codebases.
  */
-abstract class AbstractHttpScope
-	implements HttpScope
+abstract class AbstractRequestScope implements RequestScope
 {
-	private final JvmScope parent;
-	private final TransactionScope transaction;
+	private final ServerScope parent;
 	private final ServiceLocator serviceLocator;
 	private boolean closed;
 
@@ -30,7 +29,7 @@ abstract class AbstractHttpScope
 	 * @param serviceLocator the Jersey dependency-injection mechanism
 	 * @throws NullPointerException if any of the arguments are null
 	 */
-	AbstractHttpScope(JvmScope parent, ServiceLocator serviceLocator)
+	AbstractRequestScope(ServerScope parent, ServiceLocator serviceLocator)
 	{
 		if (parent == null)
 			throw new NullPointerException("parent may not be null");
@@ -38,7 +37,6 @@ abstract class AbstractHttpScope
 			throw new NullPointerException("serviceLocator may not be null");
 		this.parent = parent;
 		this.serviceLocator = serviceLocator;
-		this.transaction = parent.createTransactionScope();
 	}
 
 	/**
@@ -50,15 +48,21 @@ abstract class AbstractHttpScope
 	}
 
 	@Override
-	public Connection getConnection()
+	public Duration getScopeCloseTimeout()
 	{
-		return transaction.getConnection();
+		return parent.getScopeCloseTimeout();
 	}
 
 	@Override
 	public DataSource getDataSource()
 	{
 		return parent.getDataSource();
+	}
+
+	@Override
+	public Connection getConnection()
+	{
+		return parent.getConnection();
 	}
 
 	@Override
@@ -87,6 +91,18 @@ abstract class AbstractHttpScope
 	}
 
 	@Override
+	public void addChildScope(AutoCloseable child)
+	{
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public void removeChildScope(AutoCloseable child)
+	{
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
 	public boolean isClosed()
 	{
 		return closed;
@@ -98,21 +114,6 @@ abstract class AbstractHttpScope
 		if (closed)
 			return;
 		closed = true;
-		AbstractJvmScope parent = (AbstractJvmScope) this.parent;
-		try
-		{
-			transaction.close();
-			beforeClose();
-		}
-		finally
-		{
-			parent.onClosed(this);
-		}
+		parent.removeChildScope(this);
 	}
-
-	/**
-	 * A method that is invoked before closing the scope. Subclasses wishing to extend {@code close()}
-	 * should override this method.
-	 */
-	protected abstract void beforeClose();
 }

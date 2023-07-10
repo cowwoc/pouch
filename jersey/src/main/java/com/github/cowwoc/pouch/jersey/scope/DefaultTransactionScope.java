@@ -6,18 +6,20 @@ package com.github.cowwoc.pouch.jersey.scope;
 
 import com.github.cowwoc.pouch.core.Factory;
 import com.github.cowwoc.pouch.core.LazyFactory;
+import com.github.cowwoc.pouch.core.Scopes;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.time.Duration;
 import java.util.concurrent.ScheduledExecutorService;
 
 /**
  * TransactionScope common to main and test codebases.
  */
-abstract class AbstractTransactionScope implements TransactionScope
+public final class DefaultTransactionScope implements TransactionScope
 {
-	protected final JvmScope parent;
+	private final DatabaseScope parent;
 	private final Factory<Connection> connection = LazyFactory.create(() ->
 	{
 		DataSource ds = getDataSource();
@@ -55,11 +57,18 @@ abstract class AbstractTransactionScope implements TransactionScope
 	 * @param parent the parent scope
 	 * @throws NullPointerException if {@code parent} is null
 	 */
-	AbstractTransactionScope(JvmScope parent)
+	public DefaultTransactionScope(DatabaseScope parent)
 	{
 		if (parent == null)
 			throw new NullPointerException("parent may not be null");
 		this.parent = parent;
+		parent.addChild(this);
+	}
+
+	@Override
+	public Duration getScopeCloseTimeout()
+	{
+		return parent.getScopeCloseTimeout();
 	}
 
 	@Override
@@ -93,6 +102,18 @@ abstract class AbstractTransactionScope implements TransactionScope
 	}
 
 	@Override
+	public void addChild(AutoCloseable child)
+	{
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public void removeChild(AutoCloseable child)
+	{
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
 	public boolean isClosed()
 	{
 		return closed;
@@ -104,21 +125,6 @@ abstract class AbstractTransactionScope implements TransactionScope
 		if (closed)
 			return;
 		closed = true;
-		AbstractJvmScope parent = (AbstractJvmScope) this.parent;
-		try
-		{
-			connection.close();
-			beforeClose();
-		}
-		finally
-		{
-			parent.onClosed(this);
-		}
+		Scopes.runAll(connection::close, () -> parent.removeChild(this));
 	}
-
-	/**
-	 * A method that is invoked before closing the scope. Subclasses wishing to extend {@code close()}
-	 * should override this method.
-	 */
-	protected abstract void beforeClose();
 }

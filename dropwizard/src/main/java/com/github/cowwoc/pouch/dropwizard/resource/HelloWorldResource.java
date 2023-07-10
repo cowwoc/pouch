@@ -4,17 +4,16 @@
  */
 package com.github.cowwoc.pouch.dropwizard.resource;
 
-import com.github.cowwoc.pouch.dropwizard.scope.HttpScope;
-
-import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import com.github.cowwoc.pouch.dropwizard.scope.RequestScope;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Produces;
 
 @Path("helloworld")
 public final class HelloWorldResource
 {
-	private final HttpScope scope;
+	private final RequestScope scope;
 
 	/**
 	 * Creates a new resource.
@@ -22,7 +21,7 @@ public final class HelloWorldResource
 	 * @param scope the HTTP request scope
 	 */
 	@Inject
-	public HelloWorldResource(HttpScope scope)
+	public HelloWorldResource(RequestScope scope)
 	{
 		if (scope == null)
 			throw new NullPointerException("scope may not be null");

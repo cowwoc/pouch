@@ -1,6 +1,8 @@
 package com.github.cowwoc.pouch.jersey.database;
 
+import com.github.cowwoc.pouch.jersey.scope.DatabaseScope;
 import com.github.cowwoc.pouch.jersey.scope.JvmScope;
+import com.github.cowwoc.pouch.jersey.scope.TestDatabaseScope;
 import com.github.cowwoc.pouch.jersey.scope.TestJvmScope;
 import com.github.cowwoc.pouch.jersey.scope.TransactionScope;
 import org.junit.Test;
@@ -14,7 +16,8 @@ public final class TestDatabase
 	public void test1() throws SQLException
 	{
 		try (JvmScope jvmScope = new TestJvmScope();
-		     TransactionScope transaction = jvmScope.createTransactionScope())
+		     DatabaseScope databaseScope = new TestDatabaseScope(jvmScope);
+		     TransactionScope transaction = databaseScope.createTransactionScope())
 		{
 			Connection connection = transaction.getConnection();
 			System.out.println("test1() running against " + connection.getMetaData().getURL());
@@ -25,7 +28,8 @@ public final class TestDatabase
 	public void test2() throws SQLException
 	{
 		try (JvmScope jvmScope = new TestJvmScope();
-		     TransactionScope transaction = jvmScope.createTransactionScope())
+		     DatabaseScope databaseScope = new TestDatabaseScope(jvmScope);
+		     TransactionScope transaction = databaseScope.createTransactionScope())
 		{
 			Connection connection = transaction.getConnection();
 			System.out.println("test2() running against " + connection.getMetaData().getURL());

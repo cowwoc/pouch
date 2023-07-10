@@ -11,7 +11,7 @@ import java.sql.Connection;
  * <p>
  * Implementations are not thread-safe.
  */
-public interface TransactionScope extends JvmScope
+public interface TransactionScope extends DatabaseScope
 {
 	/**
 	 * @return the database connection associated with the transaction

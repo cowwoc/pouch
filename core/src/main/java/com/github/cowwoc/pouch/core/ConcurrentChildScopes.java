@@ -8,15 +8,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.Duration;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.Phaser;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-import java.util.function.Supplier;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- * Graceful shutdown of child scopes from a parent scope that requires thread-safety.
+ * Manages child scopes.
  * <p>
  * This class is thread-safe.
  * <p>
@@ -32,12 +32,12 @@ public final class ConcurrentChildScopes
 	/**
 	 * A map from a child scope to the thread that created it.
 	 */
-	@SuppressWarnings("CollectionWithoutInitialCapacity")
-	private final ConcurrentMap<AutoCloseable, Thread> childScopeToCreator = new ConcurrentHashMap<>();
+	private final Map<AutoCloseable, Thread> childScopeToCreator = new ConcurrentHashMap<>();
 	/**
 	 * Counts the number of open scopes.
 	 */
 	private final Phaser openScopes = new Phaser();
+	private final AtomicBoolean shutdownRequested = new AtomicBoolean();
 	private final Logger log = LoggerFactory.getLogger(ConcurrentChildScopes.class);
 
 	/**
@@ -50,23 +50,24 @@ public final class ConcurrentChildScopes
 	}
 
 	/**
-	 * Creates a new child scope.
+	 * Adds a child scope.
 	 *
-	 * @param <T>      the type of the child scope
-	 * @param supplier supplies a child scope
-	 * @return a new child scope
-	 * @throws NullPointerException if {@code supplier} is null
+	 * @param child the child scope
+	 * @return {@code true} on success; {@code false} if the scope is already associated with another thread
+	 * @throws NullPointerException  if {@code child} is null
+	 * @throws IllegalStateException if shutdown has been requested
 	 */
-	public <T extends AutoCloseable> T createChildScope(Supplier<T> supplier)
+	public boolean add(AutoCloseable child)
 	{
-		if (supplier == null)
-			throw new NullPointerException("supplier may not be null");
+		if (child == null)
+			throw new NullPointerException("child may not be null");
+		if (shutdownRequested.get())
+			throw new IllegalStateException("Shutdown has been requested");
 		openScopes.register();
 		try
 		{
-			T result = supplier.get();
-			childScopeToCreator.put(result, Thread.currentThread());
-			return result;
+			Thread value = childScopeToCreator.putIfAbsent(child, Thread.currentThread());
+			return value == child;
 		}
 		catch (RuntimeException e)
 		{
@@ -76,29 +77,36 @@ public final class ConcurrentChildScopes
 	}
 
 	/**
-	 * Notifies the parent scope that a child has closed.
+	 * Removes a child scope.
 	 *
-	 * @param scope the scope that was closed
-	 * @return true on success; false if the scope was not found or was already closed
-	 * @throws NullPointerException if {@code scope} is null
+	 * @param child the child scope
+	 * @return {@code true} on success; {@code false} if the scope was not found
+	 * @throws NullPointerException  if {@code child} is null
 	 */
-	public boolean onClosed(AutoCloseable scope)
+	public boolean remove(AutoCloseable child)
 	{
-		boolean result = childScopeToCreator.remove(scope) != null;
+		// Avoid checking shutdownRequested because children must be allowed to remove themselves while
+		// shutdown is in progress
+		if (child == null)
+			throw new NullPointerException("child may not be null");
+		boolean result = childScopeToCreator.remove(child) != null;
 		if (result)
 			openScopes.arriveAndDeregister();
 		return result;
 	}
 
 	/**
-	 * Closes all child scopes.
+	 * Initiates a graceful shutdown of child scopes.
 	 *
-	 * @param timeout the maximum amount of time to wait for child scopes to shut down before invoking
-	 *                their {@code close()} method
-	 * @return {@code true} if child scopes shut down gracefully, {@code false} if a timeout occurred
+	 * @param timeout the amount of time to wait for the children to close before invoking {@code close}
+	 *                on them
+	 * @return {@code true} if all children down gracefully, {@code false} if a shutdown is already in
+	 * 	progress or a timeout occurred
 	 */
-	public boolean close(Duration timeout)
+	public boolean shutdown(Duration timeout)
 	{
+		if (!shutdownRequested.compareAndSet(false, true))
+			return false;
 		boolean result;
 		try
 		{
@@ -128,7 +136,6 @@ public final class ConcurrentChildScopes
 				log.warn("Failed to close scope: {}", scope, e);
 			}
 		}
-		childScopeToCreator.clear();
 		return result;
 	}
 }

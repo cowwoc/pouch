@@ -71,10 +71,6 @@ public class WrappedCheckedException extends RuntimeException
 		{
 			callableWithoutReturnValue.run();
 		}
-		catch (RuntimeException e)
-		{
-			throw e;
-		}
 		catch (Exception e)
 		{
 			throw WrappedCheckedException.wrap(e);

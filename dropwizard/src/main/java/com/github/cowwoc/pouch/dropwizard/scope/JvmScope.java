@@ -4,7 +4,7 @@
  */
 package com.github.cowwoc.pouch.dropwizard.scope;
 
-import javax.sql.DataSource;
+import java.time.Duration;
 import java.util.concurrent.ScheduledExecutorService;
 
 /**
@@ -14,13 +14,6 @@ import java.util.concurrent.ScheduledExecutorService;
  */
 public interface JvmScope extends AutoCloseable
 {
-	/**
-	 * Returns a database connection factory.
-	 *
-	 * @return a database connection factory
-	 */
-	DataSource getDataSource();
-
 	/**
 	 * Returns the execution mode (e.g. "main", "test").
 	 *
@@ -36,12 +29,27 @@ public interface JvmScope extends AutoCloseable
 	ScheduledExecutorService getScheduler();
 
 	/**
-	 * Returns a new transaction scope.
-	 *
-	 * @return a new transaction scope
-	 * @throws IllegalStateException if {@link #isClosed()}
+	 * @return the amount of time to wait for scopes to close
+	 * @throws IllegalStateException if the scope is closed
 	 */
-	TransactionScope createTransactionScope();
+	Duration getScopeCloseTimeout();
+
+	/**
+	 * Adds a child scope.
+	 *
+	 * @param child the child scope
+	 * @throws NullPointerException  if {@code child} is null
+	 * @throws IllegalStateException if the scope is closed
+	 */
+	void addChildScope(AutoCloseable child);
+
+	/**
+	 * Removes a child scope.
+	 *
+	 * @param child the child scope
+	 * @throws NullPointerException if {@code child} is null
+	 */
+	void removeChildScope(AutoCloseable child);
 
 	/**
 	 * Returns {@code true} if the scope is closed.

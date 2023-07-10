@@ -20,7 +20,7 @@ To get started, add this Maven dependency:
 <dependency>
   <groupId>com.github.cowwoc.pouch</groupId>
   <artifactId>core</artifactId>
-  <version>3.0</version>
+  <version>4.0</version>
 </dependency>
 ```
 
@@ -88,7 +88,7 @@ public interface ServerScope extends DatabaseScope
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-public interface HttpScope extends ServerScope
+public interface RequestScope extends ServerScope
 {
   HttpServletRequest getRequest();
 
@@ -115,18 +115,18 @@ Imagine we have:
 
 * `JvmScope`: values specific to an application run
 * `DatabaseScope`: values specific to a database connection
-* `HttpScope`: values specific to an HTTP request
+* `RequestScope`: values specific to an HTTP request
 
 Notice that a `JvmScope` contains values whose lifetime span multiple database connections.
 Further, `DatabaseScope` contains values whose lifetime span multiple HTTP requests.
-In light of this, we define `HttpScope` as extending `DatabaseScope` and `DatabaseScope` as extending
+In light of this, we define `RequestScope` as extending `DatabaseScope` and `DatabaseScope` as extending
 `JvmScope`.
-When a new `HttpScope` is constructed, we pass in the parent scope.
+When a new `RequestScope` is constructed, we pass in the parent scope.
 
 The lifetime of child scopes must be equal to or less than the lifetime of the parent scope.
 This means that child scopes can't exist without the parent.
 For example, the above conceptual model assumes that
-an `HttpScope` cannot exist without a `DatabaseScope` but a `DatabaseScope` may exist without an `HttpScope`.
+an `RequestScope` cannot exist without a `DatabaseScope` but a `DatabaseScope` may exist without an `RequestScope`.
 This enables a worker thread to interact with the database outside an HTTP request.
 But an HTTP request can't exist without a database connection.
 
@@ -135,7 +135,7 @@ For example, notice how `AbstractDatabaseScope.getRunMode()` delegates to `JvmSc
 
 ### Waiting for Child Scopes to Shut Down
 
-When running in a multithreaded environment, such as a web server, you might want to wait for ongoing HTTP
+When running in a multi-threaded environment, such as a web server, you might want to wait for ongoing HTTP
 requests to complete before shutting down the server.
 You can use the
 [ConcurrentChildScopes](http://cowwoc.github.io/pouch/3.0/docs/api/com/github/cowwoc/pouch/ConcurrentChildScopes.html)
@@ -144,11 +144,13 @@ class to implement this as follows:
 ```java
 import com.github.cowwoc.pouch.core.ConcurrentChildScopes;
 import com.github.cowwoc.pouch.core.Scopes;
+import com.github.cowwoc.pouch.core.ConcurrentChildScopes;
 
 public abstract class AbstractJvmScope implements JvmScope
 {
   private final RunMode runMode;
   private final Duration closeTimeout;
+  private final ConcurrentChildScopes children = new ConcurrentChildScopes();
 
   protected AbstractJvmScope(RunMode runMode)
   {
@@ -160,16 +162,43 @@ public abstract class AbstractJvmScope implements JvmScope
     };
   }
 
-  public boolean onChildClosed(AutoCloseable child)
-  {
-    return children.onClosed(scope);
+	public void addChild(AutoCloseable child
+	{
+	  children.add(child);
+  }
+	
+	public void removeChild(AutoCloseable child)
+	{
+		children.remove(child);
   }
 
   @Override
   public void close()
   {
-    Scopes.runAll(() -> children.close(closeTimeout));
+    Scopes.runAll(() -> children.shutdown(closeTimeout));
   }
+}
+```
+
+```java
+import java.time.Duration;
+import com.github.cowwoc.pouch.core.ConcurrentChildScopes;
+
+public abstract class AbstractDatabaseScope implements DatabaseScope
+{
+	protected final JvmScope parent;
+
+	protected AbstractDatabaseScope(JvmScope parent)
+	{
+		this.parent = parent;
+		parent.addChildScope(this);
+	}
+
+	@Override
+	public void close()
+	{
+		Scopes.runAll(() -> children.shutdown(Duration.ofSeconds(10)));
+	}
 }
 ```
 

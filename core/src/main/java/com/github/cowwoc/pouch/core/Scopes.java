@@ -4,6 +4,8 @@
  */
 package com.github.cowwoc.pouch.core;
 
+import com.github.cowwoc.pouch.core.WrappedCheckedException.CallableWithoutReturnValue;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,30 +22,31 @@ public final class Scopes
 	}
 
 	/**
-	 * Runs one or more {@code Runnable}s, throwing any exceptions they throw after they all finish executing.
+	 * Runs one or more tasks, throwing any exceptions they throw after they all finish executing.
 	 *
-	 * @param runnables the {@code Runnable}s to execute
+	 * @param tasks a list of tasks
+	 * @throws WrappedCheckedException if any of the tasks threw a checked exceptions
 	 */
-	public static void runAll(Runnable... runnables)
+	public static void runAll(CallableWithoutReturnValue... tasks)
 	{
-		List<RuntimeException> exceptions = new ArrayList<>();
-		for (Runnable runnable : runnables)
+		List<Exception> exceptions = new ArrayList<>();
+		for (CallableWithoutReturnValue task : tasks)
 		{
 			try
 			{
-				runnable.run();
+				task.run();
 			}
-			catch (RuntimeException e)
+			catch (Exception e)
 			{
 				exceptions.add(e);
 			}
 		}
 		if (!exceptions.isEmpty())
 		{
-			RuntimeException mainException = exceptions.get(0);
+			Exception mainException = exceptions.get(0);
 			for (int i = 1, size = exceptions.size(); i < size; ++i)
 				mainException.addSuppressed(exceptions.get(i));
-			throw mainException;
+			throw WrappedCheckedException.wrap(mainException);
 		}
 	}
 }

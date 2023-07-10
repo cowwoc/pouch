@@ -1,6 +1,12 @@
 Minor updates involving cosmetic changes have been omitted from this list. See [commits](../../commits/master)
 for a full list.
 
+## Version 4.0 - 2023/07/10
+
+* Breaking changes
+  * Replaced `ConcurrentChildScopes.createChildScope()` with `add()`, and `ConcurrentChildScopes.onClosed()` with `remove()`.
+  * `Scopes.runAll()` now accepts tasks that throw checked exceptions.
+
 ## Version 3.0 - 2023/02/28
 
 * Breaking changes

@@ -5,14 +5,13 @@
 package com.github.cowwoc.pouch.dropwizard.resource;
 
 import com.github.cowwoc.pouch.dropwizard.application.TestApplication;
-import io.dropwizard.Configuration;
 import io.dropwizard.client.JerseyClientBuilder;
+import io.dropwizard.core.Configuration;
 import io.dropwizard.testing.DropwizardTestSupport;
+import jakarta.ws.rs.client.Client;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-
-import javax.ws.rs.client.Client;
 
 public final class TestHelloWorld
 {

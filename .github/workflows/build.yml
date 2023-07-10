@@ -39,4 +39,4 @@ jobs:
       #                            having to crawl the workspace files to see the cause).
       # -e : Display stack-traces on failure
       - name: Build
-        run: ./mvnw "-Dsurefire.useFile=false" install --batch-mode -V -e
+        run: ./mvnw install --batch-mode -V "-Dsurefire.useFile=false"  -e
