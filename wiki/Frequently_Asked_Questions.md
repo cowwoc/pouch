@@ -150,37 +150,37 @@ On the flip side, if you use a Service Locator, you will benefit from the follow
 * **No magic**: All classes are plain Java objects and are instantiated using the *new* operator.
 * The resulting code is cleaner and easier to maintain.
 
-### Why would I use this library instead of Guava's [Supplier](https://guava.dev/releases/31.1-jre/api/docs/com/google/common/base/Supplier.html) which does the same or even more?
+### Why would I use this library instead of Guava's [Supplier](https://guava.dev/releases/32.1.1-jre/api/docs/com/google/common/base/Supplier.html) which does the same or even more?
 
 Ease of use and substantially reduced size.
 
 Guava provides comparable functionality:
 
-* [Reference](http://cowwoc.github.io/pouch/3.0/docs/api/com/github/cowwoc/pouch/Reference.html) <->
-  [Supplier](https://guava.dev/releases/31.1-jre/api/docs/com/google/common/base/Supplier.html)
-* [ConstantReference](http://cowwoc.github.io/pouch/3.0/docs/api/com/github/cowwoc/pouch/ConstantReference.html)
+* [Reference](http://cowwoc.github.io/pouch/4.0/docs/api/com/github/cowwoc/pouch/Reference.html) <->
+  [Supplier](https://guava.dev/releases/32.1.1-jre/api/docs/com/google/common/base/Supplier.html)
+* [ConstantReference](http://cowwoc.github.io/pouch/4.0/docs/api/com/github/cowwoc/pouch/ConstantReference.html)
   <->
-  [Suppliers.ofInstance()](https://guava.dev/releases/31.1-jre/api/docs/com/google/common/base/Suppliers.html#ofInstance-T-)
-* [LazyReference](http://cowwoc.github.io/pouch/3.0/docs/api/com/github/cowwoc/pouch/LazyReference.html) <->
-  [Suppliers.memoize()](https://guava.dev/releases/31.1-jre/api/docs/com/google/common/base/Suppliers.html#memoize-com.google.common.base.Supplier-)
+  [Suppliers.ofInstance()](https://guava.dev/releases/32.1.1-jre/api/docs/com/google/common/base/Suppliers.html#ofInstance-T-)
+* [LazyReference](http://cowwoc.github.io/pouch/4.0/docs/api/com/github/cowwoc/pouch/LazyReference.html) <->
+  [Suppliers.memoize()](https://guava.dev/releases/32.1.1-jre/api/docs/com/google/common/base/Suppliers.html#memoize-com.google.common.base.Supplier-)
 
 While it is true
-that [Suppliers](https://guava.dev/releases/31.1-jre/api/docs/com/google/common/base/Suppliers.html) provides
+that [Suppliers](https://guava.dev/releases/32.1.1-jre/api/docs/com/google/common/base/Suppliers.html) provides
 some very powerful general-purpose functionality, it isn't as convenient for implementing the
 [Service Locator](http://martinfowler.com/articles/injection.html#UsingAServiceLocator) design pattern as
 this library.
 
 For example:
 
-1. [Suppliers.memoize()](https://guava.dev/releases/31.1-jre/api/docs/com/google/common/base/Suppliers.html#memoize-com.google.common.base.Supplier-)
+1. [Suppliers.memoize()](https://guava.dev/releases/32.1.1-jre/api/docs/com/google/common/base/Suppliers.html#memoize-com.google.common.base.Supplier-)
    doesn't provide a mechanism for checking whether the underlying value has been initialized.
    This is important because, when implementing
-   [Factory.close,()](http://cowwoc.github.io/pouch/3.0/docs/api/com/github/cowwoc/pouch/Factory.html#close())
+   [Factory.close,()](http://cowwoc.github.io/pouch/4.0/docs/api/com/github/cowwoc/pouch/Factory.html#close())
    you'll want to avoid initializing values that've never been initialized before.
 2. This library provides convenience classes such as
-   [LazyFactory](http://cowwoc.github.io/pouch/3.0/docs/api/com/github/cowwoc/pouch/LazyFactory.html)
+   [LazyFactory](http://cowwoc.github.io/pouch/4.0/docs/api/com/github/cowwoc/pouch/LazyFactory.html)
    which unifies classes
-   [LazyReference](http://cowwoc.github.io/pouch/3.0/docs/api/com/github/cowwoc/pouch/LazyReference.html)
+   [LazyReference](http://cowwoc.github.io/pouch/4.0/docs/api/com/github/cowwoc/pouch/LazyReference.html)
    and [Closeable](http://docs.oracle.com/javase/8/docs/api/java/io/Closeable.html) into a single class.
 
 The size of the Guava library is 2.8MB.

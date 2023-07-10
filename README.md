@@ -1,4 +1,4 @@
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.cowwoc.pouch/java/badge.svg)](https://search.maven.org/search?q=g:com.github.cowwoc.pouch) [![API](https://img.shields.io/badge/api_docs-5B45D5.svg)](http://cowwoc.github.io/pouch/3.0/docs/api/) [![Changelog](https://img.shields.io/badge/changelog-A345D5.svg)](wiki/Changelog.md)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.cowwoc.pouch/java/badge.svg)](https://search.maven.org/search?q=g:com.github.cowwoc.pouch) [![API](https://img.shields.io/badge/api_docs-5B45D5.svg)](http://cowwoc.github.io/pouch/4.0/docs/api/) [![Changelog](https://img.shields.io/badge/changelog-A345D5.svg)](wiki/Changelog.md)
 [![build-status](../../workflows/Build/badge.svg)](../../actions?query=workflow%3ABuild)
 
 # <img alt="pouch" src="wiki/pouch.svg" width="128" height="146"/> Pouch: Inversion of Control for the Masses
@@ -138,7 +138,7 @@ For example, notice how `AbstractDatabaseScope.getRunMode()` delegates to `JvmSc
 When running in a multi-threaded environment, such as a web server, you might want to wait for ongoing HTTP
 requests to complete before shutting down the server.
 You can use the
-[ConcurrentChildScopes](http://cowwoc.github.io/pouch/3.0/docs/api/com/github/cowwoc/pouch/ConcurrentChildScopes.html)
+[ConcurrentChildScopes](http://cowwoc.github.io/pouch/4.0/docs/api/com/github/cowwoc/pouch/ConcurrentChildScopes.html)
 class to implement this as follows:
 
 ```java
@@ -610,9 +610,9 @@ The scope approach makes it easier to look up multiple values, or pass the scope
 The library contains two types of classes: ones that are thread-safe and ones that are not.
 
 For example,
-[ConcurrentLazyFactory](http://cowwoc.github.io/pouch/3.0/docs/api/com/github/cowwoc/pouch/ConcurrentLazyFactory.html)
+[ConcurrentLazyFactory](http://cowwoc.github.io/pouch/4.0/docs/api/com/github/cowwoc/pouch/ConcurrentLazyFactory.html)
 is the thread-safe equivalent
-of [LazyFactory](http://cowwoc.github.io/pouch/3.0/docs/api/com/github/cowwoc/pouch/LazyFactory.html).
+of [LazyFactory](http://cowwoc.github.io/pouch/4.0/docs/api/com/github/cowwoc/pouch/LazyFactory.html).
 `LazyFactory` is faster than `ConcurrentLazyFactory`, but doesn't support access from multiple threads.
 Classes that are required to support multithreaded access
 (such as the application scope) must use the thread-safe classes.
