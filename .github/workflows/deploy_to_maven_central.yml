@@ -73,7 +73,6 @@ jobs:
           echo "TAG=$(git describe --tag --abbrev=0)" >> $GITHUB_OUTPUT
           
           output=$(./mvnw --batch-mode -e -DstagingProfileId=${{ env.STAGING_PROFILE_ID }} nexus-staging:rc-open)
-          echo "output: ${output}"
           [[ "$output" =~ Opened\ (comgithubcowwoc-[[:digit:]]+) ]]
           stagingRepositoryId="${BASH_REMATCH[1]}"
           echo "STAGING_REPOSITORY_ID=$stagingRepositoryId" >> $GITHUB_OUTPUT
@@ -82,7 +81,7 @@ jobs:
     needs: open-release
     runs-on: ubuntu-latest
     steps:
-      - uses: ac tions/checkout@v3
+      - uses: actions/checkout@v3
         with:
           ref: ${{ needs.open-release.outputs.TAG }}
       - uses: actions/setup-java@v3
