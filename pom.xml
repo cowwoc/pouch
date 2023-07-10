@@ -19,8 +19,8 @@
 
 	<scm>
 		<url>https://github.com/cowwoc/pouch/</url>
-		<connection>scm:git:https://github.com/cowwoc/pouch/</connection>
-		<developerConnection>scm:git:https://github.com/cowwoc/pouch/</developerConnection>
+		<connection>scm:git:https://github.com/cowwoc/pouch.git</connection>
+		<developerConnection>scm:git:https://github.com/cowwoc/pouch.git</developerConnection>
 		<tag>HEAD</tag>
 	</scm>
 
@@ -50,7 +50,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<!-- Oldest supported LTS version: https://endoflife.date/java -->
-		<maven.release.version>11</maven.release.version>
+		<maven.release.version>17</maven.release.version>
 		<maven.version>3.6.0</maven.version>
 		<junit.version>5.9.2</junit.version>
 		<maven-javadoc-plugin.version>3.5.0</maven-javadoc-plugin.version>
@@ -160,14 +160,10 @@
 				</executions>
 			</plugin>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-release-plugin</artifactId>
-				<configuration>
-					<autoVersionSubmodules>true</autoVersionSubmodules>
-					<tagNameFormat>release-@{project.version}</tagNameFormat>
-				</configuration>
-			</plugin>
-			<plugin>
+				<!--
+				Cannot be hidden behind the "deploy" profile because we invoke "rc-open" and "rc-close" before and
+				after the deploy.
+				-->
 				<groupId>org.sonatype.plugins</groupId>
 				<artifactId>nexus-staging-maven-plugin</artifactId>
 				<version>1.6.13</version>
@@ -175,6 +171,15 @@
 				<configuration>
 					<serverId>maven-central-releases</serverId>
 					<nexusUrl>https://oss.sonatype.org/</nexusUrl>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<version>3.0.1</version>
+				<configuration>
+					<autoVersionSubmodules>true</autoVersionSubmodules>
+					<tagNameFormat>release-@{project.version}</tagNameFormat>
 				</configuration>
 			</plugin>
 		</plugins>
@@ -194,7 +199,11 @@
 			</modules>
 		</profile>
 		<profile>
-			<id>sonatype-oss-release</id>
+			<id>deploy</id>
+			<!--
+			Must use property-based activation because there is no way to activate a no-deploy profile without it.
+			See https://stackoverflow.com/a/7481347/14731
+			-->
 			<activation>
 				<property>
 					<name>deploy</name>
@@ -217,7 +226,7 @@
 					</plugin>
 					<plugin>
 						<artifactId>maven-javadoc-plugin</artifactId>
-						<version>${maven-javadoc-plugin.version}</version>
+						<version>3.5.0</version>
 					</plugin>
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
@@ -233,11 +242,6 @@
 								<configuration>
 									<!-- See https://maven.apache.org/guides/mini/guide-encryption.html -->
 									<passphraseServerId>gpg.passphrase</passphraseServerId>
-									<!-- See https://stackoverflow.com/a/53992951/14731 -->
-									<gpgArguments>
-										<arg>--pinentry-mode</arg>
-										<arg>loopback</arg>
-									</gpgArguments>
 								</configuration>
 							</execution>
 						</executions>
