@@ -138,7 +138,7 @@ For example, notice how `AbstractDatabaseScope.getRunMode()` delegates to `JvmSc
 When running in a multi-threaded environment, such as a web server, you might want to wait for ongoing HTTP
 requests to complete before shutting down the server.
 You can use the
-[ConcurrentChildScopes](http://cowwoc.github.io/pouch/4.0/docs/api/com/github/cowwoc/pouch/ConcurrentChildScopes.html)
+[ConcurrentChildScopes](https://cowwoc.github.io/pouch/4.0/docs/api/com.github.cowwoc.pouch.core/com/github/cowwoc/pouch/core/ConcurrentChildScopes.html)
 class to implement this as follows:
 
 ```java
@@ -610,9 +610,9 @@ The scope approach makes it easier to look up multiple values, or pass the scope
 The library contains two types of classes: ones that are thread-safe and ones that are not.
 
 For example,
-[ConcurrentLazyFactory](http://cowwoc.github.io/pouch/4.0/docs/api/com/github/cowwoc/pouch/ConcurrentLazyFactory.html)
+[ConcurrentLazyFactory](https://cowwoc.github.io/pouch/4.0/docs/api/com.github.cowwoc.pouch.core/com/github/cowwoc/pouch/core/ConcurrentLazyFactory.html)
 is the thread-safe equivalent
-of [LazyFactory](http://cowwoc.github.io/pouch/4.0/docs/api/com/github/cowwoc/pouch/LazyFactory.html).
+of [LazyFactory](https://cowwoc.github.io/pouch/4.0/docs/api/com.github.cowwoc.pouch.core/com/github/cowwoc/pouch/core/LazyFactory.html).
 `LazyFactory` is faster than `ConcurrentLazyFactory`, but doesn't support access from multiple threads.
 Classes that are required to support multithreaded access
 (such as the application scope) must use the thread-safe classes.

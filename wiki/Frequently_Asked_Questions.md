@@ -156,12 +156,12 @@ Ease of use and substantially reduced size.
 
 Guava provides comparable functionality:
 
-* [Reference](http://cowwoc.github.io/pouch/4.0/docs/api/com/github/cowwoc/pouch/Reference.html) <->
+* [Reference](https://cowwoc.github.io/pouch/4.0/docs/api/com.github.cowwoc.pouch.core/com/github/cowwoc/pouch/core/Reference.html) <->
   [Supplier](https://guava.dev/releases/32.1.1-jre/api/docs/com/google/common/base/Supplier.html)
-* [ConstantReference](http://cowwoc.github.io/pouch/4.0/docs/api/com/github/cowwoc/pouch/ConstantReference.html)
+* [ConstantReference](https://cowwoc.github.io/pouch/4.0/docs/api/com.github.cowwoc.pouch.core/com/github/cowwoc/pouch/core/ConstantReference.html)
   <->
   [Suppliers.ofInstance()](https://guava.dev/releases/32.1.1-jre/api/docs/com/google/common/base/Suppliers.html#ofInstance-T-)
-* [LazyReference](http://cowwoc.github.io/pouch/4.0/docs/api/com/github/cowwoc/pouch/LazyReference.html) <->
+* [LazyReference](https://cowwoc.github.io/pouch/4.0/docs/api/com.github.cowwoc.pouch.core/com/github/cowwoc/pouch/core/LazyReference.html) <->
   [Suppliers.memoize()](https://guava.dev/releases/32.1.1-jre/api/docs/com/google/common/base/Suppliers.html#memoize-com.google.common.base.Supplier-)
 
 While it is true
@@ -175,12 +175,12 @@ For example:
 1. [Suppliers.memoize()](https://guava.dev/releases/32.1.1-jre/api/docs/com/google/common/base/Suppliers.html#memoize-com.google.common.base.Supplier-)
    doesn't provide a mechanism for checking whether the underlying value has been initialized.
    This is important because, when implementing
-   [Factory.close,()](http://cowwoc.github.io/pouch/4.0/docs/api/com/github/cowwoc/pouch/Factory.html#close())
+   [Factory.close,()](https://cowwoc.github.io/pouch/4.0/docs/api/com.github.cowwoc.pouch.core/com/github/cowwoc/pouch/core/Factory.html#close())
    you'll want to avoid initializing values that've never been initialized before.
 2. This library provides convenience classes such as
-   [LazyFactory](http://cowwoc.github.io/pouch/4.0/docs/api/com/github/cowwoc/pouch/LazyFactory.html)
+   [LazyFactory](https://cowwoc.github.io/pouch/4.0/docs/api/com.github.cowwoc.pouch.core/com/github/cowwoc/pouch/core/LazyFactory.html)
    which unifies classes
-   [LazyReference](http://cowwoc.github.io/pouch/4.0/docs/api/com/github/cowwoc/pouch/LazyReference.html)
+   [LazyReference](https://cowwoc.github.io/pouch/4.0/docs/api/com.github.cowwoc.pouch.core/com/github/cowwoc/pouch/core/LazyReference.html)
    and [Closeable](http://docs.oracle.com/javase/8/docs/api/java/io/Closeable.html) into a single class.
 
 The size of the Guava library is 2.8MB.
