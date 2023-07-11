@@ -162,14 +162,14 @@ public abstract class AbstractJvmScope implements JvmScope
     };
   }
 
-	public void addChild(AutoCloseable child
-	{
-	  children.add(child);
+  public void addChild(AutoCloseable child)
+  {
+    children.add(child);
   }
-	
-	public void removeChild(AutoCloseable child)
-	{
-		children.remove(child);
+  
+  public void removeChild(AutoCloseable child)
+  {
+    children.remove(child);
   }
 
   @Override
@@ -186,19 +186,19 @@ import com.github.cowwoc.pouch.core.ConcurrentChildScopes;
 
 public abstract class AbstractDatabaseScope implements DatabaseScope
 {
-	protected final JvmScope parent;
+  protected final JvmScope parent;
 
-	protected AbstractDatabaseScope(JvmScope parent)
-	{
-		this.parent = parent;
-		parent.addChildScope(this);
-	}
+  protected AbstractDatabaseScope(JvmScope parent)
+  {
+    this.parent = parent;
+    parent.addChild(this);
+  }
 
-	@Override
-	public void close()
-	{
-		Scopes.runAll(() -> children.shutdown(Duration.ofSeconds(10)));
-	}
+  @Override
+  public void close()
+  {
+    parent.removeChild(this);
+  }
 }
 ```
 
@@ -215,6 +215,8 @@ public abstract class AbstractDatabaseScope extends AbstractJvmScope
   protected AbstractDatabaseScope(JvmScope parent)
   {
     this.parent = parent;
+		
+		parent.addChild(this);
   }
 
   public RunMode getRunMode()
@@ -225,8 +227,7 @@ public abstract class AbstractDatabaseScope extends AbstractJvmScope
   @Override
   public void close()
   {
-    AbstractJvmScope parent = (AbstractJvmScope) this.parent;
-    parent.onChildClosed(this);
+	  parent.removeChild(this);
   }
 }
 ```
