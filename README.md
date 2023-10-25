@@ -215,8 +215,7 @@ public abstract class AbstractDatabaseScope extends AbstractJvmScope
   protected AbstractDatabaseScope(JvmScope parent)
   {
     this.parent = parent;
-		
-		parent.addChild(this);
+    parent.addChild(this);
   }
 
   public RunMode getRunMode()
