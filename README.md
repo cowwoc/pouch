@@ -180,28 +180,6 @@ public abstract class AbstractJvmScope implements JvmScope
 }
 ```
 
-```java
-import java.time.Duration;
-import com.github.cowwoc.pouch.core.ConcurrentChildScopes;
-
-public abstract class AbstractDatabaseScope implements DatabaseScope
-{
-  protected final JvmScope parent;
-
-  protected AbstractDatabaseScope(JvmScope parent)
-  {
-    this.parent = parent;
-    parent.addChild(this);
-  }
-
-  @Override
-  public void close()
-  {
-    parent.removeChild(this);
-  }
-}
-```
-
 ### Implementing DatabaseScope
 
 ```java
@@ -215,7 +193,6 @@ public abstract class AbstractDatabaseScope extends AbstractJvmScope
   protected AbstractDatabaseScope(JvmScope parent)
   {
     this.parent = parent;
-    parent.addChild(this);
   }
 
   public RunMode getRunMode()
@@ -226,7 +203,6 @@ public abstract class AbstractDatabaseScope extends AbstractJvmScope
   @Override
   public void close()
   {
-	  parent.removeChild(this);
   }
 }
 ```
@@ -269,6 +245,7 @@ public final class MainDatabaseScope extends AbstractDatabaseScope
   {
     super(parent);
     this.dataSource = new MainDataSourceFactory(this, configuration);
+    parent.addChild(this)
   }
 
   @Override
@@ -282,6 +259,7 @@ public final class MainDatabaseScope extends AbstractDatabaseScope
   {
     dataSource.close();
     super.close();
+    parent.removeChild(this);
   }
 }
 ```
