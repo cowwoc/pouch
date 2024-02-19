@@ -55,7 +55,17 @@ public abstract class LazyFactory<T> extends AbstractLazyReference<T>
 	 */
 	public static <T extends AutoCloseable> LazyFactory<T> create(Supplier<T> supplier)
 	{
-		return create(supplier, value -> WrappedCheckedException.wrap(value::close));
+		return create(supplier, value ->
+		{
+			try
+			{
+				value.close();
+			}
+			catch (Exception e)
+			{
+				throw WrappedCheckedException.wrap(e);
+			}
+		});
 	}
 
 	/**

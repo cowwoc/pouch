@@ -605,7 +605,7 @@ The [jersey plugin](jersey/src) contains a working example. Download a copy and 
 
 # Plugin modules
 
-The following sample code demonstrates integration with various 3rd-party libraries:
+The following sample code demonstrates integration with various third-party libraries:
 
 * [Jersey](jersey/): Integrates pouch with Jersey.
 * [Dropwizard](dropwizard/): Integrates pouch with Dropwizard.

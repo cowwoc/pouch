@@ -4,10 +4,9 @@
  */
 package com.github.cowwoc.pouch.core;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Phaser;
@@ -38,7 +37,6 @@ public final class ConcurrentChildScopes
 	 */
 	private final Phaser openScopes = new Phaser();
 	private final AtomicBoolean shutdownRequested = new AtomicBoolean();
-	private final Logger log = LoggerFactory.getLogger(ConcurrentChildScopes.class);
 
 	/**
 	 * Creates a new ConcurrentChildScopes.
@@ -81,7 +79,7 @@ public final class ConcurrentChildScopes
 	 *
 	 * @param child the child scope
 	 * @return {@code true} on success; {@code false} if the scope was not found
-	 * @throws NullPointerException  if {@code child} is null
+	 * @throws NullPointerException if {@code child} is null
 	 */
 	public boolean remove(AutoCloseable child)
 	{
@@ -98,15 +96,18 @@ public final class ConcurrentChildScopes
 	/**
 	 * Initiates a graceful shutdown of child scopes.
 	 *
-	 * @param timeout the amount of time to wait for the children to close before invoking {@code close}
-	 *                on them
-	 * @return {@code true} if all children down gracefully, {@code false} if a shutdown is already in
-	 * 	progress or a timeout occurred
+	 * @param timeout the amount of time to wait for the children to shut down on their own before invoking
+	 *                {@code close()} on them
+	 * @return {@code true} if all the children shut down gracefully, {@code false} if a shutdown is already in
+	 * progress or a timeout occurred
+	 * @throws WrappedCheckedException if the thread is interrupted or a child scope threw an exception while
+	 *                                 shutting down
 	 */
 	public boolean shutdown(Duration timeout)
 	{
 		if (!shutdownRequested.compareAndSet(false, true))
 			return false;
+		List<Exception> exceptions = new ArrayList<>();
 		boolean result;
 		try
 		{
@@ -116,13 +117,14 @@ public final class ConcurrentChildScopes
 		}
 		catch (InterruptedException e)
 		{
-			log.warn("Interrupted while waiting for child scopes to shut down", e);
+			// Interrupted while waiting for child scopes to shut down
+			exceptions.add(e);
 			result = false;
 		}
-		catch (TimeoutException e)
+		catch (TimeoutException unused)
 		{
-			log.warn("Child scopes leaked. Here is a mapping from each leaked scope to the " +
-				"thread that created it: {}", childScopeToCreator, e);
+			// Child scopes leaked. See childScopeToCreator for a mapping from each leaked scope to the thread that
+			// created it.
 			result = false;
 		}
 		for (AutoCloseable scope : childScopeToCreator.keySet())
@@ -133,8 +135,15 @@ public final class ConcurrentChildScopes
 			}
 			catch (Exception e)
 			{
-				log.warn("Failed to close scope: {}", scope, e);
+				exceptions.add(e);
 			}
+		}
+		if (!exceptions.isEmpty())
+		{
+			Exception mainException = exceptions.get(0);
+			for (int i = 1, size = exceptions.size(); i < size; ++i)
+				mainException.addSuppressed(exceptions.get(i));
+			throw WrappedCheckedException.wrap(mainException);
 		}
 		return result;
 	}

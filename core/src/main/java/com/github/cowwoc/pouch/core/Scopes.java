@@ -4,7 +4,7 @@
  */
 package com.github.cowwoc.pouch.core;
 
-import com.github.cowwoc.pouch.core.WrappedCheckedException.CallableWithoutReturnValue;
+import com.github.cowwoc.pouch.core.WrappedCheckedException.Task;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,10 +27,10 @@ public final class Scopes
 	 * @param tasks a list of tasks
 	 * @throws WrappedCheckedException if any of the tasks threw a checked exceptions
 	 */
-	public static void runAll(CallableWithoutReturnValue... tasks)
+	public static void runAll(Task... tasks)
 	{
 		List<Exception> exceptions = new ArrayList<>();
-		for (CallableWithoutReturnValue task : tasks)
+		for (Task task : tasks)
 		{
 			try
 			{

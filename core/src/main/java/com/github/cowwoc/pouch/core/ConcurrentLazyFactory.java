@@ -56,7 +56,17 @@ public abstract class ConcurrentLazyFactory<T> implements Factory<T>
 	 */
 	public static <T extends AutoCloseable> ConcurrentLazyFactory<T> create(Supplier<T> supplier)
 	{
-		return create(supplier, value -> WrappedCheckedException.wrap(value::close));
+		return create(supplier, value ->
+		{
+			try
+			{
+				value.close();
+			}
+			catch (Exception e)
+			{
+				throw WrappedCheckedException.wrap(e);
+			}
+		});
 	}
 
 	private final ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
