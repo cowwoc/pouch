@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.cowwoc.pouch</groupId>
 	<artifactId>root</artifactId>
-	<version>4.3-SNAPSHOT</version>
+	<version>4.3</version>
 	<packaging>pom</packaging>
 	<name>pouch</name>
 	<description>An Inversion of Control design pattern</description>
@@ -21,7 +21,7 @@
 		<url>https://github.com/cowwoc/pouch/</url>
 		<connection>scm:git:https://github.com/cowwoc/pouch.git</connection>
 		<developerConnection>scm:git:https://github.com/cowwoc/pouch.git</developerConnection>
-		<tag>HEAD</tag>
+		<tag>release-4.3</tag>
 	</scm>
 
 	<developers>
