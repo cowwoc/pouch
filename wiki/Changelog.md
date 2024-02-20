@@ -1,10 +1,13 @@
 Minor updates involving cosmetic changes have been omitted from this list. See [commits](../../commits/master)
 for a full list.
 
+## Version 4.4 - 2024/02/20
+
+* Updated dependencies
+
 ## Version 4.3 - 2024/02/19
 
-* Improvement
-  * Restored `WrappedCheckedException.wrap(Callable)` and `wrap(Task)`
+* Restored `WrappedCheckedException.wrap(Callable)` and `wrap(Task)`
 
 ## Version 4.2 - 2024/02/19 (skipped)
 

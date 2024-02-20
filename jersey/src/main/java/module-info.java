@@ -11,13 +11,12 @@ module com.github.cowwoc.pouch.jersey
 	requires org.glassfish.hk2.api;
 	requires jersey.common;
 	requires jersey.server;
-	requires jersey.container.servlet.core;
+	requires jersey.container.jetty.http;
 	requires org.eclipse.jetty.server;
-	requires org.eclipse.jetty.servlet;
 	requires com.google.common;
 	requires jakarta.xml.bind;
 
 	opens com.github.cowwoc.pouch.jersey.scope;
-	exports com.github.cowwoc.pouch.jersey.resource to jersey.server;
-	exports com.github.cowwoc.pouch.jersey.scope to jersey.server;
+	exports com.github.cowwoc.pouch.jersey.resource;
+	exports com.github.cowwoc.pouch.jersey.scope;
 }

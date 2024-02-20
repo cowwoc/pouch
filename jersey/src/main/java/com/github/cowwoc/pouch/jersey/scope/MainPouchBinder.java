@@ -36,7 +36,41 @@ public final class MainPouchBinder extends AbstractBinder
 	}
 
 	/**
-	 * Binds a RequestScope.
+	 * Creates a new database scope.
+	 */
+	private static class DatabaseScopeFactory implements Factory<DatabaseScope>
+	{
+		private final JvmScope jvmScope;
+
+		/**
+		 * Creates a new database scope.
+		 *
+		 * @param jvmScope the application scope
+		 * @throws NullPointerException if {@code jvmScope} is null
+		 */
+		@Inject
+		DatabaseScopeFactory(JvmScope jvmScope)
+		{
+			if (jvmScope == null)
+				throw new NullPointerException("jvmScope may not be null");
+			this.jvmScope = jvmScope;
+		}
+
+		@Override
+		public DatabaseScope provide()
+		{
+			return new MainDatabaseScope(jvmScope);
+		}
+
+		@Override
+		public void dispose(DatabaseScope instance)
+		{
+			instance.close();
+		}
+	}
+
+	/**
+	 * Creates a new request scope.
 	 */
 	private static class RequestScopeFactory implements Factory<RequestScope>
 	{
@@ -44,19 +78,18 @@ public final class MainPouchBinder extends AbstractBinder
 		private final ServerScope serverScope;
 
 		/**
-		 * Creates a new RequestScopeFactory.
+		 * Creates a new request scope.
 		 *
-		 * @param jvmScope the application scope
-		 * @throws NullPointerException if {@code jvmScope} is null
+		 * @param databaseScope the database scope
+		 * @throws NullPointerException if any of the arguments are null
 		 */
 		@Inject
-		RequestScopeFactory(JvmScope jvmScope, ServiceLocator serviceLocator)
+		RequestScopeFactory(DatabaseScope databaseScope, ServiceLocator serviceLocator)
 		{
-			if (jvmScope == null)
-				throw new NullPointerException("jvmScope may not be null");
+			if (databaseScope == null)
+				throw new NullPointerException("databaseScope may not be null");
 			if (serviceLocator == null)
 				throw new NullPointerException("serviceLocator may not be null");
-			DatabaseScope databaseScope = new MainDatabaseScope(jvmScope);
 			this.serverScope = new MainServerScope(databaseScope);
 			this.serviceLocator = serviceLocator;
 		}
@@ -78,6 +111,7 @@ public final class MainPouchBinder extends AbstractBinder
 	protected void configure()
 	{
 		bindFactory(JvmScopeFactory.class).to(JvmScope.class).in(Singleton.class);
+		bindFactory(DatabaseScopeFactory.class).to(DatabaseScope.class).in(Singleton.class);
 		bindFactory(RequestScopeFactory.class).to(RequestScope.class).in(RequestScoped.class);
 	}
 }

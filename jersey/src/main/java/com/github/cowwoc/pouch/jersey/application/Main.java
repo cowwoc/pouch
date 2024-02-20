@@ -4,14 +4,13 @@
  */
 package com.github.cowwoc.pouch.jersey.application;
 
+import jakarta.ws.rs.core.UriBuilder;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
-import org.eclipse.jetty.servlet.ServletContextHandler;
-import org.eclipse.jetty.servlet.ServletHolder;
-import org.glassfish.jersey.servlet.ServletContainer;
+import org.glassfish.jersey.jetty.JettyHttpContainerFactory;
 import org.slf4j.bridge.SLF4JBridgeHandler;
 
-import static org.glassfish.jersey.servlet.ServletProperties.JAXRS_APPLICATION_CLASS;
+import java.net.URI;
 
 /**
  * The main entry point.
@@ -23,16 +22,8 @@ public class Main
 		SLF4JBridgeHandler.removeHandlersForRootLogger();
 		SLF4JBridgeHandler.install();
 
-		Server server = new Server(8080);
-
-		ServletContextHandler context = new ServletContextHandler(ServletContextHandler.NO_SESSIONS);
-		context.setContextPath("/");
-		server.setHandler(context);
-
-		ServletContainer servlet = new ServletContainer();
-		ServletHolder holder = new ServletHolder(servlet);
-		holder.setInitParameter(JAXRS_APPLICATION_CLASS, MainApplication.class.getName());
-		context.addServlet(holder, "/*");
+		URI baseUri = UriBuilder.fromUri("http://localhost/").port(8080).build();
+		Server server = JettyHttpContainerFactory.createServer(baseUri, new MainApplication());
 
 		try
 		{

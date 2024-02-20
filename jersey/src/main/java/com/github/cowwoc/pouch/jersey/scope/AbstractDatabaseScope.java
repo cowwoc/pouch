@@ -33,7 +33,7 @@ public abstract class AbstractDatabaseScope implements DatabaseScope
 		if (parent == null)
 			throw new NullPointerException("parent may not be null");
 		this.parent = parent;
-		parent.getScheduler().scheduleWithFixedDelay(new CheckDatabase(), 5, 5, TimeUnit.SECONDS);
+		parent.getScheduler().scheduleWithFixedDelay(new CheckDatabase(), 5, 60, TimeUnit.SECONDS);
 	}
 
 	@Override

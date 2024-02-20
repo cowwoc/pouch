@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.github.cowwoc.pouch</groupId>
@@ -11,22 +12,18 @@
 	<description>Example of integrating Pouch with Dropwizard.</description>
 
 	<properties>
-		<dropwizard.version>4.0.1</dropwizard.version>
-		<h2.version>2.2.220</h2.version>
-		<jetty.version>11.0.15</jetty.version>
-		<slf4j.version>2.0.7</slf4j.version>
-		<logback.version>1.4.8</logback.version>
+		<dropwizard.version>4.0.6</dropwizard.version>
+		<h2.version>2.2.224</h2.version>
+		<jetty.version>11.0.20</jetty.version>
+		<slf4j.version>2.0.12</slf4j.version>
+		<logback.version>1.5.0</logback.version>
+		<logback.access.version>1.4.14</logback.access.version>
 	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>core</artifactId>
 			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.jetty</groupId>
-			<artifactId>jetty-servlet</artifactId>
-			<version>${jetty.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.jetty</groupId>
@@ -65,7 +62,7 @@
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-access</artifactId>
-			<version>${logback.version}</version>
+			<version>${logback.access.version}</version>
 		</dependency>
 
 		<dependency>
@@ -123,7 +120,6 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
-				<version>3.1.0</version>
 				<executions>
 					<execution>
 						<goals>
