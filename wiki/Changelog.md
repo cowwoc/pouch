@@ -1,10 +1,17 @@
 Minor updates involving cosmetic changes have been omitted from this list. See [commits](../../commits/master)
 for a full list.
 
+## Version 4.3 - 2024/02/19
+
+* Improvement
+  * Restored `WrappedCheckedException.wrap(Callable)` and `wrap(Task)`
+
+## Version 4.2 - 2024/02/19 (skipped)
+
 ## Version 4.1 - 2024/02/19
 
 * Changes
-    * ConcurrentChildScopes.shutdown() throws an exception if the thread is interrupted while waiting for
+    * `ConcurrentChildScopes.shutdown()` throws an exception if the thread is interrupted while waiting for
       child scopes to shut down.
 * Improvements
     * Removed slf4j dependency.
