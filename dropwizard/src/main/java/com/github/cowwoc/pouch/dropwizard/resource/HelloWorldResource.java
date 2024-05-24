@@ -18,7 +18,7 @@ public final class HelloWorldResource
 	/**
 	 * Creates a new resource.
 	 *
-	 * @param scope the HTTP request scope
+	 * @param scope values specific to the lifetime of the current HTTP request
 	 */
 	@Inject
 	public HelloWorldResource(RequestScope scope)

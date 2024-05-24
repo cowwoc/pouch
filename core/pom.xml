@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.github.cowwoc.pouch</groupId>
@@ -73,10 +74,7 @@
 							<goal>jar</goal>
 						</goals>
 						<configuration>
-							<!--
-							WARNING: Must use the latest JDK 11 release to avoid
-							https://bugs.openjdk.java.net/browse/JDK-8208269
-							-->
+							<!-- WARNING: Must use a newer JDK to avoid https://bugs.openjdk.java.net/browse/JDK-8208269 -->
 							<jdkToolchain>
 								<version>${maven.release.version}</version>
 							</jdkToolchain>
@@ -97,10 +95,7 @@
 							<goal>aggregate</goal>
 						</goals>
 						<configuration>
-							<!--
-							WARNING: Must use the latest JDK 11 release to avoid
-							https://bugs.openjdk.java.net/browse/JDK-8208269
-							-->
+							<!-- WARNING: Must use a newer JDK to avoid https://bugs.openjdk.java.net/browse/JDK-8208269 -->
 							<jdkToolchain>
 								<version>${maven.release.version}</version>
 							</jdkToolchain>

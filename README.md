@@ -113,9 +113,9 @@ public interface ClientScope
 
 Imagine we have:
 
-* `JvmScope`: values specific to an application run
-* `DatabaseScope`: values specific to a database connection
-* `RequestScope`: values specific to an HTTP request
+* `JvmScope`: values specific to the lifetime of the current JVM
+* `DatabaseScope`: values specific to the lifetime of the current database connection
+* `RequestScope`: values specific to the lifetime of the current HTTP request
 
 Notice that a `JvmScope` contains values whose lifetime span multiple database connections.
 Further, `DatabaseScope` contains values whose lifetime span multiple HTTP requests.
