@@ -94,7 +94,7 @@ public final class WrappedCheckedException extends RuntimeException
 	}
 
 	/**
-	 * Wraps an exception, unless it is a {@code RuntimeException}.
+	 * Wraps an exception, unless it is a {@code RuntimeException} with the specified {@code message}.
 	 *
 	 * @param message the detail message of the WrappedCheckedException
 	 * @param t       the exception to wrap
@@ -103,7 +103,7 @@ public final class WrappedCheckedException extends RuntimeException
 	 */
 	public static RuntimeException wrap(String message, Throwable t)
 	{
-		if (t instanceof RuntimeException)
+		if (t instanceof RuntimeException && t.getMessage().equals(message))
 			return (RuntimeException) t;
 		if (t instanceof ExecutionException)
 			return wrap(message, t.getCause());
