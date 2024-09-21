@@ -435,7 +435,7 @@ public interface ClientScope
       {
         Supplier<LocalTime> serverTime = scope.getServerTime();
         for (int i = 0; i < 10; ++i)
-          System.out.println("Server time: " + serverTime);
+          System.out.println("Server time: " + serverTime.get());
       }
     }
   }
