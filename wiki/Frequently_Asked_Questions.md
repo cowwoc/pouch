@@ -176,7 +176,7 @@ For example:
    doesn't provide a mechanism for checking whether the underlying value has been initialized.
    This is important because, when implementing
    [Factory.close()](https://cowwoc.github.io/pouch/4.0/docs/api/com.github.cowwoc.pouch.core/com/github/cowwoc/pouch/core/Factory.html#close()),
-   you'll want to avoid initializing values that've never been initialized before.
+   you'll want to avoid initializing values that have never been initialized before.
 2. This library provides convenience classes such as
    [LazyFactory](https://cowwoc.github.io/pouch/4.0/docs/api/com.github.cowwoc.pouch.core/com/github/cowwoc/pouch/core/LazyFactory.html)
    which unifies classes
