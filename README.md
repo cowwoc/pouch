@@ -131,7 +131,7 @@ This enables a worker thread to interact with the database outside an HTTP reque
 But an HTTP request can't exist without a database connection.
 
 When a child scope is asked for a value that is bound to its parent, it delegates to the parent.
-For example, notice how `AbstractDatabaseScope.getRunMode()` delegates to `JvmScope.getRunMode` below.
+For example, notice how `AbstractDatabaseScope.getRunMode()` delegates to `JvmScope.getRunMode()` below.
 
 ### Waiting for Child Scopes to Shut Down
 
