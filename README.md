@@ -613,7 +613,7 @@ The following sample code demonstrates integration with various third-party libr
 # Related projects
 
 * [Requirements](https://github.com/cowwoc/requirements.java/): Fluent Design by Contract for Java APIs.
-* [JayWire](https://github.com/vanillasource/jaywire) promises to provide the power of dependency injection
+* [JayWire](https://github.com/vanillasource/jaywire): the power of dependency injection
   without the "magic".
 
 # License
