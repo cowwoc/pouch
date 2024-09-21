@@ -110,7 +110,7 @@ Notice that we're no longer able to declare `locale` as a `final` variable. This
   What happens if someone forgets to invoke the setter method?
 * Instances are no longer immutable.
 
-### What about Dependency Injection?
+### What about Constructor Injection?
 
 To reiterate, both the Service Locator and Dependency Injection design patterns are valid instances of
 Inversion of Control, but each has its own strengths and weaknesses.
