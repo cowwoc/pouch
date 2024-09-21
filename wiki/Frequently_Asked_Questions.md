@@ -184,4 +184,4 @@ For example:
    and [Closeable](http://docs.oracle.com/javase/8/docs/api/java/io/Closeable.html) into a single class.
 
 The size of the Guava library is 2.8MB.
-The size of the Pouch's targeted functionality is easier to use and smaller with a file size of 18KB.
+Pouch is easier to use and smaller with a file size of 18KB.
