@@ -40,41 +40,48 @@ public final class WrappedCheckedException extends RuntimeException
 	}
 
 	/**
-	 * Wraps any checked exceptions thrown by a callable.
+	 * Wraps any checked exceptions thrown by a {@code Callable}.
 	 *
-	 * @param callable the task to execute
-	 * @param <V>      the type of value returned by {@code callable}
-	 * @return the value returned by {@code callable}
-	 * @throws NullPointerException if {@code callable} is null
+	 * @param task the task to execute
+	 * @param <V>  the type of value returned by {@code task}
+	 * @return a {@code Callable} that does not throw any checked exceptions
+	 * @throws NullPointerException if {@code task} is null
 	 */
-	public static <V> V wrap(Callable<V> callable)
+	public static <V> UncheckedCallable<V> wrap(Callable<V> task)
 	{
-		try
+		return () ->
 		{
-			return callable.call();
-		}
-		catch (Exception e)
-		{
-			throw WrappedCheckedException.wrap(e);
-		}
+			try
+			{
+				return task.call();
+			}
+			catch (Exception e)
+			{
+				throw WrappedCheckedException.wrap(e);
+			}
+		};
 	}
 
 	/**
-	 * Wraps any checked exceptions thrown by a task.
+	 * Wraps any checked exceptions thrown by a {@code ThrowingRunnable}.
 	 *
 	 * @param task the task to execute
+	 * @return a {@code Runnable}
 	 * @throws NullPointerException if {@code task} is null
 	 */
-	public static void wrap(Task task)
+	public static Runnable wrap(CheckedRunnable task)
 	{
-		try
+		return () ->
 		{
-			task.run();
-		}
-		catch (Exception e)
-		{
-			throw WrappedCheckedException.wrap(e);
-		}
+			try
+			{
+				task.run();
+			}
+			catch (Exception e)
+			{
+				throw WrappedCheckedException.wrap(e);
+			}
+		};
 	}
 
 	/**
@@ -111,10 +118,10 @@ public final class WrappedCheckedException extends RuntimeException
 	}
 
 	/**
-	 * A {@link Callable} without a return value.
+	 * A {@link Runnable} that throws checked exceptions.
 	 */
 	@FunctionalInterface
-	public interface Task
+	public interface CheckedRunnable
 	{
 		/**
 		 * Runs the task.
@@ -122,5 +129,19 @@ public final class WrappedCheckedException extends RuntimeException
 		 * @throws Exception if unable to compute a result
 		 */
 		void run() throws Exception;
+	}
+
+	/**
+	 * A {@link Callable} that does not throw any checked exceptions.
+	 */
+	@FunctionalInterface
+	public interface UncheckedCallable<V>
+	{
+		/**
+		 * Runs the task.
+		 *
+		 * @throws WrappedCheckedException if unable to compute a result
+		 */
+		V call();
 	}
 }
