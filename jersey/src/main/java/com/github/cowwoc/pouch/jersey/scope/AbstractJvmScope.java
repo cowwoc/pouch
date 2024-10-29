@@ -8,15 +8,16 @@ import com.github.cowwoc.pouch.core.ConcurrentChildScopes;
 import com.github.cowwoc.pouch.core.ConcurrentLazyFactory;
 import com.github.cowwoc.pouch.core.Factory;
 import com.github.cowwoc.pouch.core.Scopes;
-import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.Duration;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.LongAdder;
 
 /**
  * Code common to all JvmScope implementations.
@@ -38,7 +39,18 @@ public abstract class AbstractJvmScope implements JvmScope
 		protected ScheduledExecutorService createValue()
 		{
 			ScheduledThreadPoolExecutor result = new ScheduledThreadPoolExecutor(1,
-				new ThreadFactoryBuilder().setDaemon(true).setNameFormat("scheduler-%d").build());
+				new ThreadFactory()
+				{
+					private final LongAdder counter = new LongAdder();
+
+					@Override
+					public Thread newThread(Runnable runnable)
+					{
+						Thread thread = new Thread(runnable, "scheduler-" + counter);
+						thread.setDaemon(true);
+						return thread;
+					}
+				});
 			result.setMaximumPoolSize(1);
 			return result;
 		}

@@ -20,7 +20,7 @@ To get started, add this Maven dependency:
 <dependency>
   <groupId>com.github.cowwoc.pouch</groupId>
   <artifactId>core</artifactId>
-  <version>4.5</version>
+  <version>5.0</version>
 </dependency>
 ```
 

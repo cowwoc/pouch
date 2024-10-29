@@ -1,5 +1,7 @@
 package com.github.cowwoc.pouch.core;
 
+import com.github.cowwoc.pouch.core.annotation.CheckReturnValue;
+
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 
@@ -47,6 +49,7 @@ public final class WrappedCheckedException extends RuntimeException
 	 * @return a {@code Callable} that does not throw any checked exceptions
 	 * @throws NullPointerException if {@code task} is null
 	 */
+	@CheckReturnValue
 	public static <V> UncheckedCallable<V> wrap(Callable<V> task)
 	{
 		return () ->
@@ -69,6 +72,7 @@ public final class WrappedCheckedException extends RuntimeException
 	 * @return a {@code Runnable}
 	 * @throws NullPointerException if {@code task} is null
 	 */
+	@CheckReturnValue
 	public static Runnable wrap(CheckedRunnable task)
 	{
 		return () ->
@@ -91,6 +95,7 @@ public final class WrappedCheckedException extends RuntimeException
 	 * @return the updated exception
 	 * @throws NullPointerException if {@code t} is null
 	 */
+	@CheckReturnValue
 	public static RuntimeException wrap(Throwable t)
 	{
 		if (t instanceof RuntimeException)
@@ -108,6 +113,7 @@ public final class WrappedCheckedException extends RuntimeException
 	 * @return the updated exception
 	 * @throws NullPointerException if {@code t} is null
 	 */
+	@CheckReturnValue
 	public static RuntimeException wrap(String message, Throwable t)
 	{
 		if (t instanceof RuntimeException && t.getMessage().equals(message))

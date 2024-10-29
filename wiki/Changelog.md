@@ -1,9 +1,10 @@
 Minor updates involving cosmetic changes have been omitted from this list. See [commits](../../commits/master)
 for a full list.
 
-## Version 4.4 - 2024/02/20
+## Version 5.0 - 2024/10/29
 
-* Updated dependencies
+* `WrappedCheckedException.wrap(Runnable)` and `wrap(Callable)` now returns a wrapped `Runnable`/`Callable`
+  instead of executing the task immediately.
 
 ## Version 4.3 - 2024/02/19
 
