@@ -43,10 +43,8 @@ jobs:
       - name: Cache Dependencies
         uses: actions/cache@v4
         with:
-          # Avoid caching generated artifacts
           path: |
             ~/.m2/repository/*
-            !~/.m2/repository/com/github/cowwoc/pouch
           key: "${{ runner.OS }}-maven-${{ hashFiles('**/pom.xml') }}"
 
       - name: Configure Git User
@@ -126,16 +124,14 @@ jobs:
       - name: Cache Dependencies
         uses: actions/cache@v4
         with:
-          # Avoid caching generated artifacts
           path: |
             ~/.m2/repository/*
-            !~/.m2/repository/com/github/cowwoc/pouch
           key: "${{ runner.OS }}-maven-${{ hashFiles('**/pom.xml') }}"
 
       - name: Test build
         run: ./mvnw --batch-mode -V -e verify
 
-      # Avoid using exclamation mark on bash: https://stackoverflow.com/a/27177197/14731
+      # Escape exclamation mark on bash: https://stackoverflow.com/a/27177197/14731
       - name: Deploy to Maven Central
         run: >
           ./mvnw --batch-mode -V -e -pl '!dropwizard,!jersey'
@@ -167,10 +163,8 @@ jobs:
       - name: Cache Dependencies
         uses: actions/cache@v4
         with:
-          # Avoid caching generated artifacts
           path: |
             ~/.m2/repository/*
-            !~/.m2/repository/com/github/cowwoc/pouch
           key: "${{ runner.OS }}-maven-${{ hashFiles('**/pom.xml') }}"
 
       - name: Close staging repository
@@ -207,10 +201,8 @@ jobs:
       - name: Cache Dependencies
         uses: actions/cache@v4
         with:
-          # Avoid caching generated artifacts
           path: |
             ~/.m2/repository/*
-            !~/.m2/repository/com/github/cowwoc/pouch
           key: "${{ runner.OS }}-maven-${{ hashFiles('**/pom.xml') }}"
 
       - name: Drop staging repository
