@@ -17,6 +17,13 @@ import java.util.function.Supplier;
 public abstract class LazyReference<T> extends AbstractLazyReference<T>
 {
 	/**
+	 * Creates a new instance.
+	 */
+	protected LazyReference()
+	{
+	}
+
+	/**
 	 * Creates a new {@code LazyReference}.
 	 *
 	 * @param <T>      the type of value returned by the reference

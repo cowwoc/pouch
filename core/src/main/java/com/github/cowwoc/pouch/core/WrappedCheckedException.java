@@ -139,6 +139,8 @@ public final class WrappedCheckedException extends RuntimeException
 
 	/**
 	 * A {@link Callable} that does not throw any checked exceptions.
+	 *
+	 * @param <V> the return type of the {@code call} method
 	 */
 	@FunctionalInterface
 	public interface UncheckedCallable<V>
@@ -146,6 +148,7 @@ public final class WrappedCheckedException extends RuntimeException
 		/**
 		 * Runs the task.
 		 *
+		 * @return computed result
 		 * @throws WrappedCheckedException if unable to compute a result
 		 */
 		V call();

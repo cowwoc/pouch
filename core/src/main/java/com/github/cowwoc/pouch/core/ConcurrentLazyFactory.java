@@ -20,6 +20,13 @@ import java.util.function.Supplier;
 public abstract class ConcurrentLazyFactory<T> implements Factory<T>
 {
 	/**
+	 * Creates a new instance.
+	 */
+	protected ConcurrentLazyFactory()
+	{
+	}
+
+	/**
 	 * Creates a new {@code ConcurrentLazyFactory}.
 	 *
 	 * @param <T>      the type of value returned by the factory

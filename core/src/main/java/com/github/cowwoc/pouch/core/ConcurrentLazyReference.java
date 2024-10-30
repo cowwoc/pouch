@@ -16,6 +16,13 @@ import java.util.function.Supplier;
 public abstract class ConcurrentLazyReference<T> implements Reference<T>
 {
 	/**
+	 * Creates a new instance.
+	 */
+	protected ConcurrentLazyReference()
+	{
+	}
+
+	/**
 	 * Creates a new {@code ConcurrentLazyReference}.
 	 *
 	 * @param <T>      the type of value returned by the reference

@@ -1,7 +1,7 @@
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.cowwoc.pouch/java/badge.svg)](https://search.maven.org/search?q=g:com.github.cowwoc.pouch) [![API](https://img.shields.io/badge/api_docs-5B45D5.svg)](http://cowwoc.github.io/pouch/4.5/docs/api/) [![Changelog](https://img.shields.io/badge/changelog-A345D5.svg)](wiki/Changelog.md)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.cowwoc.pouch/java/badge.svg)](https://search.maven.org/search?q=g:com.github.cowwoc.pouch) [![API](https://img.shields.io/badge/api_docs-5B45D5.svg)](http://cowwoc.github.io/pouch/5.1/docs/api/) [![Changelog](https://img.shields.io/badge/changelog-A345D5.svg)](docs/Changelog.md)
 [![build-status](../../workflows/Build/badge.svg)](../../actions?query=workflow%3ABuild)
 
-# <img alt="pouch" src="wiki/pouch.svg" width="128" height="146"/> Pouch: Inversion of Control for the Masses
+# <img alt="pouch" src="docs/pouch.svg" width="128" height="146"/> Pouch: Inversion of Control for the Masses
 
 An [Inversion of Control](http://martinfowler.com/articles/injection.html) design pattern that is:
 
@@ -20,7 +20,7 @@ To get started, add this Maven dependency:
 <dependency>
   <groupId>com.github.cowwoc.pouch</groupId>
   <artifactId>core</artifactId>
-  <version>5.0</version>
+  <version>5.1</version>
 </dependency>
 ```
 
@@ -28,7 +28,7 @@ To get started, add this Maven dependency:
 
 ## Scopes
 
-[Service Locators](wiki/Frequently_Asked_Questions.md#not-your-mothers-service-locator) are registries
+[Service Locators](docs/Frequently_Asked_Questions.md#not-your-mothers-service-locator) are registries
 that contain one or more *values*.
 Values can be bound to one or more *scopes*.
 A scope is the context within which a value is defined.
@@ -138,7 +138,7 @@ For example, notice how `AbstractDatabaseScope.getRunMode()` delegates to `JvmSc
 When running in a multi-threaded environment, such as a web server, you might want to wait for ongoing HTTP
 requests to complete before shutting down the server.
 You can use the
-[ConcurrentChildScopes](https://cowwoc.github.io/pouch/4.5/docs/api/com.github.cowwoc.pouch.core/com/github/cowwoc/pouch/core/ConcurrentChildScopes.html)
+[ConcurrentChildScopes](https://cowwoc.github.io/pouch/5.1/docs/api/com.github.cowwoc.pouch.core/com/github/cowwoc/pouch/core/ConcurrentChildScopes.html)
 class to implement this as follows:
 
 ```java
@@ -415,7 +415,7 @@ public final class TestDataSourceFactory extends ConcurrentLazyFactory<DataSourc
 ### Scopes that Return Different Values Over Their Lifetime
 
 Scopes that need to return different values over their lifetime can return
-a [Builder](https://en.wikipedia.org/wiki/Builder_pattern)
+a [Builder](https://en.wikipedia.org/docs/Builder_pattern)
 or [Supplier](https://docs.oracle.com/javase/8/docs/api/java/util/function/Supplier.html) that will, in turn,
 return different values on every invocation.
 
@@ -588,9 +588,9 @@ The scope approach makes it easier to look up multiple values, or pass the scope
 The library contains two types of classes: ones that are thread-safe and ones that are not.
 
 For example,
-[ConcurrentLazyFactory](https://cowwoc.github.io/pouch/4.5/docs/api/com.github.cowwoc.pouch.core/com/github/cowwoc/pouch/core/ConcurrentLazyFactory.html)
+[ConcurrentLazyFactory](https://cowwoc.github.io/pouch/5.1/docs/api/com.github.cowwoc.pouch.core/com/github/cowwoc/pouch/core/ConcurrentLazyFactory.html)
 is the thread-safe equivalent
-of [LazyFactory](https://cowwoc.github.io/pouch/4.5/docs/api/com.github.cowwoc.pouch.core/com/github/cowwoc/pouch/core/LazyFactory.html).
+of [LazyFactory](https://cowwoc.github.io/pouch/5.1/docs/api/com.github.cowwoc.pouch.core/com/github/cowwoc/pouch/core/LazyFactory.html).
 `LazyFactory` is faster than `ConcurrentLazyFactory`, but doesn't support access from multiple threads.
 Classes that are required to support multithreaded access
 (such as the application scope) must use the thread-safe classes.
@@ -601,7 +601,7 @@ The [jersey plugin](jersey/src) contains a working example. Download a copy and 
 
 # Class guide
 
-![class-guide.png](wiki/class-guide.png)
+![class-guide.png](docs/class-guide.png)
 
 # Plugin modules
 

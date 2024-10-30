@@ -19,6 +19,13 @@ public abstract class LazyFactory<T> extends AbstractLazyReference<T>
 	implements Factory<T>
 {
 	/**
+	 * Creates a new instance.
+	 */
+	protected LazyFactory()
+	{
+	}
+
+	/**
 	 * Creates a new {@code LazyFactory}.
 	 *
 	 * @param <T>      the type of value returned by the factory

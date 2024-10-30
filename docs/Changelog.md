@@ -1,6 +1,10 @@
 Minor updates involving cosmetic changes have been omitted from this list. See [commits](../../commits/master)
 for a full list.
 
+## Version 5.1 - 2024/10/29
+
+* Javadoc fixes.
+
 ## Version 5.0 - 2024/10/29
 
 * `WrappedCheckedException.wrap(Runnable)` and `wrap(Callable)` now returns a wrapped `Runnable`/`Callable`
