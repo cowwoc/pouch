@@ -147,12 +147,13 @@ jobs:
           ./mvnw --batch-mode -V -e -pl '!dropwizard,!jersey'
           -Dstaging_repository_id=${{ needs.open-release.outputs.STAGING_REPOSITORY_ID }}
           -Dstaging_host="${{ env.STAGING_HOST }}"
-          deploy -P release
+          -P release
+          deploy
 
       # Must quote exclamation mark on bash: https://stackoverflow.com/a/27177197/14731
       - name: Generate Javadoc
         run: |
-          ./mvnw --batch-mode -V -e verify javadoc:aggregate -pl '!dropwizard,!jersey'
+          ./mvnw --batch-mode -V -e -pl '!dropwizard,!jersey' verify javadoc:aggregate
           mkdir --parents "${{ needs.open-release.outputs.VERSION }}/docs"
           mv target/reports/apidocs "${{ needs.open-release.outputs.VERSION }}/docs/api"
 
