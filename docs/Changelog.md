@@ -1,7 +1,7 @@
 Minor updates involving cosmetic changes have been omitted from this list. See [commits](../../commits/master)
 for a full list.
 
-## Version 5.1 - 2024/10/29
+## Version 5.1 - 2024/10/31
 
 * Javadoc fixes.
 
