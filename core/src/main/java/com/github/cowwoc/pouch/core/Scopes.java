@@ -25,7 +25,7 @@ public final class Scopes
 	 * Runs one or more tasks, throwing any exceptions they throw after they all finish executing.
 	 *
 	 * @param tasks a list of tasks
-	 * @throws WrappedCheckedException if any of the tasks threw a checked exceptions
+	 * @throws WrappedCheckedException if any of the tasks threw checked exceptions
 	 */
 	public static void runAll(CheckedRunnable... tasks)
 	{
