@@ -4,6 +4,7 @@ import com.github.cowwoc.pouch.core.annotation.CheckReturnValue;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
+import static java.util.Objects.requireNonNull;
 
 /**
  * A runtime exception dedicated to wrapping checked exceptions.
@@ -21,11 +22,8 @@ public final class WrappedCheckedException extends RuntimeException
 	 */
 	private WrappedCheckedException(String message, Throwable cause)
 	{
-		super(message, cause);
-		if (message == null)
-			throw new NullPointerException("message may not be null");
-		if (cause == null)
-			throw new NullPointerException("cause may not be null");
+		super(requireNonNull(message, "message cannot be null"),
+		      requireNonNull(cause, "cause cannot be null"));
 	}
 
 	/**
@@ -36,9 +34,7 @@ public final class WrappedCheckedException extends RuntimeException
 	 */
 	private WrappedCheckedException(Throwable cause)
 	{
-		super(cause);
-		if (cause == null)
-			throw new NullPointerException("cause may not be null");
+		super(requireNonNull(cause, "cause cannot be null"));
 	}
 
 	/**
