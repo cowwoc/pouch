@@ -1,4 +1,4 @@
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.cowwoc.pouch/java/badge.svg)](https://search.maven.org/search?q=g:com.github.cowwoc.pouch) [![API](https://img.shields.io/badge/api_docs-5B45D5.svg)](http://cowwoc.github.io/pouch/5.3/docs/api/) [![Changelog](https://img.shields.io/badge/changelog-A345D5.svg)](docs/Changelog.md)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.cowwoc.pouch/java/badge.svg)](https://search.maven.org/search?q=g:com.github.cowwoc.pouch) [![API](https://img.shields.io/badge/api_docs-5B45D5.svg)](http://cowwoc.github.io/pouch/5.4/docs/api/) [![Changelog](https://img.shields.io/badge/changelog-A345D5.svg)](docs/Changelog.md)
 [![build-status](../../workflows/Build/badge.svg)](../../actions?query=workflow%3ABuild)
 
 # <img alt="pouch" src="docs/pouch.svg" width="128" height="146"/> Pouch: Inversion of Control for the Masses
@@ -20,7 +20,7 @@ To get started, add this Maven dependency:
 <dependency>
   <groupId>com.github.cowwoc.pouch</groupId>
   <artifactId>core</artifactId>
-  <version>5.3</version>
+  <version>5.4</version>
 </dependency>
 ```
 
@@ -50,7 +50,9 @@ public enum RunMode
 ```
 
 ```java
-public interface JvmScope extends AutoCloseable
+import com.github.cowwoc.pouch.core.Scope;
+
+public interface JvmScope extends Scope
 {
   RunMode getRunMode();
 }
@@ -101,7 +103,7 @@ import org.eclipse.jetty.client.HttpClient;
 
 import java.net.URI;
 
-public interface ClientScope
+public interface ClientScope extends Scope
 {
   URI getServer();
 
@@ -135,10 +137,10 @@ For example, notice how `AbstractDatabaseScope.getRunMode()` delegates to `JvmSc
 
 ### Waiting for Child Scopes to Shut Down
 
-When running in a multi-threaded environment, such as a web server, you might want to wait for ongoing HTTP
+When running in a multithreaded environment, such as a web server, you might want to wait for ongoing HTTP
 requests to complete before shutting down the server.
 You can use the
-[ConcurrentChildScopes](https://cowwoc.github.io/pouch/5.3/docs/api/com.github.cowwoc.pouch.core/com/github/cowwoc/pouch/core/ConcurrentChildScopes.html)
+[ConcurrentChildScopes](https://cowwoc.github.io/pouch/5.4/docs/api/com.github.cowwoc.pouch.core/com/github/cowwoc/pouch/core/ConcurrentChildScopes.html)
 class to implement this as follows:
 
 ```java
@@ -588,9 +590,9 @@ The scope approach makes it easier to look up multiple values, or pass the scope
 The library contains two types of classes: ones that are thread-safe and ones that are not.
 
 For example,
-[ConcurrentLazyFactory](https://cowwoc.github.io/pouch/5.3/docs/api/com.github.cowwoc.pouch.core/com/github/cowwoc/pouch/core/ConcurrentLazyFactory.html)
+[ConcurrentLazyFactory](https://cowwoc.github.io/pouch/5.4/docs/api/com.github.cowwoc.pouch.core/com/github/cowwoc/pouch/core/ConcurrentLazyFactory.html)
 is the thread-safe equivalent
-of [LazyFactory](https://cowwoc.github.io/pouch/5.3/docs/api/com.github.cowwoc.pouch.core/com/github/cowwoc/pouch/core/LazyFactory.html).
+of [LazyFactory](https://cowwoc.github.io/pouch/5.4/docs/api/com.github.cowwoc.pouch.core/com/github/cowwoc/pouch/core/LazyFactory.html).
 `LazyFactory` is faster than `ConcurrentLazyFactory`, but doesn't support access from multiple threads.
 Classes that are required to support multithreaded access
 (such as the application scope) must use the thread-safe classes.

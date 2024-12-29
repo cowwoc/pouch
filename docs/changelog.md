@@ -1,9 +1,13 @@
 Minor updates involving cosmetic changes have been omitted from this list. See [commits](../../commits/master)
 for a full list.
 
+## Version 5.4 - 2024/12/29
+
+* Added `AbstractScope`.
+
 ## Version 5.3 - 2024/12/29
 
-* Added a common definition of a `Scope`.
+* Added `Scope`.
 
 ## Version 5.2 - 2024/12/12
 
