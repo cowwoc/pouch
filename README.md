@@ -28,7 +28,7 @@ To get started, add this Maven dependency:
 
 ## Scopes
 
-[Service Locators](docs/Frequently_Asked_Questions.md#not-your-mothers-service-locator) are registries
+[Service Locators](docs/frequently_asked_questions.md#not-your-mothers-service-locator) are registries
 that contain one or more *values*.
 Values can be bound to one or more *scopes*.
 A scope is the context within which a value is defined.

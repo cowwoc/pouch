@@ -1,6 +1,10 @@
 Minor updates involving cosmetic changes have been omitted from this list. See [commits](../../commits/master)
 for a full list.
 
+## Version 5.3 - 2024/12/29
+
+* Added a common definition of a `Scope`.
+
 ## Version 5.2 - 2024/12/12
 
 * Bugfix: [Fail on WrappedCheckedException validation before calling super](https://github.com/cowwoc/pouch/pull/9) by [Berk Koprucu](https://github.com/bkoprucu)
