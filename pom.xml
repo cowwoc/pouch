@@ -148,7 +148,7 @@
 									<ignoreVersions>
 										<ignoreVersion>
 											<type>regex</type>
-											<version>.+-(alpha|beta).+</version>
+											<version>.+-(alpha|beta).+|.+-rc-.*</version>
 										</ignoreVersion>
 									</ignoreVersions>
 								</rule>
@@ -156,11 +156,7 @@
 									<ignoreVersions>
 										<ignoreVersion>
 											<type>regex</type>
-											<version>(.+-SNAPSHOT|.+-M\d)</version>
-										</ignoreVersion>
-										<ignoreVersion>
-											<type>regex</type>
-											<version>.+-(alpha|beta).+</version>
+											<version>(.+-SNAPSHOT|.+-M\d|.+-(alpha|beta).+)||.+-rc-.*</version>
 										</ignoreVersion>
 									</ignoreVersions>
 								</rule>
