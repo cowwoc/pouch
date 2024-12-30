@@ -7,7 +7,6 @@ package com.github.cowwoc.pouch.core;
  * {@link #removeChild(Scope) parent.removeChild(this)} at the end of their {@link #close()} method.
  * <p>
  * Example implementation of the {@code close()} method:
- * <p>
  * <pre>
  * {@code
  * public void close()

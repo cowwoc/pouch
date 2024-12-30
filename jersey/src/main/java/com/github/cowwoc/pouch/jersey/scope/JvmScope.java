@@ -17,11 +17,12 @@ import java.util.concurrent.ScheduledExecutorService;
 public interface JvmScope extends Scope
 {
 	/**
-	 * Returns the execution mode (e.g. "main", "test").
+	 * Returns the runtime mode
 	 *
-	 * @return the execution mode (e.g. "main", "test")
+	 * @return the runtime mode
+	 * @throws IllegalStateException if the scope is closed
 	 */
-	String getMode();
+	RunMode getMode();
 
 	/**
 	 * @return the amount of time to wait for scopes to close
@@ -33,6 +34,7 @@ public interface JvmScope extends Scope
 	 * Returns the scheduler to use for background tasks.
 	 *
 	 * @return the scheduler to use for background tasks
+	 * @throws IllegalStateException if the scope is closed
 	 */
 	ScheduledExecutorService getScheduler();
 }

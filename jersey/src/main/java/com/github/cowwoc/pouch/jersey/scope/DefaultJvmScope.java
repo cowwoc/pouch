@@ -2,43 +2,54 @@
  * Copyright 2016 Gili Tzabari.
  * Licensed under the Apache License, Version 2.0: http://www.apache.org/licenses/LICENSE-2.0
  */
-package com.github.cowwoc.pouch.dropwizard.scope;
+package com.github.cowwoc.pouch.jersey.scope;
 
 import com.github.cowwoc.pouch.core.AbstractScope;
 import com.github.cowwoc.pouch.core.ConcurrentLazyFactory;
 import com.github.cowwoc.pouch.core.Factory;
 import com.github.cowwoc.pouch.core.Scopes;
-import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.Duration;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.LongAdder;
 
 /**
- * Code common to all JvmScope implementations.
+ * The default implementation of JvmScope.
+ * <p>
+ * This class ensures that globals, such as slf4j, are initialized in a thread-safe manner.
  */
-abstract class AbstractJvmScope extends AbstractScope
+public final class DefaultJvmScope extends AbstractScope
 	implements JvmScope
 {
 	/**
 	 * The maximum amount of time to wait for child scopes to close.
 	 */
 	private static final Duration CLOSE_TIMEOUT = Duration.ofSeconds(10);
-	/**
-	 * {@code true} if the scope is closed.
-	 */
-	private final AtomicBoolean closed = new AtomicBoolean();
+	private final RunMode mode;
 	private final Factory<ScheduledExecutorService> schedulerFactory = new ConcurrentLazyFactory<>()
 	{
 		@Override
 		protected ScheduledExecutorService createValue()
 		{
 			ScheduledThreadPoolExecutor result = new ScheduledThreadPoolExecutor(1,
-				new ThreadFactoryBuilder().setDaemon(true).setNameFormat("scheduler-%d").build());
+				new ThreadFactory()
+				{
+					private final LongAdder counter = new LongAdder();
+
+					@Override
+					public Thread newThread(Runnable runnable)
+					{
+						Thread thread = new Thread(runnable, "scheduler-" + counter);
+						thread.setDaemon(true);
+						return thread;
+					}
+				});
 			result.setMaximumPoolSize(1);
 			return result;
 		}
@@ -58,13 +69,29 @@ abstract class AbstractJvmScope extends AbstractScope
 			}
 		}
 	};
-	private final Logger log = LoggerFactory.getLogger(AbstractJvmScope.class);
+	/**
+	 * {@code true} if the scope has been closed.
+	 */
+	private final AtomicBoolean closed = new AtomicBoolean();
+	private final Logger log = LoggerFactory.getLogger(DefaultJvmScope.class);
 
 	/**
-	 * Creates a new application scope.
+	 * Creates a new scope.
+	 *
+	 * @param mode the runtime mode of the JVM
+	 * @throws NullPointerException if {@code mode} is null
 	 */
-	protected AbstractJvmScope()
+	public DefaultJvmScope(RunMode mode)
 	{
+		if (mode == null)
+			throw new NullPointerException("mode may not be null");
+		this.mode = mode;
+	}
+
+	@Override
+	public RunMode getMode()
+	{
+		return mode;
 	}
 
 	@Override

@@ -39,7 +39,7 @@ public abstract class AbstractServerScope extends AbstractScope
 	}
 
 	@Override
-	public String getMode()
+	public RunMode getMode()
 	{
 		return parent.getMode();
 	}

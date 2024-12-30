@@ -55,8 +55,8 @@ public final class HelloWorldResource
   public String getHello()
   {
     return "Hello world!\n" +
-      "HTTP-scoped value       : " + scope.getRequestedUri() + "\n" +
-      "Application-scoped value: " + scope.getMode();
+      "HTTP-scoped value: " + scope.getRequestedUri() + "\n" +
+      "JVM-scoped value : " + scope.getMode();
   }
 }
 ```

@@ -40,7 +40,7 @@ public abstract class AbstractDatabaseScope extends AbstractScope
 	}
 
 	@Override
-	public String getMode()
+	public RunMode getMode()
 	{
 		return parent.getMode();
 	}

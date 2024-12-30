@@ -80,7 +80,7 @@ public final class DefaultTransactionScope extends AbstractScope
 	}
 
 	@Override
-	public String getMode()
+	public RunMode getMode()
 	{
 		return parent.getMode();
 	}
@@ -102,7 +102,7 @@ public final class DefaultTransactionScope extends AbstractScope
 	{
 		return connection.getValue();
 	}
-	
+
 	@Override
 	public boolean isClosed()
 	{

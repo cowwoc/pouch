@@ -68,7 +68,7 @@ abstract class AbstractRequestScope extends AbstractScope
 	}
 
 	@Override
-	public String getMode()
+	public RunMode getMode()
 	{
 		return parent.getMode();
 	}

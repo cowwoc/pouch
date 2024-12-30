@@ -25,7 +25,7 @@ public final class TestPouchBinder extends AbstractBinder
 		@Override
 		public JvmScope provide()
 		{
-			return new TestJvmScope();
+			return new DefaultJvmScope(RunMode.DEBUG);
 		}
 
 		@Override

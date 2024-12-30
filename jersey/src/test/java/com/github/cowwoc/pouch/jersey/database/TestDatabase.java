@@ -1,9 +1,10 @@
 package com.github.cowwoc.pouch.jersey.database;
 
 import com.github.cowwoc.pouch.jersey.scope.DatabaseScope;
+import com.github.cowwoc.pouch.jersey.scope.DefaultJvmScope;
 import com.github.cowwoc.pouch.jersey.scope.JvmScope;
+import com.github.cowwoc.pouch.jersey.scope.RunMode;
 import com.github.cowwoc.pouch.jersey.scope.TestDatabaseScope;
-import com.github.cowwoc.pouch.jersey.scope.TestJvmScope;
 import com.github.cowwoc.pouch.jersey.scope.TransactionScope;
 import org.junit.Test;
 
@@ -15,7 +16,7 @@ public final class TestDatabase
 	@Test
 	public void test1() throws SQLException
 	{
-		try (JvmScope jvmScope = new TestJvmScope();
+		try (JvmScope jvmScope = new DefaultJvmScope(RunMode.DEBUG);
 		     DatabaseScope databaseScope = new TestDatabaseScope(jvmScope);
 		     TransactionScope transaction = databaseScope.createTransactionScope())
 		{
@@ -27,7 +28,7 @@ public final class TestDatabase
 	@Test
 	public void test2() throws SQLException
 	{
-		try (JvmScope jvmScope = new TestJvmScope();
+		try (JvmScope jvmScope = new DefaultJvmScope(RunMode.DEBUG);
 		     DatabaseScope databaseScope = new TestDatabaseScope(jvmScope);
 		     TransactionScope transaction = databaseScope.createTransactionScope())
 		{

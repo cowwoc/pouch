@@ -25,7 +25,7 @@ public final class MainPouchBinder extends AbstractBinder
 		@Override
 		public JvmScope provide()
 		{
-			return new MainJvmScope();
+			return new DefaultJvmScope(RunMode.RELEASE);
 		}
 
 		@Override
