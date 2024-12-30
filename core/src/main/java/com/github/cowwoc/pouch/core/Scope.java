@@ -3,8 +3,21 @@ package com.github.cowwoc.pouch.core;
 /**
  * The lifespan of one or more variables.
  * <p>
- * Child scopes must call {@link #addChild(Scope)} at the end of their constructor and
- * {@link #removeChild(Scope)} at the end of their {@link #close()} method.
+ * Child scopes must call {@link #addChild(Scope) parent.addChild(this)} at the end of their constructor and
+ * {@link #removeChild(Scope) parent.removeChild(this)} at the end of their {@link #close()} method.
+ * <p>
+ * Example implementation of the {@code close()} method:
+ * <p>
+ * <pre>
+ * {@code
+ * public void close()
+ * {
+ *   if (!closed.compareAndSet(false, true))
+ *     return;
+ *   parent.removeChild(this);
+ *   children.shutdown(CLOSE_TIMEOUT);
+ * }
+ * }</pre>
  */
 public interface Scope extends AutoCloseable
 {
