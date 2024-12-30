@@ -4,7 +4,7 @@
  */
 package com.github.cowwoc.pouch.dropwizard.scope;
 
-import com.github.cowwoc.pouch.core.ConcurrentChildScopes;
+import com.github.cowwoc.pouch.core.AbstractScope;
 import com.github.cowwoc.pouch.core.ConcurrentLazyFactory;
 import com.github.cowwoc.pouch.core.Factory;
 import com.github.cowwoc.pouch.core.Scopes;
@@ -20,11 +20,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Code common to all JvmScope implementations.
- * <p>
- * Child scopes must invoke {@link #addChildScope(AutoCloseable)} on construction and
- * {@link #removeChildScope(AutoCloseable)} after they are closed.
  */
-abstract class AbstractJvmScope implements JvmScope
+abstract class AbstractJvmScope extends AbstractScope
+	implements JvmScope
 {
 	/**
 	 * The maximum amount of time to wait for child scopes to close.
@@ -34,7 +32,6 @@ abstract class AbstractJvmScope implements JvmScope
 	 * {@code true} if the scope is closed.
 	 */
 	private final AtomicBoolean closed = new AtomicBoolean();
-	protected final ConcurrentChildScopes children = new ConcurrentChildScopes();
 	private final Factory<ScheduledExecutorService> schedulerFactory = new ConcurrentLazyFactory<>()
 	{
 		@Override
@@ -80,18 +77,6 @@ abstract class AbstractJvmScope implements JvmScope
 	public Duration getScopeCloseTimeout()
 	{
 		return CLOSE_TIMEOUT;
-	}
-
-	@Override
-	public void addChildScope(AutoCloseable child)
-	{
-		children.add(child);
-	}
-
-	@Override
-	public void removeChildScope(AutoCloseable child)
-	{
-		children.remove(child);
 	}
 
 	@Override

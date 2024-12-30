@@ -7,13 +7,13 @@ package com.github.cowwoc.pouch.jersey.resource;
 import com.github.cowwoc.pouch.jersey.application.TestApplication;
 import jakarta.ws.rs.core.Application;
 import org.glassfish.jersey.test.JerseyTest;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.slf4j.bridge.SLF4JBridgeHandler;
 
-public final class TestHelloWorld extends JerseyTest
+final class TestHelloWorld extends JerseyTest
 {
-	@BeforeClass
+	@BeforeAll
 	public static void beforeClass()
 	{
 		SLF4JBridgeHandler.removeHandlersForRootLogger();

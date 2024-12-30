@@ -4,6 +4,7 @@
  */
 package com.github.cowwoc.pouch.jersey.scope;
 
+import com.github.cowwoc.pouch.core.AbstractScope;
 import com.github.cowwoc.pouch.core.Factory;
 import com.github.cowwoc.pouch.core.LazyFactory;
 import com.github.cowwoc.pouch.core.Scopes;
@@ -17,7 +18,8 @@ import java.util.concurrent.ScheduledExecutorService;
 /**
  * TransactionScope common to main and test codebases.
  */
-public final class DefaultTransactionScope implements TransactionScope
+public final class DefaultTransactionScope extends AbstractScope
+	implements TransactionScope
 {
 	private final DatabaseScope parent;
 	private final Factory<Connection> connection = LazyFactory.create(() ->
@@ -100,19 +102,7 @@ public final class DefaultTransactionScope implements TransactionScope
 	{
 		return connection.getValue();
 	}
-
-	@Override
-	public void addChild(AutoCloseable child)
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public void removeChild(AutoCloseable child)
-	{
-		throw new UnsupportedOperationException();
-	}
-
+	
 	@Override
 	public boolean isClosed()
 	{

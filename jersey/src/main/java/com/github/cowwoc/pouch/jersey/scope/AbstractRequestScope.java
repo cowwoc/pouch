@@ -4,6 +4,7 @@
  */
 package com.github.cowwoc.pouch.jersey.scope;
 
+import com.github.cowwoc.pouch.core.AbstractScope;
 import jakarta.ws.rs.core.UriInfo;
 import org.glassfish.hk2.api.ServiceLocator;
 
@@ -16,7 +17,8 @@ import java.util.concurrent.ScheduledExecutorService;
 /**
  * HttpScope common to main and test codebases.
  */
-abstract class AbstractRequestScope implements RequestScope
+abstract class AbstractRequestScope extends AbstractScope
+	implements RequestScope
 {
 	private final ServerScope parent;
 	private final ServiceLocator serviceLocator;
@@ -88,18 +90,6 @@ abstract class AbstractRequestScope implements RequestScope
 	{
 		UriInfo uriInfo = serviceLocator.getService(UriInfo.class);
 		return uriInfo.getRequestUri();
-	}
-
-	@Override
-	public void addChild(AutoCloseable child)
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public void removeChild(AutoCloseable child)
-	{
-		throw new UnsupportedOperationException();
 	}
 
 	@Override

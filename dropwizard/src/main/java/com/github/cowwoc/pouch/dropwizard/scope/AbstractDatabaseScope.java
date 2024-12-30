@@ -1,6 +1,6 @@
 package com.github.cowwoc.pouch.dropwizard.scope;
 
-import com.github.cowwoc.pouch.core.ConcurrentChildScopes;
+import com.github.cowwoc.pouch.core.AbstractScope;
 import com.github.cowwoc.pouch.core.Scopes;
 import com.github.cowwoc.pouch.core.WrappedCheckedException;
 import org.slf4j.Logger;
@@ -13,7 +13,8 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public abstract class AbstractDatabaseScope implements DatabaseScope
+public abstract class AbstractDatabaseScope extends AbstractScope
+	implements DatabaseScope
 {
 	/**
 	 * The parent scope.
@@ -23,10 +24,6 @@ public abstract class AbstractDatabaseScope implements DatabaseScope
 	 * {@code true} if the scope was closed.
 	 */
 	protected final AtomicBoolean closed = new AtomicBoolean();
-	/**
-	 * The children of this scope.
-	 */
-	protected final ConcurrentChildScopes children = new ConcurrentChildScopes();
 
 	public AbstractDatabaseScope(JvmScope parent)
 	{
@@ -55,18 +52,6 @@ public abstract class AbstractDatabaseScope implements DatabaseScope
 	}
 
 	@Override
-	public void addChildScope(AutoCloseable child)
-	{
-		children.add(child);
-	}
-
-	@Override
-	public void removeChildScope(AutoCloseable child)
-	{
-		children.remove(child);
-	}
-
-	@Override
 	public Connection getConnection()
 	{
 		ensureOpen();
@@ -88,15 +73,6 @@ public abstract class AbstractDatabaseScope implements DatabaseScope
 		return new DefaultTransactionScope(this);
 	}
 
-	/**
-	 * @throws IllegalStateException if the scope is closed
-	 */
-	protected void ensureOpen()
-	{
-		if (closed.get())
-			throw new IllegalStateException("Scope is closed");
-	}
-
 	@Override
 	public boolean isClosed()
 	{
@@ -106,7 +82,7 @@ public abstract class AbstractDatabaseScope implements DatabaseScope
 	@Override
 	public void close()
 	{
-		Scopes.runAll(() -> children.shutdown(getScopeCloseTimeout()), () -> parent.removeChildScope(this));
+		Scopes.runAll(() -> children.shutdown(getScopeCloseTimeout()), () -> parent.removeChild(this));
 	}
 
 	/**

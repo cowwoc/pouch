@@ -12,6 +12,7 @@ public interface Scope extends AutoCloseable
 	 * Adds a child scope.
 	 *
 	 * @param child the child scope
+	 * @throws NullPointerException  if {@code child} is null
 	 * @throws IllegalStateException if the scope is closed
 	 */
 	void addChild(Scope child);
@@ -20,10 +21,14 @@ public interface Scope extends AutoCloseable
 	 * Removes a child scope.
 	 *
 	 * @param child the child scope
+	 * @throws NullPointerException  if {@code child} is null
+	 * @throws IllegalStateException if the scope is closed
 	 */
 	void removeChild(Scope child);
 
 	/**
+	 * Determines if the scope is closed.
+	 *
 	 * @return {@code true} if the scope is closed
 	 */
 	boolean isClosed();

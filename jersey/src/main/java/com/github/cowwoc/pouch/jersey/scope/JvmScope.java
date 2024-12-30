@@ -4,6 +4,8 @@
  */
 package com.github.cowwoc.pouch.jersey.scope;
 
+import com.github.cowwoc.pouch.core.Scope;
+
 import java.time.Duration;
 import java.util.concurrent.ScheduledExecutorService;
 
@@ -12,7 +14,7 @@ import java.util.concurrent.ScheduledExecutorService;
  * <p>
  * Implementations must be thread-safe.
  */
-public interface JvmScope extends AutoCloseable
+public interface JvmScope extends Scope
 {
 	/**
 	 * Returns the execution mode (e.g. "main", "test").
@@ -33,32 +35,4 @@ public interface JvmScope extends AutoCloseable
 	 * @return the scheduler to use for background tasks
 	 */
 	ScheduledExecutorService getScheduler();
-
-	/**
-	 * Adds a child scope.
-	 *
-	 * @param child the child scope
-	 * @throws NullPointerException  if {@code child} is null
-	 * @throws IllegalStateException if the scope is closed
-	 */
-	void addChild(AutoCloseable child);
-
-	/**
-	 * Removes a child scope.
-	 *
-	 * @param child the child scope
-	 * @throws NullPointerException  if {@code child} is null
-	 * @throws IllegalStateException if the scope is closed
-	 */
-	void removeChild(AutoCloseable child);
-
-	/**
-	 * Returns {@code true} if the scope is closed.
-	 *
-	 * @return {@code true} if the scope is closed
-	 */
-	boolean isClosed();
-
-	@Override
-	void close();
 }

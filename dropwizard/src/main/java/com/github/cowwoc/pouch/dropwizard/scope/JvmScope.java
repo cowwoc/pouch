@@ -4,6 +4,8 @@
  */
 package com.github.cowwoc.pouch.dropwizard.scope;
 
+import com.github.cowwoc.pouch.core.Scope;
+
 import java.time.Duration;
 import java.util.concurrent.ScheduledExecutorService;
 
@@ -12,7 +14,7 @@ import java.util.concurrent.ScheduledExecutorService;
  * <p>
  * Implementations must be thread-safe.
  */
-public interface JvmScope extends AutoCloseable
+public interface JvmScope extends Scope
 {
 	/**
 	 * Returns the execution mode (e.g. "main", "test").
@@ -33,31 +35,4 @@ public interface JvmScope extends AutoCloseable
 	 * @throws IllegalStateException if the scope is closed
 	 */
 	Duration getScopeCloseTimeout();
-
-	/**
-	 * Adds a child scope.
-	 *
-	 * @param child the child scope
-	 * @throws NullPointerException  if {@code child} is null
-	 * @throws IllegalStateException if the scope is closed
-	 */
-	void addChildScope(AutoCloseable child);
-
-	/**
-	 * Removes a child scope.
-	 *
-	 * @param child the child scope
-	 * @throws NullPointerException if {@code child} is null
-	 */
-	void removeChildScope(AutoCloseable child);
-
-	/**
-	 * Returns {@code true} if the scope is closed.
-	 *
-	 * @return {@code true} if the scope is closed
-	 */
-	boolean isClosed();
-
-	@Override
-	void close();
 }

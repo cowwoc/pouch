@@ -25,12 +25,6 @@ public final class MainDatabaseScope extends AbstractDatabaseScope
 	}
 
 	@Override
-	public String getMode()
-	{
-		return parent.getMode();
-	}
-
-	@Override
 	public DataSource getDataSource()
 	{
 		return dataSource.getValue();

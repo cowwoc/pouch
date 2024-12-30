@@ -1,6 +1,6 @@
 package com.github.cowwoc.pouch.jersey.scope;
 
-import com.github.cowwoc.pouch.core.ConcurrentChildScopes;
+import com.github.cowwoc.pouch.core.AbstractScope;
 import com.github.cowwoc.pouch.core.Scopes;
 import com.github.cowwoc.pouch.core.WrappedCheckedException;
 import org.slf4j.Logger;
@@ -13,16 +13,13 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public abstract class AbstractDatabaseScope implements DatabaseScope
+public abstract class AbstractDatabaseScope extends AbstractScope
+	implements DatabaseScope
 {
 	/**
 	 * The parent configuration.
 	 */
 	protected final JvmScope parent;
-	/**
-	 * The children of this scope.
-	 */
-	protected final ConcurrentChildScopes children = new ConcurrentChildScopes();
 	/**
 	 * {@code true} if the scope was closed.
 	 */
@@ -53,19 +50,7 @@ public abstract class AbstractDatabaseScope implements DatabaseScope
 	{
 		return parent.getScheduler();
 	}
-
-	@Override
-	public void addChild(AutoCloseable child)
-	{
-		children.add(child);
-	}
-
-	@Override
-	public void removeChild(AutoCloseable child)
-	{
-		children.remove(child);
-	}
-
+	
 	@Override
 	public Connection getConnection()
 	{
@@ -86,15 +71,6 @@ public abstract class AbstractDatabaseScope implements DatabaseScope
 		if (isClosed())
 			throw new IllegalStateException("Scope is closed");
 		return new DefaultTransactionScope(this);
-	}
-
-	/**
-	 * @throws IllegalStateException if the scope is closed
-	 */
-	protected void ensureOpen()
-	{
-		if (closed.get())
-			throw new IllegalStateException("Scope is closed");
 	}
 
 	@Override

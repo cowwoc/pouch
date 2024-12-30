@@ -4,6 +4,7 @@
  */
 package com.github.cowwoc.pouch.dropwizard.scope;
 
+import com.github.cowwoc.pouch.core.AbstractScope;
 import com.github.cowwoc.pouch.core.Factory;
 import com.github.cowwoc.pouch.core.LazyFactory;
 import com.github.cowwoc.pouch.core.Scopes;
@@ -17,7 +18,8 @@ import java.util.concurrent.ScheduledExecutorService;
 /**
  * TransactionScope common to main and test codebases.
  */
-public final class DefaultTransactionScope implements TransactionScope
+public final class DefaultTransactionScope extends AbstractScope
+	implements TransactionScope
 {
 	private final DatabaseScope parent;
 	private final Factory<Connection> connection = LazyFactory.create(() ->
@@ -61,7 +63,7 @@ public final class DefaultTransactionScope implements TransactionScope
 		if (parent == null)
 			throw new NullPointerException("parent may not be null");
 		this.parent = parent;
-		parent.addChildScope(this);
+		parent.addChild(this);
 	}
 
 	@Override
@@ -101,18 +103,6 @@ public final class DefaultTransactionScope implements TransactionScope
 	}
 
 	@Override
-	public void addChildScope(AutoCloseable child)
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public void removeChildScope(AutoCloseable child)
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
 	public boolean isClosed()
 	{
 		return closed;
@@ -124,6 +114,6 @@ public final class DefaultTransactionScope implements TransactionScope
 		if (closed)
 			return;
 		closed = true;
-		Scopes.runAll(connection::close, () -> parent.removeChildScope(this));
+		Scopes.runAll(connection::close, () -> parent.removeChild(this));
 	}
 }

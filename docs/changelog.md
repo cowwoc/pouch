@@ -1,9 +1,12 @@
-Minor updates involving cosmetic changes have been omitted from this list. See [commits](../../commits/master)
+Minor updates involving cosmetic changes have been omitted from this list. See [commits](../../commits/main)
 for a full list.
 
-## Version 5.4 - 2024/12/29
+## Version 6.0 - 2024/12/29
 
+* Breaking change: `ConcurrentChildScopes.add()`, `remove()` now take a `Scope` argument instead of
+  `AutoCloseable`.
 * Added `AbstractScope`.
+* Bugfix: `ConcurrentChildScopes.add()` was never returning true
 
 ## Version 5.3 - 2024/12/29
 
@@ -11,7 +14,9 @@ for a full list.
 
 ## Version 5.2 - 2024/12/12
 
-* Bugfix: [Fail on WrappedCheckedException validation before calling super](https://github.com/cowwoc/pouch/pull/9) by [Berk Koprucu](https://github.com/bkoprucu)
+*
+Bugfix: [Fail on WrappedCheckedException validation before calling super](https://github.com/cowwoc/pouch/pull/9)
+by [Berk Koprucu](https://github.com/bkoprucu)
 
 ## Version 5.1 - 2024/10/31
 

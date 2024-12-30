@@ -4,7 +4,7 @@
  */
 package com.github.cowwoc.pouch.jersey.scope;
 
-import com.github.cowwoc.pouch.core.ConcurrentChildScopes;
+import com.github.cowwoc.pouch.core.AbstractScope;
 import com.github.cowwoc.pouch.core.ConcurrentLazyFactory;
 import com.github.cowwoc.pouch.core.Factory;
 import com.github.cowwoc.pouch.core.Scopes;
@@ -22,13 +22,13 @@ import java.util.concurrent.atomic.LongAdder;
 /**
  * Code common to all JvmScope implementations.
  */
-public abstract class AbstractJvmScope implements JvmScope
+public abstract class AbstractJvmScope extends AbstractScope
+	implements JvmScope
 {
 	/**
 	 * The maximum amount of time to wait for child scopes to close.
 	 */
 	private static final Duration CLOSE_TIMEOUT = Duration.ofSeconds(10);
-	private final ConcurrentChildScopes children = new ConcurrentChildScopes();
 	/**
 	 * {@code true} if the scope has been closed.
 	 */
@@ -89,18 +89,6 @@ public abstract class AbstractJvmScope implements JvmScope
 	public Duration getScopeCloseTimeout()
 	{
 		return CLOSE_TIMEOUT;
-	}
-
-	@Override
-	public void addChild(AutoCloseable child)
-	{
-		children.add(child);
-	}
-
-	@Override
-	public void removeChild(AutoCloseable child)
-	{
-		children.remove(child);
 	}
 
 	@Override

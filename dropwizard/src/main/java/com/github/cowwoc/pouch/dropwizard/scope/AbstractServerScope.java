@@ -1,6 +1,6 @@
 package com.github.cowwoc.pouch.dropwizard.scope;
 
-import com.github.cowwoc.pouch.core.ConcurrentChildScopes;
+import com.github.cowwoc.pouch.core.AbstractScope;
 import com.github.cowwoc.pouch.core.Scopes;
 import org.glassfish.hk2.api.ServiceLocator;
 
@@ -13,16 +13,13 @@ import java.util.concurrent.atomic.AtomicBoolean;
 /**
  * The default implementation of ServerScope.
  */
-public abstract class AbstractServerScope implements ServerScope
+public abstract class AbstractServerScope extends AbstractScope
+	implements ServerScope
 {
 	/**
 	 * The database configuration.
 	 */
 	protected final DatabaseScope parent;
-	/**
-	 * The children of this scope.
-	 */
-	protected final ConcurrentChildScopes children = new ConcurrentChildScopes();
 	/**
 	 * {@code true} if the scope was closed.
 	 */
@@ -84,27 +81,6 @@ public abstract class AbstractServerScope implements ServerScope
 	}
 
 	@Override
-	public void addChildScope(AutoCloseable child)
-	{
-		children.add(child);
-	}
-
-	@Override
-	public void removeChildScope(AutoCloseable child)
-	{
-		children.remove(child);
-	}
-
-	/**
-	 * @throws IllegalStateException if the scope is closed
-	 */
-	protected void ensureOpen()
-	{
-		if (closed.get())
-			throw new IllegalStateException("Scope is closed");
-	}
-
-	@Override
 	public boolean isClosed()
 	{
 		return closed.get();
@@ -114,6 +90,6 @@ public abstract class AbstractServerScope implements ServerScope
 	public void close()
 	{
 		Scopes.runAll(() -> children.shutdown(parent.getScopeCloseTimeout()), () ->
-			parent.removeChildScope(this));
+			parent.removeChild(this));
 	}
 }

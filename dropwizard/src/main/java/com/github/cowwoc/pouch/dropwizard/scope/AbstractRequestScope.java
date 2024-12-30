@@ -4,6 +4,7 @@
  */
 package com.github.cowwoc.pouch.dropwizard.scope;
 
+import com.github.cowwoc.pouch.core.AbstractScope;
 import jakarta.ws.rs.core.UriInfo;
 import org.glassfish.hk2.api.ServiceLocator;
 
@@ -16,7 +17,8 @@ import java.util.concurrent.ScheduledExecutorService;
 /**
  * RequestScope common to main and test codebases.
  */
-abstract class AbstractRequestScope implements RequestScope
+abstract class AbstractRequestScope extends AbstractScope
+	implements RequestScope
 {
 	private final ServerScope parent;
 	private final ServiceLocator serviceLocator;
@@ -91,18 +93,6 @@ abstract class AbstractRequestScope implements RequestScope
 	}
 
 	@Override
-	public void addChildScope(AutoCloseable child)
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public void removeChildScope(AutoCloseable child)
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
 	public boolean isClosed()
 	{
 		return closed;
@@ -114,6 +104,6 @@ abstract class AbstractRequestScope implements RequestScope
 		if (closed)
 			return;
 		closed = true;
-		parent.removeChildScope(this);
+		parent.removeChild(this);
 	}
 }

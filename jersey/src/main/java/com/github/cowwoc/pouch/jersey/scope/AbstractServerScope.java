@@ -1,6 +1,6 @@
 package com.github.cowwoc.pouch.jersey.scope;
 
-import com.github.cowwoc.pouch.core.ConcurrentChildScopes;
+import com.github.cowwoc.pouch.core.AbstractScope;
 import com.github.cowwoc.pouch.core.Scopes;
 import org.glassfish.hk2.api.ServiceLocator;
 
@@ -10,13 +10,10 @@ import java.time.Duration;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public abstract class AbstractServerScope implements ServerScope
+public abstract class AbstractServerScope extends AbstractScope
+	implements ServerScope
 {
 	private final DatabaseScope parent;
-	/**
-	 * The children of this scope.
-	 */
-	protected final ConcurrentChildScopes children = new ConcurrentChildScopes();
 	/**
 	 * {@code true} if the scope was closed.
 	 */
@@ -77,27 +74,6 @@ public abstract class AbstractServerScope implements ServerScope
 	public TransactionScope createTransactionScope()
 	{
 		return parent.createTransactionScope();
-	}
-
-	@Override
-	public void addChild(AutoCloseable child)
-	{
-		children.add(child);
-	}
-
-	@Override
-	public void removeChild(AutoCloseable child)
-	{
-		children.remove(child);
-	}
-
-	/**
-	 * @throws IllegalStateException if the scope is closed
-	 */
-	protected void ensureOpen()
-	{
-		if (closed.get())
-			throw new IllegalStateException("Scope is closed");
 	}
 
 	@Override

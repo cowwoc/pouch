@@ -29,9 +29,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public final class ConcurrentChildScopes
 {
 	/**
-	 * A map from a child scope to the thread that created it.
+	 * A map from each child scope to the thread that created it.
 	 */
-	private final Map<AutoCloseable, Thread> childScopeToCreator = new ConcurrentHashMap<>();
+	private final Map<Scope, Thread> scopeToThread = new ConcurrentHashMap<>();
 	/**
 	 * Counts the number of open scopes.
 	 */
@@ -55,7 +55,7 @@ public final class ConcurrentChildScopes
 	 * @throws NullPointerException  if {@code child} is null
 	 * @throws IllegalStateException if shutdown has been requested
 	 */
-	public boolean add(AutoCloseable child)
+	public boolean add(Scope child)
 	{
 		if (child == null)
 			throw new NullPointerException("child may not be null");
@@ -64,8 +64,9 @@ public final class ConcurrentChildScopes
 		openScopes.register();
 		try
 		{
-			Thread value = childScopeToCreator.putIfAbsent(child, Thread.currentThread());
-			return value == child;
+			Thread expectedValue = Thread.currentThread();
+			Thread existingValue = scopeToThread.putIfAbsent(child, expectedValue);
+			return existingValue == expectedValue;
 		}
 		catch (RuntimeException e)
 		{
@@ -81,13 +82,13 @@ public final class ConcurrentChildScopes
 	 * @return {@code true} on success; {@code false} if the scope was not found
 	 * @throws NullPointerException if {@code child} is null
 	 */
-	public boolean remove(AutoCloseable child)
+	public boolean remove(Scope child)
 	{
 		// Avoid checking shutdownRequested because children must be allowed to remove themselves while
 		// shutdown is in progress
 		if (child == null)
 			throw new NullPointerException("child may not be null");
-		boolean result = childScopeToCreator.remove(child) != null;
+		boolean result = scopeToThread.remove(child) != null;
 		if (result)
 			openScopes.arriveAndDeregister();
 		return result;
@@ -127,7 +128,7 @@ public final class ConcurrentChildScopes
 			// created it.
 			result = false;
 		}
-		for (AutoCloseable scope : childScopeToCreator.keySet())
+		for (Scope scope : scopeToThread.keySet())
 		{
 			try
 			{
