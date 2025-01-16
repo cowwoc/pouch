@@ -11,7 +11,7 @@
 	<description>Example of integrating Pouch with Dropwizard.</description>
 
 	<properties>
-		<dropwizard.version>4.0.11</dropwizard.version>
+		<dropwizard.version>4.0.12</dropwizard.version>
 	</properties>
 	<dependencies>
 		<dependency>
