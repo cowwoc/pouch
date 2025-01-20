@@ -4,10 +4,15 @@
  */
 package com.github.cowwoc.pouch.core;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.StringJoiner;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Phaser;
 import java.util.concurrent.TimeUnit;
@@ -29,14 +34,15 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public final class ConcurrentChildScopes
 {
 	/**
-	 * A map from each child scope to the thread that created it.
+	 * A map from each child scope to its metadata.
 	 */
-	private final Map<Scope, Thread> scopeToThread = new ConcurrentHashMap<>();
+	private final Map<Scope, Metadata> scopeToMetadata = new ConcurrentHashMap<>();
 	/**
 	 * Counts the number of open scopes.
 	 */
 	private final Phaser openScopes = new Phaser();
 	private final AtomicBoolean shutdownRequested = new AtomicBoolean();
+	private final Logger log = LoggerFactory.getLogger(ConcurrentChildScopes.class);
 
 	/**
 	 * Creates a new ConcurrentChildScopes.
@@ -51,11 +57,11 @@ public final class ConcurrentChildScopes
 	 * Adds a child scope.
 	 *
 	 * @param child the child scope
-	 * @return {@code true} on success; {@code false} if the scope is already associated with another thread
-	 * @throws NullPointerException  if {@code child} is null
-	 * @throws IllegalStateException if shutdown has been requested
+	 * @throws NullPointerException     if {@code child} is null
+	 * @throws IllegalArgumentException if {@code child} was already added to this scope
+	 * @throws IllegalStateException    if shutdown has been requested
 	 */
-	public boolean add(Scope child)
+	public void add(Scope child)
 	{
 		if (child == null)
 			throw new NullPointerException("child may not be null");
@@ -64,9 +70,17 @@ public final class ConcurrentChildScopes
 		openScopes.register();
 		try
 		{
-			Thread expectedValue = Thread.currentThread();
-			Thread existingValue = scopeToThread.putIfAbsent(child, expectedValue);
-			return existingValue == expectedValue;
+			Thread thread = Thread.currentThread();
+			Metadata existingValue = scopeToMetadata.putIfAbsent(child, new Metadata(thread));
+			if (existingValue != null)
+			{
+				StringJoiner stackTrace = new StringJoiner("\n\tat ");
+				for (StackTraceElement element : existingValue.stackTrace)
+					stackTrace.add(element.toString());
+
+				throw new IllegalStateException("child was already added to this scope by " +
+					existingValue.thread.getName() + " at " + stackTrace);
+			}
 		}
 		catch (RuntimeException e)
 		{
@@ -88,7 +102,7 @@ public final class ConcurrentChildScopes
 		// shutdown is in progress
 		if (child == null)
 			throw new NullPointerException("child may not be null");
-		boolean result = scopeToThread.remove(child) != null;
+		boolean result = scopeToMetadata.remove(child) != null;
 		if (result)
 			openScopes.arriveAndDeregister();
 		return result;
@@ -124,14 +138,20 @@ public final class ConcurrentChildScopes
 		}
 		catch (TimeoutException unused)
 		{
-			// Child scopes leaked. See childScopeToCreator for a mapping from each leaked scope to the thread that
-			// created it.
 			result = false;
 		}
-		for (Scope scope : scopeToThread.keySet())
+		for (Entry<Scope, Metadata> scopeToMetadata : scopeToMetadata.entrySet())
 		{
 			try
 			{
+				Scope scope = scopeToMetadata.getKey();
+				Metadata metadata = scopeToMetadata.getValue();
+				StringJoiner stackTrace = new StringJoiner("\n\tat ");
+				for (StackTraceElement element : metadata.stackTrace)
+					stackTrace.add(element.toString());
+
+				log.warn("Thread {} leaked child scope {} created at {}", metadata.thread.getName(), scope,
+					stackTrace);
 				scope.close();
 			}
 			catch (Exception e)
@@ -147,5 +167,28 @@ public final class ConcurrentChildScopes
 			throw WrappedCheckedException.wrap(mainException);
 		}
 		return result;
+	}
+
+	/**
+	 * Information about who created a scope.
+	 */
+	private static class Metadata
+	{
+		public final Thread thread;
+		public final StackTraceElement[] stackTrace;
+
+		/**
+		 * Creates a new instance.
+		 *
+		 * @param thread the thread that created the scope
+		 * @throws NullPointerException if any of the arguments are null
+		 */
+		public Metadata(Thread thread)
+		{
+			if (thread == null)
+				throw new NullPointerException("thread may not be null");
+			this.thread = thread;
+			this.stackTrace = thread.getStackTrace();
+		}
 	}
 }

@@ -27,7 +27,10 @@ public abstract class AbstractScope implements Scope
 	@Override
 	public void removeChild(Scope child)
 	{
-		ensureOpen();
+		// This method does not throw an exception if the scope is already closed, enabling the closure of
+		// child scopes. When a parent scope is closed with some child scopes still open, closing the child
+		// scopes will call parent.removeChild(this). In such cases, even though the parent scope is closed, the
+		// child scopes must still be able to remove themselves.
 		children.remove(child);
 	}
 

@@ -10,7 +10,7 @@ import java.time.Duration;
 import java.util.concurrent.ScheduledExecutorService;
 
 /**
- * Values specific to the current JVM.
+ * Holds values and variables that are specific to the lifetime of the current JVM.
  * <p>
  * Implementations must be thread-safe.
  */

@@ -7,7 +7,7 @@ package com.github.cowwoc.pouch.jersey.scope;
 import java.sql.Connection;
 
 /**
- * Values specific to a database transaction.
+ * Holds values and variables that are specific to the lifetime of the current database transaction.
  * <p>
  * Implementations are not thread-safe.
  */

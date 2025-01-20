@@ -1,6 +1,14 @@
 Minor updates involving cosmetic changes have been omitted from this list. See [commits](../../commits/main)
 for a full list.
 
+## Version 7.0 - 2025/01/20
+
+* Added SLF4J and Logback dependencies to warn about leaked child scopes.
+* Updated `AbstractScope.removeChild(Scope)` to avoid throwing `IllegalStateException` if the parent scope is
+  closed. This change is necessary for the cleanup of leaked child scopes.
+* Updated `ConcurrentChildScope.add(Scope)` to throw `IllegalArgumentException` instead of returning a
+  `boolean` to indicate that a child scope was already added to the parent.
+
 ## Version 6.0 - 2024/12/29
 
 * Breaking change: `ConcurrentChildScopes.add()`, `remove()` now take a `Scope` argument instead of
@@ -14,9 +22,9 @@ for a full list.
 
 ## Version 5.2 - 2024/12/12
 
-*
-Bugfix: [Fail on WrappedCheckedException validation before calling super](https://github.com/cowwoc/pouch/pull/9)
-by [Berk Koprucu](https://github.com/bkoprucu)
+* Bugfix:
+  [Fail on WrappedCheckedException validation before calling super](https://github.com/cowwoc/pouch/pull/9)
+  by [Berk Koprucu](https://github.com/bkoprucu)
 
 ## Version 5.1 - 2024/10/31
 

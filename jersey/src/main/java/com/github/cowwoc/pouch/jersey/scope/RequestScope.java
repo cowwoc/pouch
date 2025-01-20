@@ -7,7 +7,7 @@ package com.github.cowwoc.pouch.jersey.scope;
 import java.net.URI;
 
 /**
- * Values specific to an HTTP request.
+ * Holds values and variables that are specific to the lifetime of the current HTTP request.
  * <p>
  * Implementations are not thread-safe.
  */

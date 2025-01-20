@@ -18,7 +18,7 @@ public final class HelloWorldResource
 	/**
 	 * Creates a new resource.
 	 *
-	 * @param scope values specific to the lifetime of the current HTTP request
+	 * @param scope values and variables that are specific to the lifetime of the current HTTP request
 	 * @throws NullPointerException if {@code scope} is null
 	 */
 	@Inject

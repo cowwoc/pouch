@@ -33,8 +33,7 @@ public interface Scope extends AutoCloseable
 	 * Removes a child scope.
 	 *
 	 * @param child the child scope
-	 * @throws NullPointerException  if {@code child} is null
-	 * @throws IllegalStateException if the scope is closed
+	 * @throws NullPointerException if {@code child} is null
 	 */
 	void removeChild(Scope child);
 

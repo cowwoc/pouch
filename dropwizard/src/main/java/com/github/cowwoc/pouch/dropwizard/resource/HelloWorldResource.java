@@ -18,14 +18,14 @@ public final class HelloWorldResource
 	/**
 	 * Creates a new resource.
 	 *
-	 * @param scope values specific to the lifetime of the current HTTP request
+	 * @param request values and variables that are specific to the lifetime of the current HTTP request
 	 */
 	@Inject
-	public HelloWorldResource(RequestScope scope)
+	public HelloWorldResource(RequestScope request)
 	{
-		if (scope == null)
+		if (request == null)
 			throw new NullPointerException("scope may not be null");
-		this.scope = scope;
+		this.scope = request;
 	}
 
 	@GET

@@ -10,7 +10,13 @@ import java.time.Duration;
 import java.util.concurrent.ScheduledExecutorService;
 
 /**
- * Values specific to the current JVM.
+ * Holds values and variables that are specific to the lifetime of the current JVM.
+ * <p>
+ * Note: It is possible for a single application to run multiple JVM instances (e.g., during unit tests). This
+ * class encapsulates data relevant for the entire duration of each JVM's execution.
+ * <p>
+ * Additionally, this class ensures that global variables, such as SLF4J, are initialized in a thread-safe
+ * manner.
  * <p>
  * Implementations must be thread-safe.
  */

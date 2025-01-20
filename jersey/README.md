@@ -8,23 +8,23 @@ resources and vice-versa (inject Jersey types into Pouch scopes).
 Example:
 
 [JvmScope](http://cowwoc.github.io/pouch/src/main/java/com/github/cowwoc/pouch/jersey/scope/JvmScope.java):
-values specific to the current JVM
+values and variables that are specific to the lifetime of the current JVM
 
 [TransactionScope](http://cowwoc.github.io/pouch/src/main/java/com/github/cowwoc/pouch/jersey/scope/TransactionScope.java):
-values specific to a database transaction
+values and variables that are specific to the current database transaction
 
 [HttpScope](http://cowwoc.github.io/pouch/src/main/java/com/github/cowwoc/pouch/jersey/scope/HttpScope.java):
-values specific to an HTTP request
+values and variables that are specific to the current HTTP request
 
 ## Step 2: Implement scopes ##
 
 Example:
 
 [MainJvmScope](http://cowwoc.github.io/pouch/src/main/java/com/github/cowwoc/pouch/jersey/scope/MainJvmScope.java):
-JvmScope for production
+The JVM scope of an application
 
 [TestJvmScope](http://cowwoc.github.io/pouch/src/test/java/com/github/cowwoc/pouch/jersey/scope/TestJvmScope.java):
-JvmScope for tests
+The JVM scope used by tests
 
 ## Step 3: Integrate Pouch with Jersey ##
 
@@ -32,8 +32,7 @@ HK2 is Jersey's internal dependency-injection mechanism. HK2 Binders are equival
 to [Guice Modules](https://github.com/google/guice/wiki/GettingStarted)
 or [Spring @Configuration](http://docs.spring.io/autorepo/docs/spring/3.2.x/spring-framework-reference/html/beans.html#beans-java)
 
-First, you'll need to implement an HK2 Binder (
-e.g. [MainPouchBinder](http://cowwoc.github.io/pouch/src/main/java/com/github/cowwoc/pouch/jersey/scope/MainPouchBinder.java)),
+First, you'll need to implement an HK2 Binder (e.g. [MainPouchBinder](http://cowwoc.github.io/pouch/src/main/java/com/github/cowwoc/pouch/jersey/scope/MainPouchBinder.java)),
 then you'll need to register the Binder with Jersey (e.g.
 [MainApplication](http://cowwoc.github.io/pouch/src/main/java/com/github/cowwoc/pouch/jersey/application/MainApplication.java)).
 

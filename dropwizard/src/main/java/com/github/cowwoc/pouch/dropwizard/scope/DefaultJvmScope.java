@@ -19,7 +19,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- * Values specific to the lifetime of a JVM.
+ * Holds values and variables that are specific to the lifetime of the current JVM.
  * <p>
  * Implementations must be thread-safe.
  */
