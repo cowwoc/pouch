@@ -1,6 +1,10 @@
 Minor updates involving cosmetic changes have been omitted from this list. See [commits](../../commits/main)
 for a full list.
 
+## Version 7.1 - ?
+
+* Removed dependency on Logback.
+
 ## Version 7.0 - 2025/01/20
 
 * Added SLF4J and Logback dependencies to warn about leaked child scopes.
