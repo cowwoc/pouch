@@ -1,9 +1,13 @@
 Minor updates involving cosmetic changes have been omitted from this list. See [commits](../../commits/main)
 for a full list.
 
-## Version 7.1 - ?
+## Version 8.0 - 2025/02/18
 
 * Removed dependency on Logback.
+* Renamed artifactId `root` to `pouch`.
+* Renamed artifactId `core` to `pouch-core`.
+* Renamed artifactId `dropwizard` to `pouch-dropwizard`.
+* Renamed artifactId `jersey` to `pouch-jersey`.
 
 ## Version 7.0 - 2025/01/20
 

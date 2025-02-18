@@ -5,10 +5,16 @@
 	<parent>
 		<groupId>com.github.cowwoc.pouch</groupId>
 		<artifactId>root</artifactId>
-		<version>7.1-SNAPSHOT</version>
+		<version>8.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>core</artifactId>
 	<packaging>jar</packaging>
+
+	<distributionManagement>
+		<relocation>
+			<artifactId>pouch</artifactId>
+		</relocation>
+	</distributionManagement>
 
 	<dependencies>
 		<dependency>
