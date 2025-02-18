@@ -1,6 +1,10 @@
 Minor updates involving cosmetic changes have been omitted from this list. See [commits](../../commits/main)
 for a full list.
 
+## Version 8.1 - 2025/02/18
+
+* Bugfix: artifactId `core` was mistakenly relocated to `pouch` instead of `pouch-core`.
+
 ## Version 8.0 - 2025/02/18
 
 * Removed dependency on Logback.
