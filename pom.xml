@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.cowwoc.pouch</groupId>
 	<artifactId>root</artifactId>
-	<version>8.0-SNAPSHOT</version>
+	<version>8.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>pouch</name>
 	<description>An Inversion of Control design pattern</description>
