@@ -10,6 +10,8 @@ import org.glassfish.hk2.api.ServiceLocator;
 public interface ServerScope extends DatabaseScope
 {
 	/**
+	 * Creates a new request scope.
+	 *
 	 * @param serviceLocator the Jersey dependency-injection mechanism
 	 * @return a new request scope
 	 * @throws NullPointerException  if {@code serviceLocator} is null

@@ -11,7 +11,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- * The default implementation of ServerScope.
+ * The default implementation of {@code ServerScope}.
  */
 public abstract class AbstractServerScope extends AbstractScope
 	implements ServerScope
@@ -19,51 +19,53 @@ public abstract class AbstractServerScope extends AbstractScope
 	/**
 	 * The database configuration.
 	 */
-	protected final DatabaseScope parent;
+	protected final DatabaseScope databaseScope;
 	/**
 	 * {@code true} if the scope was closed.
 	 */
 	protected final AtomicBoolean closed = new AtomicBoolean();
 
 	/**
-	 * @param parent The database configuration
-	 * @throws NullPointerException if any of the arguments are null
+	 * Creates a new server scope.
+	 *
+	 * @param databaseScope the database configuration
+	 * @throws NullPointerException if {@code databaseScope} is null
 	 */
-	protected AbstractServerScope(DatabaseScope parent)
+	protected AbstractServerScope(DatabaseScope databaseScope)
 	{
-		if (parent == null)
-			throw new NullPointerException("parent may not be null");
-		this.parent = parent;
+		if (databaseScope == null)
+			throw new NullPointerException("databaseScope may not be null");
+		this.databaseScope = databaseScope;
 	}
 
 	@Override
 	public Duration getScopeCloseTimeout()
 	{
-		return parent.getScopeCloseTimeout();
+		return databaseScope.getScopeCloseTimeout();
 	}
 
 	@Override
 	public RunMode getMode()
 	{
-		return parent.getMode();
+		return databaseScope.getMode();
 	}
 
 	@Override
 	public ScheduledExecutorService getScheduler()
 	{
-		return parent.getScheduler();
+		return databaseScope.getScheduler();
 	}
 
 	@Override
 	public DataSource getDataSource()
 	{
-		return parent.getDataSource();
+		return databaseScope.getDataSource();
 	}
 
 	@Override
 	public Connection getConnection()
 	{
-		return parent.getConnection();
+		return databaseScope.getConnection();
 	}
 
 	@Override
@@ -77,7 +79,7 @@ public abstract class AbstractServerScope extends AbstractScope
 	@Override
 	public TransactionScope createTransactionScope()
 	{
-		return parent.createTransactionScope();
+		return databaseScope.createTransactionScope();
 	}
 
 	@Override
@@ -89,7 +91,7 @@ public abstract class AbstractServerScope extends AbstractScope
 	@Override
 	public void close()
 	{
-		Scopes.runAll(() -> children.shutdown(parent.getScopeCloseTimeout()), () ->
-			parent.removeChild(this));
+		Scopes.runAll(() -> children.shutdown(databaseScope.getScopeCloseTimeout()), () ->
+			databaseScope.removeChild(this));
 	}
 }

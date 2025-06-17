@@ -214,9 +214,6 @@
 								<goals>
 									<goal>jar</goal>
 								</goals>
-								<configuration>
-									<javadocVersion>24</javadocVersion>
-								</configuration>
 							</execution>
 						</executions>
 					</plugin>

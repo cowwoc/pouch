@@ -13,6 +13,9 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+/**
+ * Common implementation of {@code DatabaseScope}.
+ */
 public abstract class AbstractDatabaseScope extends AbstractScope
 	implements DatabaseScope
 {
@@ -25,7 +28,13 @@ public abstract class AbstractDatabaseScope extends AbstractScope
 	 */
 	protected final AtomicBoolean closed = new AtomicBoolean();
 
-	public AbstractDatabaseScope(JvmScope parent)
+	/**
+	 * Creates a new instance.
+	 *
+	 * @param parent the parent scope
+	 * @throws NullPointerException if {@code parent} is null
+	 */
+	protected AbstractDatabaseScope(JvmScope parent)
 	{
 		if (parent == null)
 			throw new NullPointerException("parent may not be null");

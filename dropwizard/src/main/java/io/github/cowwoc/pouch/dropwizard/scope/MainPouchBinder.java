@@ -74,6 +74,13 @@ public final class MainPouchBinder extends AbstractBinder
 		}
 	}
 
+	/**
+	 * Creates a new instance.
+	 */
+	public MainPouchBinder()
+	{
+	}
+
 	@Override
 	protected void configure()
 	{

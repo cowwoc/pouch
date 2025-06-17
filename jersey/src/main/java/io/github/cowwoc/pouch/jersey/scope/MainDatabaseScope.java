@@ -19,9 +19,15 @@ public final class MainDatabaseScope extends AbstractDatabaseScope
 		return result;
 	});
 
-	public MainDatabaseScope(JvmScope parent)
+	/**
+	 * Creates a new instance.
+	 *
+	 * @param jvmScope the JVM configuration
+	 * @throws NullPointerException if {@code jvmScope} is null
+	 */
+	public MainDatabaseScope(JvmScope jvmScope)
 	{
-		super(parent);
+		super(jvmScope);
 	}
 
 	@Override

@@ -14,6 +14,8 @@ import java.net.URI;
 public interface RequestScope extends TransactionScope
 {
 	/**
+	 * Returns the requested URI.
+	 *
 	 * @return the requested URI
 	 */
 	URI getRequestedUri();

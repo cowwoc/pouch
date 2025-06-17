@@ -10,6 +10,9 @@ import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 
+/**
+ * A resource that returns Hello World.
+ */
 @Path("helloworld")
 public final class HelloWorldResource
 {
@@ -29,6 +32,11 @@ public final class HelloWorldResource
 		this.scope = scope;
 	}
 
+	/**
+	 * Returns the state of the resource.
+	 *
+	 * @return the state
+	 */
 	@GET
 	@Produces("text/plain")
 	public String getHello()

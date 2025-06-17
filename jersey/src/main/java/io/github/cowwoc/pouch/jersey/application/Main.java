@@ -17,6 +17,12 @@ import java.net.URI;
  */
 public class Main
 {
+	/**
+	 * The main entry point.
+	 *
+	 * @param args the command-line arguments
+	 * @throws Exception if an error occurs
+	 */
 	public static void main(String[] args) throws Exception
 	{
 		SLF4JBridgeHandler.removeHandlersForRootLogger();
@@ -37,5 +43,9 @@ public class Main
 		{
 			server.stop();
 		}
+	}
+
+	private Main()
+	{
 	}
 }

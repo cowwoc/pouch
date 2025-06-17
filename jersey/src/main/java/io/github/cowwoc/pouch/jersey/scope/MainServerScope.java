@@ -8,8 +8,10 @@ import org.glassfish.hk2.api.ServiceLocator;
 public final class MainServerScope extends AbstractServerScope
 {
 	/**
+	 * Creates a new instance.
+	 *
 	 * @param database the database configuration
-	 * @throws NullPointerException if any of the arguments are null
+	 * @throws NullPointerException if {@code database} is null
 	 */
 	public MainServerScope(DatabaseScope database)
 	{

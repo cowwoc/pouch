@@ -25,7 +25,9 @@ public interface JvmScope extends Scope
 	RunMode getMode();
 
 	/**
-	 * @return the amount of time to wait for scopes to close
+	 * Returns the amount of time to wait for scopes to close.
+	 *
+	 * @return the amount of time
 	 * @throws IllegalStateException if the scope is closed
 	 */
 	Duration getScopeCloseTimeout();

@@ -10,6 +10,9 @@ import java.time.Duration;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+/**
+ * The default implementation of {@code ServerScope}.
+ */
 public abstract class AbstractServerScope extends AbstractScope
 	implements ServerScope
 {
@@ -20,16 +23,18 @@ public abstract class AbstractServerScope extends AbstractScope
 	protected final AtomicBoolean closed = new AtomicBoolean();
 
 	/**
-	 * @param parent The database configuration
-	 * @throws NullPointerException if any of the arguments are null
+	 * Creates a new instance.
+	 *
+	 * @param databaseScope The database configuration
+	 * @throws NullPointerException if {@code databaseScope} is null
 	 */
-	public AbstractServerScope(DatabaseScope parent)
+	protected AbstractServerScope(DatabaseScope databaseScope)
 	{
-		if (parent == null)
-			throw new NullPointerException("parent may not be null");
-		this.parent = parent;
+		if (databaseScope == null)
+			throw new NullPointerException("databaseScope may not be null");
+		this.parent = databaseScope;
 
-		parent.addChild(this);
+		databaseScope.addChild(this);
 	}
 
 	@Override

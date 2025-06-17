@@ -10,8 +10,10 @@ import org.glassfish.hk2.api.ServiceLocator;
 public interface ServerScope extends DatabaseScope
 {
 	/**
+	 * Creates a new request scope.
+	 *
 	 * @param serviceLocator the Dropwizard dependency-injection mechanism
-	 * @return a new request scope
+	 * @return the scope
 	 * @throws NullPointerException  if {@code serviceLocator} is null
 	 * @throws IllegalStateException if {@link #isClosed()}
 	 */

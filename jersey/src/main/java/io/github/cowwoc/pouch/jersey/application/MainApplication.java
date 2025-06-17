@@ -13,6 +13,9 @@ import org.glassfish.jersey.server.ResourceConfig;
  */
 public final class MainApplication extends ResourceConfig
 {
+	/**
+	 * Creates a new instance.
+	 */
 	public MainApplication()
 	{
 		register(MainPouchBinder.class);
