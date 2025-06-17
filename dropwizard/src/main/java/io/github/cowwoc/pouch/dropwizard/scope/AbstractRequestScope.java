@@ -42,7 +42,9 @@ abstract class AbstractRequestScope extends AbstractScope
 	}
 
 	/**
-	 * @return the Jersey dependency-injection mechanism
+	 * Returns the Jersey dependency-injection mechanism.
+	 *
+	 * @return the dependency-injection mechanism
 	 */
 	protected ServiceLocator getServiceLocator()
 	{

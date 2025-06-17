@@ -26,6 +26,13 @@ public final class MainApplication extends Application<Configuration>
 		new MainApplication().run(args);
 	}
 
+	/**
+	 * Creates a new instance.
+	 */
+	public MainApplication()
+	{
+	}
+
 	@Override
 	public void run(Configuration configuration, Environment environment)
 	{

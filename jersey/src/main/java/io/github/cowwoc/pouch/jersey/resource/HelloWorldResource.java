@@ -21,19 +21,19 @@ public final class HelloWorldResource
 	/**
 	 * Creates a new resource.
 	 *
-	 * @param scope values and variables that are specific to the lifetime of the current HTTP request
-	 * @throws NullPointerException if {@code scope} is null
+	 * @param request values and variables that are specific to the lifetime of the current HTTP request
+	 * @throws NullPointerException if {@code request} is null
 	 */
 	@Inject
-	public HelloWorldResource(RequestScope scope)
+	public HelloWorldResource(RequestScope request)
 	{
-		if (scope == null)
+		if (request == null)
 			throw new NullPointerException("scope may not be null");
-		this.scope = scope;
+		this.scope = request;
 	}
 
 	/**
-	 * Returns the state of the resource.
+	 * Returns the state of this resource.
 	 *
 	 * @return the state
 	 */
