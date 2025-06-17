@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>com.github.cowwoc.pouch</groupId>
+		<groupId>io.github.cowwoc.pouch</groupId>
 		<artifactId>pouch</artifactId>
 		<version>8.2-SNAPSHOT</version>
 	</parent>
@@ -80,7 +80,7 @@
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
-			<version>1.5.17</version>
+			<version>1.5.18</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
@@ -111,7 +111,7 @@
 					</execution>
 				</executions>
 				<configuration>
-					<mainClass>com.github.cowwoc.pouch.jersey.application.Main</mainClass>
+					<mainClass>io.github.cowwoc.pouch.jersey.application.Main</mainClass>
 				</configuration>
 			</plugin>
 		</plugins>

@@ -1,0 +1,68 @@
+name: Reusable Build
+on:
+  workflow_call:
+    inputs:
+      COMMIT_ID:
+        required: true
+        type: string
+      FOR_RELEASE:
+        required: true
+        type: boolean
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.COMMIT_ID }}
+
+      - name: Install Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: |
+            8
+            24
+
+      - name: Cache Dependencies
+        uses: actions/cache@v4
+        with:
+          # Avoid caching the generated artifacts
+          path: |
+            ~/.m2/repository/*
+            !~/.m2/repository/io/github/pouch/
+          key: "${{ runner.OS }}-maven-${{ hashFiles('**/pom.xml') }}"
+
+      # Maven command-line options:
+      # --batch-mode: recommended in CI to inform maven to not run in interactive mode (less logs)
+      # -V: strongly recommended in CI, will display the JDK and Maven versions in use.
+      # -Dsurefire.useFile=false: useful in CI. Displays test errors in the logs directly (instead of
+      #                           having to crawl the workspace files to see the cause).
+      # -e: Display stack-traces on failure
+      # -P release: activate the "release" profile
+      #
+      # We need to use the "install" phase before running integration tests; otherwise,
+      # maven-invoker-plugin:install will fail.
+      - name: Build
+        shell: bash
+        run: |
+          PROFILE=""          
+          if [[ "${{ inputs.FOR_RELEASE }}" == "true" ]]; then
+            PROFILE="-P release"
+          fi
+          ./mvnw install --batch-mode -V "-Dsurefire.useFile=false" -e ${PROFILE}
+
+      - uses: actions/upload-artifact@v4
+        if: ${{ inputs.FOR_RELEASE }}
+        with:
+          name: pouch-bundle
+          path: |
+            ~/.m2/repository/io/github/pouch/
+            !~/.m2/repository/io/github/pouch/**/maven-metadata-local.xml
+            !~/.m2/repository/io/github/pouch/**/_remote.repositories
+            !~/.m2/repository/io/github/pouch/**/*.lastUpdated
+          if-no-files-found: error
+          retention-days: 1

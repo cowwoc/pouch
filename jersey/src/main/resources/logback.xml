@@ -11,5 +11,5 @@
 	<root level="warn">
 		<appender-ref ref="STDOUT"/>
 	</root>
-	<logger name="com.github.cowwoc.pouch.jersey" level="info"/>
+	<logger name="io.github.cowwoc.pouch.jersey" level="info"/>
 </configuration>

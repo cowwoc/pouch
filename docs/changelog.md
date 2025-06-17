@@ -1,6 +1,11 @@
 Minor updates involving cosmetic changes have been omitted from this list. See [commits](../../commits/main)
 for a full list.
 
+## Version 9.0 - 2025/06/17
+
+* Breaking changes
+  * Changed groupId from `com.github.cowwoc.pouch` to `io.github.cowwoc.pouch`.
+
 ## Version 8.1 - 2025/02/18
 
 * Bugfix: artifactId `core` was mistakenly relocated to `pouch` instead of `pouch-core`.
