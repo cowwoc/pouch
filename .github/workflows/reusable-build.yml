@@ -5,6 +5,9 @@ on:
       COMMIT_ID:
         required: true
         type: string
+      VERSION:
+        required: false
+        type: string
       FOR_RELEASE:
         required: true
         type: boolean
@@ -34,7 +37,7 @@ jobs:
           path: |
             ~/.m2/repository/*
             !~/.m2/repository/io/github/cowwoc/pouch/
-          key: "${{ runner.OS }}-maven-${{ hashFiles('**/pom.xml') }}"
+          key: "${{ runner.OS }}-maven-${{ hashFiles('**/pom.xml') }}-build"
 
       # Maven command-line options:
       # --batch-mode: recommended in CI to inform maven to not run in interactive mode (less logs)
@@ -52,6 +55,16 @@ jobs:
           fi
           ./mvnw install --batch-mode -V "-Dsurefire.useFile=false" -e ${PROFILE}
 
+      # Must quote exclamation mark on bash: https://stackoverflow.com/a/27177197/14731
+      - name: Generate documentation
+        if: ${{ inputs.FOR_RELEASE }}
+        run: |
+          ./mvnw --batch-mode -V -e -pl '!dropwizard,!jersey' verify javadoc:aggregate
+          VERSION=${{ inputs.VERSION }}
+          rm -rf "docs/api/${VERSION}"
+          mkdir --parents "docs/api/${VERSION}"
+          mv target/reports/apidocs/* "docs/api/${VERSION}"
+
       - uses: actions/upload-artifact@v4
         if: ${{ inputs.FOR_RELEASE }}
         with:
@@ -61,5 +74,6 @@ jobs:
             !~/.m2/repository/io/github/cowwoc/pouch/**/maven-metadata-local.xml
             !~/.m2/repository/io/github/cowwoc/pouch/**/_remote.repositories
             !~/.m2/repository/io/github/cowwoc/pouch/**/*.lastUpdated
+            docs/api/${{ inputs.VERSION }}
           if-no-files-found: error
           retention-days: 1

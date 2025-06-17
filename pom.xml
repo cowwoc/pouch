@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>io.github.cowwoc.pouch</groupId>
 	<artifactId>pouch</artifactId>
-	<version>8.2-SNAPSHOT</version>
+	<version>9.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>pouch</name>
 	<description>An Inversion of Control design pattern</description>
@@ -214,6 +214,12 @@
 								<goals>
 									<goal>jar</goal>
 								</goals>
+								<configuration>
+									<jdkToolchain>
+										<!-- WARNING: Must use a newer JDK to avoid https://bugs.openjdk.java.net/browse/JDK-8208269 -->
+										<version>24</version>
+									</jdkToolchain>
+								</configuration>
 							</execution>
 						</executions>
 					</plugin>
