@@ -33,7 +33,7 @@ jobs:
           # Avoid caching the generated artifacts
           path: |
             ~/.m2/repository/*
-            !~/.m2/repository/io/github/pouch/
+            !~/.m2/repository/io/github/cowwoc/pouch/
           key: "${{ runner.OS }}-maven-${{ hashFiles('**/pom.xml') }}"
 
       # Maven command-line options:
@@ -43,9 +43,6 @@ jobs:
       #                           having to crawl the workspace files to see the cause).
       # -e: Display stack-traces on failure
       # -P release: activate the "release" profile
-      #
-      # We need to use the "install" phase before running integration tests; otherwise,
-      # maven-invoker-plugin:install will fail.
       - name: Build
         shell: bash
         run: |
@@ -60,9 +57,9 @@ jobs:
         with:
           name: pouch-bundle
           path: |
-            ~/.m2/repository/io/github/pouch/
-            !~/.m2/repository/io/github/pouch/**/maven-metadata-local.xml
-            !~/.m2/repository/io/github/pouch/**/_remote.repositories
-            !~/.m2/repository/io/github/pouch/**/*.lastUpdated
+            ~/.m2/repository/io/github/cowwoc/pouch/
+            !~/.m2/repository/io/github/cowwoc/pouch/**/maven-metadata-local.xml
+            !~/.m2/repository/io/github/cowwoc/pouch/**/_remote.repositories
+            !~/.m2/repository/io/github/cowwoc/pouch/**/*.lastUpdated
           if-no-files-found: error
           retention-days: 1
