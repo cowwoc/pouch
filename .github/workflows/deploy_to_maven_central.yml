@@ -113,7 +113,10 @@ jobs:
           echo "${MAVEN_GPG_PRIVATE_KEY}" > "${GPG_KEY_FILE}"
           
           # Import the private key into the GPG keychain
-          FINGERPRINT=$(gpg --batch --import "${GPG_KEY_FILE}" 2>&1 | awk '/^gpg: key / { print $3; exit }')
+          TEMP=$(gpg --batch --import "${GPG_KEY_FILE}")
+          echo "TEMP: ${TEMP}"
+          
+          FINGERPRINT=$(${TEMP} | awk '/^gpg: key / { print $3; exit }')
           echo "FINGERPRINT: ${FINGERPRINT}"
           gpg --list-secret-keys
           
