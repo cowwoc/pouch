@@ -113,7 +113,7 @@ jobs:
           echo "${MAVEN_GPG_PRIVATE_KEY}" > "${GPG_KEY_FILE}"
           
           # Import the private key into the GPG keychain
-          IMPORTED_KEY=$(gpg --batch --import "${GPG_KEY_FILE}")
+          IMPORTED_KEY=$(gpg --batch --import "${GPG_KEY_FILE}" 2>&1)
 
           # Remove the temporary key file immediately after import
           shred --remove "${GPG_KEY_FILE}"
