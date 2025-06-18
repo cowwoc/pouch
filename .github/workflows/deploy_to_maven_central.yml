@@ -121,12 +121,15 @@ jobs:
           GPG_KEY_ID=$(echo "$IMPORTED_KEY" | tr -d '\r' | awk '/^gpg: key .*: secret key imported$/ { print $3; exit }')
           # Strip away trailing colon
           GPG_KEY_ID=${GPG_KEY_ID%:}
-          echo "GPG_KEY_ID: ${GPG_KEY_ID}"
           
           if [ -z "${GPG_KEY_ID}" ]; then
-            echo "Error: Could not parse the secret key's fingerprint"
+            echo "Error: Could not parse the secret key's ID"
             exit 1
           fi
+          echo "GPG_KEY_ID: ${GPG_KEY_ID}"
+          gpg --list-secret-keys --keyid-format LONG
+          gpg --version | grep "Home"
+          FULL=$(gpg --list-secret-keys --with-colons | awk -F: '/^sec:/ { print $5 }')
           
           # Define the temporary file location for the passphrase
           export GPG_PASSPHRASE_FILE="$(mktemp)"
@@ -158,8 +161,13 @@ jobs:
           cd publish/
           find . -type f \( -name "*.jar" -o -name "*.pom" \) -exec sh -c '
             for file; do
+              echo "before"
               cat "${GPG_PASSPHRASE_FILE}" | gpg --batch --pinentry-mode loopback --passphrase-fd 0 --yes \
                 --detach-sign --armor --local-user ${GPG_KEY_ID} -o "${file}.asc" "${file}"
+              echo "after"
+              cat "${GPG_PASSPHRASE_FILE}" | gpg --batch --pinentry-mode loopback --passphrase-fd 0 --yes \
+                --detach-sign --armor --local-user ${FULL} -o "${file}.asc" "${file}"
+              echo "after2"
               md5sum "${file}" | awk "{print \$1}" > "${file}.md5"
               sha1sum "${file}" | awk "{print \$1}" > "${file}.sha1"
               sha256sum "${file}" | awk "{print \$1}" > "${file}.sha256"
