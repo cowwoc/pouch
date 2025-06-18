@@ -113,17 +113,15 @@ jobs:
           echo "${MAVEN_GPG_PRIVATE_KEY}" > "${GPG_KEY_FILE}"
           
           # Import the private key into the GPG keychain
-          TEMP=$(gpg --batch --import "${GPG_KEY_FILE}")
-          echo "TEMP: ${TEMP}"
-          
-          FINGERPRINT=$(${TEMP} | awk '/^gpg: key / { print $3; exit }')
-          echo "FINGERPRINT: ${FINGERPRINT}"
-          gpg --list-secret-keys
-          
+          IMPORTED_KEY=$(gpg --batch --import "${GPG_KEY_FILE}")
+
           # Remove the temporary key file immediately after import
           shred --remove "${GPG_KEY_FILE}"
+
+          GPG_KEY_ID=$(awk '/^gpg: key .*: secret key imported$/ { print $3; exit }' <<< "${IMPORTED_KEY}")
+          echo "GPG_KEY_ID: ${GPG_KEY_ID}"
           
-          if [ -z "${FINGERPRINT}" ]; then
+          if [ -z "${GPG_KEY_ID}" ]; then
             echo "Error: Could not parse the secret key's fingerprint"
             exit 1
           fi
@@ -137,8 +135,8 @@ jobs:
           # Setup a cleanup trap to remove the key after the job completes
           cleanup_gpg()
           {
-            gpg --batch --yes --delete-secret-keys "${FINGERPRINT}"
-            gpg --batch --yes --delete-keys "${FINGERPRINT}"
+            gpg --batch --yes --delete-secret-keys "${GPG_KEY_ID}"
+            gpg --batch --yes --delete-keys "${GPG_KEY_ID}"
             shred --remove --force "${GPG_PASSPHRASE_FILE}"
             unset GPG_PASSPHRASE_FILE
           }
@@ -159,7 +157,7 @@ jobs:
           find . -type f \( -name "*.jar" -o -name "*.pom" \) -exec sh -c '
             for file; do
               cat "${GPG_PASSPHRASE_FILE}" | gpg --batch --pinentry-mode loopback --passphrase-fd 0 --yes \
-                --detach-sign --armor --local-user "${FINGERPRINT}" -o "${file}.asc" "${file}"
+                --detach-sign --armor --local-user "${GPG_KEY_ID}" -o "${file}.asc" "${file}"
               md5sum "${file}" | awk "{print \$1}" > "${file}.md5"
               sha1sum "${file}" | awk "{print \$1}" > "${file}.sha1"
               sha256sum "${file}" | awk "{print \$1}" > "${file}.sha256"
