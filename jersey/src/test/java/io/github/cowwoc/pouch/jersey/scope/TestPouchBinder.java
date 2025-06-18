@@ -46,7 +46,8 @@ public final class TestPouchBinder extends AbstractBinder
 		/**
 		 * Creates a new RequestScopeFactory.
 		 *
-		 * @param jvmScope the application scope
+		 * @param jvmScope       the JVM configuration
+		 * @param serviceLocator the Jersey dependency-injection mechanism
 		 * @throws NullPointerException if any of the arguments are null
 		 */
 		@Inject

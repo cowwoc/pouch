@@ -114,7 +114,7 @@ public final class ConcurrentChildScopes
 	 * @param timeout the amount of time to wait for the children to shut down on their own before invoking
 	 *                {@code close()} on them
 	 * @return {@code true} if all the children shut down gracefully, {@code false} if a shutdown is already in
-	 * progress or a timeout occurred
+	 * 	progress or a timeout occurred
 	 * @throws WrappedCheckedException if the thread is interrupted or a child scope threw an exception while
 	 *                                 shutting down
 	 */

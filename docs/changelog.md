@@ -1,6 +1,10 @@
 Minor updates involving cosmetic changes have been omitted from this list. See [commits](../../commits/main)
 for a full list.
 
+## Version 9.1 - 2025/06/18
+
+* Added `module-info.java` to dropwizard and jersey modules. 
+
 ## Version 9.0 - 2025/06/17
 
 * Breaking changes

@@ -45,7 +45,7 @@ public final class MainPouchBinder extends AbstractBinder
 		/**
 		 * Creates a new database scope.
 		 *
-		 * @param jvmScope the application scope
+		 * @param jvmScope the JVM configuration
 		 * @throws NullPointerException if {@code jvmScope} is null
 		 */
 		@Inject
@@ -80,7 +80,8 @@ public final class MainPouchBinder extends AbstractBinder
 		/**
 		 * Creates a new request scope.
 		 *
-		 * @param databaseScope the database scope
+		 * @param databaseScope  the database scope
+		 * @param serviceLocator the Jersey dependency-injection mechanism
 		 * @throws NullPointerException if any of the arguments are null
 		 */
 		@Inject

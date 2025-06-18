@@ -1,4 +1,4 @@
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.github.cowwoc.pouch/pouch-core/badge.svg)](https://search.maven.org/search?q=g:io.github.cowwoc.pouch) [![API](https://img.shields.io/badge/api_docs-5B45D5.svg)](http://cowwoc.github.io/pouch/9.0/) [![Changelog](https://img.shields.io/badge/changelog-A345D5.svg)](docs/changelog.md)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.github.cowwoc.pouch/pouch-core/badge.svg)](https://search.maven.org/search?q=g:io.github.cowwoc.pouch) [![API](https://img.shields.io/badge/api_docs-5B45D5.svg)](http://cowwoc.github.io/pouch/9.1/) [![Changelog](https://img.shields.io/badge/changelog-A345D5.svg)](docs/changelog.md)
 [![build-status](../../workflows/Build/badge.svg)](../../actions?query=workflow%3Abuild)
 
 # <img alt="pouch" src="docs/logo.svg" width="128" height="146"/> Pouch: Inversion of Control for the Masses
@@ -20,7 +20,7 @@ To get started, add this Maven dependency:
 <dependency>
   <groupId>io.github.cowwoc.pouch</groupId>
   <artifactId>pouch-core</artifactId>
-  <version>9.0</version>
+  <version>9.1</version>
 </dependency>
 ```
 
@@ -115,9 +115,9 @@ public interface ClientScope extends Scope
 
 Imagine we have:
 
-* `JvmScope`: values and variables specific to the lifetime of the current JVM
-* `DatabaseScope`: values and variables specific to the lifetime of the current database connection
-* `RequestScope`: values and varibles specific to the lifetime of the current HTTP request
+* `JvmScope`: values and variables specific to the lifetime of the current JVM.
+* `DatabaseScope`: values and variables specific to the lifetime of the current database connection.
+* `RequestScope`: values and varibles specific to the lifetime of the current HTTP request.
 
 Notice that a `JvmScope` contains values whose lifetime span multiple database connections.
 Further, `DatabaseScope` contains values whose lifetime span multiple HTTP requests.
@@ -140,7 +140,7 @@ For example, notice how `AbstractDatabaseScope.getRunMode()` delegates to `JvmSc
 When running in a multithreaded environment, such as a web server, you might want to wait for ongoing HTTP
 requests to complete before shutting down the server.
 You can use the
-[ConcurrentChildScopes](https://cowwoc.github.io/pouch/9.0/io.github.cowwoc.pouch.core/com/github/cowwoc/pouch/core/ConcurrentChildScopes.html)
+[ConcurrentChildScopes](https://cowwoc.github.io/pouch/9.1/io.github.cowwoc.pouch.core/com/github/cowwoc/pouch/core/ConcurrentChildScopes.html)
 class to implement this as follows:
 
 ```java
@@ -579,13 +579,13 @@ The scope approach makes it easier to look up multiple values, or pass the scope
 
 The library contains two types of classes: ones that are thread-safe and ones that are not.
 
-For example,
-[ConcurrentLazyFactory](https://cowwoc.github.io/pouch/9.0/io.github.cowwoc.pouch.core/com/github/cowwoc/pouch/core/ConcurrentLazyFactory.html)
+For
+example, [ConcurrentLazyFactory](https://cowwoc.github.io/pouch/9.1/io.github.cowwoc.pouch.core/com/github/cowwoc/pouch/core/ConcurrentLazyFactory.html)
 is the thread-safe equivalent
-of [LazyFactory](https://cowwoc.github.io/pouch/9.0/io.github.cowwoc.pouch.core/com/github/cowwoc/pouch/core/LazyFactory.html).
+of [LazyFactory](https://cowwoc.github.io/pouch/9.1/io.github.cowwoc.pouch.core/com/github/cowwoc/pouch/core/LazyFactory.html).
 `LazyFactory` is faster than `ConcurrentLazyFactory`, but doesn't support access from multiple threads.
-Classes that are required to support multithreaded access
-(such as the application scope) must use the thread-safe classes.
+Classes that are required to support multithreaded access (such as the JVM scope) must use the
+thread-safe classes.
 
 ## Try it!
 

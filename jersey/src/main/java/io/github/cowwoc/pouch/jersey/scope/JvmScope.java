@@ -17,9 +17,9 @@ import java.util.concurrent.ScheduledExecutorService;
 public interface JvmScope extends Scope
 {
 	/**
-	 * Returns the runtime mode
+	 * Returns the runtime mode.
 	 *
-	 * @return the runtime mode
+	 * @return the mode
 	 * @throws IllegalStateException if the scope is closed
 	 */
 	RunMode getMode();
