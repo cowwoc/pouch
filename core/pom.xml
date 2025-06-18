@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>io.github.cowwoc.pouch</groupId>
 		<artifactId>pouch</artifactId>
-		<version>9.0</version>
+		<version>9.1-SNAPSHOT</version>
 	</parent>
 	<artifactId>pouch-core</artifactId>
 	<name>pouch-core</name>
