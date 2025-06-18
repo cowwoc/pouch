@@ -130,6 +130,7 @@ jobs:
           gpg --list-secret-keys --keyid-format LONG
           gpg --version | grep "Home"
           FULL=$(gpg --list-secret-keys --with-colons | awk -F: '/^sec:/ { print $5 }')
+          echo "FULL: ${FULL}"
           
           # Define the temporary file location for the passphrase
           export GPG_PASSPHRASE_FILE="$(mktemp)"
