@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"m":"io.github.cowwoc.pouch.core","l":"io.github.cowwoc.pouch.core"},{"m":"io.github.cowwoc.pouch.core","l":"io.github.cowwoc.pouch.core.annotation"}];updateSearchResults();
