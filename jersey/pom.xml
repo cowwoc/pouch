@@ -8,7 +8,7 @@
 		<version>9.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>pouch-jersey</artifactId>
-	<packaging>jar</packaging>
+	<name>pouch-jersey</name>
 	<description>Example of integrating Pouch with Jersey.</description>
 
 	<properties>

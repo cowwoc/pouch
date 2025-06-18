@@ -8,7 +8,7 @@
 		<version>9.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>pouch-core</artifactId>
-	<packaging>jar</packaging>
+	<name>pouch-core</name>
 
 	<dependencies>
 		<dependency>
