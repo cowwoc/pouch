@@ -1,4 +1,4 @@
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.github.cowwoc.pouch/pouch-core/badge.svg)](https://search.maven.org/search?q=g:io.github.cowwoc.pouch) [![API](https://img.shields.io/badge/api_docs-5B45D5.svg)](http://cowwoc.github.io/pouch/9.1/) [![Changelog](https://img.shields.io/badge/changelog-A345D5.svg)](docs/changelog.md)
+[![Maven Central](https://maven-badges.herokuapp.com/sonatype-central/io.github.cowwoc.pouch/pouch-core/badge.svg)](https://central.sonatype.com/search?q=g:io.github.cowwoc.pouch) [![API](https://img.shields.io/badge/api_docs-5B45D5.svg)](http://cowwoc.github.io/pouch/9.1/) [![Changelog](https://img.shields.io/badge/changelog-A345D5.svg)](docs/changelog.md)
 [![build-status](../../workflows/Build/badge.svg)](../../actions?query=workflow%3Abuild)
 
 # <img alt="pouch" src="docs/logo.svg" width="128" height="146"/> Pouch: Inversion of Control for the Masses
