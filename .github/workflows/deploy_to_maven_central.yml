@@ -118,6 +118,16 @@ jobs:
           # Remove the temporary key file immediately after import
           shred --remove "${GPG_KEY_FILE}"
 
+          echo "gili1"
+          echo "${IMPORTED_KEY}" | cat -A
+          
+          echo "gili2"
+          GPG_KEY_ID=$(echo "$IMPORTED_KEY" | tr -d '\r' | awk '/^gpg: key .*: secret key imported$/ { print $3; exit }')
+          echo "GPG_KEY_ID: ${GPG_KEY_ID}"
+          
+          echo "gili3"
+          echo "$IMPORTED_KEY" | tr -d '\r' | grep 'secret key imported'
+
           GPG_KEY_ID=$(awk '/^gpg: key .*: secret key imported$/ { print $3; exit }' <<< "${IMPORTED_KEY}")
           echo "GPG_KEY_ID: ${GPG_KEY_ID}"
           
