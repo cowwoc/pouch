@@ -114,6 +114,8 @@ jobs:
           
           # Import the private key into the GPG keychain
           FINGERPRINT=$(gpg --batch --import "${GPG_KEY_FILE}" 2>&1 | awk '/^gpg: key / { print $3; exit }')
+          echo "FINGERPRINT: ${FINGERPRINT}"
+          gpg --list-secret-keys
           
           # Remove the temporary key file immediately after import
           shred --remove "${GPG_KEY_FILE}"
