@@ -165,11 +165,14 @@ jobs:
             for file; do
               echo "before"
               cat "${GPG_PASSPHRASE_FILE}" | gpg --batch --pinentry-mode loopback --passphrase-fd 0 --yes \
-                --detach-sign --armor --local-user ${GPG_KEY_ID} -o "${file}.asc" "${file}"
+                --local-user ${GPG_KEY_ID} --detach-sign --armor -o "${file}.asc" "${file}"
               echo "after"
               cat "${GPG_PASSPHRASE_FILE}" | gpg --batch --pinentry-mode loopback --passphrase-fd 0 --yes \
-                --detach-sign --armor --local-user ${FULL_FPR} -o "${file}.asc" "${file}"
+                --local-user ${FULL_FPR} --detach-sign --armor -o "${file}.asc" "${file}"
               echo "after2"
+              cat "${GPG_PASSPHRASE_FILE}" | gpg --batch --pinentry-mode loopback --passphrase-fd 0 --yes \
+                --default-key ${FULL_FPR} --detach-sign --armor -o "${file}.asc" "${file}"
+              echo "after3"
               md5sum "${file}" | awk "{print \$1}" > "${file}.md5"
               sha1sum "${file}" | awk "{print \$1}" > "${file}.sha1"
               sha256sum "${file}" | awk "{print \$1}" > "${file}.sha256"
