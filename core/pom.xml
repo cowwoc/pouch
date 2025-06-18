@@ -1,131 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>io.github.cowwoc.pouch</groupId>
+		<groupId>com.github.cowwoc.pouch</groupId>
 		<artifactId>pouch</artifactId>
-		<version>9.1-SNAPSHOT</version>
+		<version>9.0</version>
 	</parent>
 	<artifactId>pouch-core</artifactId>
 	<name>pouch-core</name>
 
-	<dependencies>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-		</dependency>
-	</dependencies>
-
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>default-compile</id>
-						<goals>
-							<goal>compile</goal>
-						</goals>
-						<configuration>
-							<source>8</source>
-							<target>8</target>
-							<jdkToolchain>
-								<version>8</version>
-							</jdkToolchain>
-							<showDeprecation>true</showDeprecation>
-							<showWarnings>true</showWarnings>
-							<compilerArgs>
-								<arg>-Werror</arg>
-							</compilerArgs>
-							<excludes>
-								<exclude>module-info.java</exclude>
-							</excludes>
-						</configuration>
-					</execution>
-					<execution>
-						<id>compile-module-info</id>
-						<goals>
-							<goal>compile</goal>
-						</goals>
-						<configuration>
-							<release>9</release>
-							<jdkToolchain>
-								<version>9</version>
-							</jdkToolchain>
-							<compileSourceRoots>
-								<compileSourceRoot>${project.build.sourceDirectory}</compileSourceRoot>
-							</compileSourceRoots>
-							<includes>
-								<include>module-info.java</include>
-							</includes>
-							<multiReleaseOutput>true</multiReleaseOutput>
-							<showDeprecation>true</showDeprecation>
-							<showWarnings>true</showWarnings>
-							<compilerArgs>
-								<arg>-Xlint:-requires-automatic</arg>
-								<arg>-Werror</arg>
-							</compilerArgs>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>attach-javadocs</id>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-						<configuration>
-							<jdkToolchain>
-								<!-- WARNING: Must use a newer JDK to avoid https://bugs.openjdk.java.net/browse/JDK-8208269 -->
-								<version>24</version>
-							</jdkToolchain>
-							<show>public</show>
-							<additionalOptions>
-								<!-- https://stackoverflow.com/a/54468139/14731 -->
-								<option>--override-methods</option>
-								<option>summary</option>
-							</additionalOptions>
-							<sourcepath>${project.build.sourceDirectory}</sourcepath>
-							<doclint>all,-missing</doclint>
-						</configuration>
-					</execution>
-					<execution>
-						<id>default-cli</id>
-						<goals>
-							<goal>aggregate</goal>
-						</goals>
-						<configuration>
-							<jdkToolchain>
-								<!-- WARNING: Must use a newer JDK to avoid https://bugs.openjdk.java.net/browse/JDK-8208269 -->
-								<version>24</version>
-							</jdkToolchain>
-							<show>public</show>
-							<additionalOptions>
-								<!-- https://stackoverflow.com/a/54468139/14731 -->
-								<option>--override-methods</option>
-								<option>summary</option>
-							</additionalOptions>
-							<sourcepath>${project.build.sourceDirectory}</sourcepath>
-							<doclint>all,-missing</doclint>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<artifactId>maven-jar-plugin</artifactId>
-				<configuration>
-					<archive>
-						<manifestEntries>
-							<Multi-Release>true</Multi-Release>
-						</manifestEntries>
-					</archive>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
+	<distributionManagement>
+		<relocation>
+			<groupId>io.github.cowwoc.pouch</groupId>
+		</relocation>
+	</distributionManagement>
 </project>
