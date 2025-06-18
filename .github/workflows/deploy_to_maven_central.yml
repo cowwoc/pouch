@@ -129,9 +129,6 @@ jobs:
             exit 1
           fi
           
-          # Set the secret key as default
-          echo "default-key ${FINGERPRINT}" >> ~/.gnupg/gpg.conf
-          
           # Define the temporary file location for the passphrase
           export GPG_PASSPHRASE_FILE="$(mktemp)"
 
@@ -163,7 +160,7 @@ jobs:
           find . -type f \( -name "*.jar" -o -name "*.pom" \) -exec sh -c '
             for file; do
               cat "${GPG_PASSPHRASE_FILE}" | gpg --batch --pinentry-mode loopback --passphrase-fd 0 --yes \
-                --detach-sign --armor -o "${file}.asc" "${file}"
+                --detach-sign --armor --local-user ${FINGERPRINT} -o "${file}.asc" "${file}"
               md5sum "${file}" | awk "{print \$1}" > "${file}.md5"
               sha1sum "${file}" | awk "{print \$1}" > "${file}.sha1"
               sha256sum "${file}" | awk "{print \$1}" > "${file}.sha256"
