@@ -113,16 +113,10 @@ jobs:
           echo "${MAVEN_GPG_PRIVATE_KEY}" > "${GPG_KEY_FILE}"
           
           # Import the private key into the GPG keychain
-          gpg --batch --import "${GPG_KEY_FILE}"
+          FINGERPRINT=$(gpg --batch --import "${GPG_KEY_FILE}" 2>&1 | awk '/^gpg: key / { print $3; exit }')
           
           # Remove the temporary key file immediately after import
           shred --remove "${GPG_KEY_FILE}"
-          
-          # Based on https://unix.stackexchange.com/a/743986/60809
-          FINGERPRINT=$(gpg --list-secret-keys --with-colons | awk -F: '
-            $1 == "sec" {found = 1; next} 
-            found && $1 == "fpr" {print $10; exit}
-          ')
           
           if [ -z "${FINGERPRINT}" ]; then
             echo "Error: Could not parse the secret key's fingerprint"
@@ -160,7 +154,7 @@ jobs:
           find . -type f \( -name "*.jar" -o -name "*.pom" \) -exec sh -c '
             for file; do
               cat "${GPG_PASSPHRASE_FILE}" | gpg --batch --pinentry-mode loopback --passphrase-fd 0 --yes \
-                --detach-sign --armor --local-user ${FINGERPRINT} -o "${file}.asc" "${file}"
+                --detach-sign --armor --local-user "${FINGERPRINT}" -o "${file}.asc" "${file}"
               md5sum "${file}" | awk "{print \$1}" > "${file}.md5"
               sha1sum "${file}" | awk "{print \$1}" > "${file}.sha1"
               sha256sum "${file}" | awk "{print \$1}" > "${file}.sha256"
