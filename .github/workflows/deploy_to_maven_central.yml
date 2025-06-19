@@ -166,6 +166,8 @@ jobs:
               echo "before"
               cat "${GPG_PASSPHRASE_FILE}" | gpg --batch --pinentry-mode loopback --passphrase-fd 0 --yes \
                 --local-user ${GPG_KEY_ID} --detach-sign --armor -o "${file}.asc" "${file}"
+              echo "${GPG_PASSPHRASE_FILE}" gpg --batch --pinentry-mode loopback --passphrase-fd 0 --yes \
+                --local-user ${GPG_KEY_ID} --detach-sign --armor -o "${file}.asc" "${file}"
               echo "after"
               cat "${GPG_PASSPHRASE_FILE}" | gpg --batch --pinentry-mode loopback --passphrase-fd 0 --yes \
                 --local-user ${FULL_FPR} --detach-sign --armor -o "${file}.asc" "${file}"
