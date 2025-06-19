@@ -126,12 +126,6 @@ jobs:
             echo "Error: Could not parse the secret key's ID"
             exit 1
           fi
-          echo "GPG_KEY_ID: ${GPG_KEY_ID}"
-          FULL_FPR=$(gpg --list-secret-keys --with-colons --keyid-format LONG | awk -F: -v keyid="${GPG_KEY_ID}" '
-            $1 == "sec" && $5 == keyid { found=1; next }
-            found && $1 == "fpr" { print $10; exit }
-          ')
-          echo "FULL_FPR: ${FULL_FPR}"
           
           # Define the temporary file location for the passphrase
           export GPG_PASSPHRASE_FILE="$(mktemp)"
@@ -159,24 +153,13 @@ jobs:
           mv bundles/pouch-bundle/work/pouch/pouch/docs/api/${VERSION} docs/api/${VERSION}
           rm -rf bundles
 
-          echo "GPG_KEY_ID2: ${GPG_KEY_ID}"
           # Sign and generate checksums for all JAR and POM files
           cd publish/
           find . -type f \( -name "*.jar" -o -name "*.pom" \) -exec sh -c '
             for file; do
-              echo "before"
-              echo "GPG_KEY_ID3: ${GPG_KEY_ID}"
+              # Reminder: this block only sees exported variables
               cat "${GPG_PASSPHRASE_FILE}" | gpg --batch --pinentry-mode loopback --passphrase-fd 0 --yes \
                 --local-user ${GPG_KEY_ID} --detach-sign --armor -o "${file}.asc" "${file}"
-              echo "${GPG_PASSPHRASE_FILE}" gpg --batch --pinentry-mode loopback --passphrase-fd 0 --yes \
-                --local-user ${GPG_KEY_ID} --detach-sign --armor -o "${file}.asc" "${file}"
-              echo "after"
-              cat "${GPG_PASSPHRASE_FILE}" | gpg --batch --pinentry-mode loopback --passphrase-fd 0 --yes \
-                --local-user ${FULL_FPR} --detach-sign --armor -o "${file}.asc" "${file}"
-              echo "after2"
-              cat "${GPG_PASSPHRASE_FILE}" | gpg --batch --pinentry-mode loopback --passphrase-fd 0 --yes \
-                --default-key ${FULL_FPR} --detach-sign --armor -o "${file}.asc" "${file}"
-              echo "after3"
               md5sum "${file}" | awk "{print \$1}" > "${file}.md5"
               sha1sum "${file}" | awk "{print \$1}" > "${file}.sha1"
               sha256sum "${file}" | awk "{print \$1}" > "${file}.sha256"
