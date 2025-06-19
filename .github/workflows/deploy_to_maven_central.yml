@@ -120,7 +120,7 @@ jobs:
 
           GPG_KEY_ID=$(echo "$IMPORTED_KEY" | tr -d '\r' | awk '/^gpg: key .*: secret key imported$/ { print $3; exit }')
           # Strip away trailing colon
-          GPG_KEY_ID=${GPG_KEY_ID%:}
+          export GPG_KEY_ID=${GPG_KEY_ID%:}
           
           if [ -z "${GPG_KEY_ID}" ]; then
             echo "Error: Could not parse the secret key's ID"
