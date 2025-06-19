@@ -159,11 +159,13 @@ jobs:
           mv bundles/pouch-bundle/work/pouch/pouch/docs/api/${VERSION} docs/api/${VERSION}
           rm -rf bundles
 
+          echo "GPG_KEY_ID2: ${GPG_KEY_ID}"
           # Sign and generate checksums for all JAR and POM files
           cd publish/
           find . -type f \( -name "*.jar" -o -name "*.pom" \) -exec sh -c '
             for file; do
               echo "before"
+              echo "GPG_KEY_ID3: ${GPG_KEY_ID}"
               cat "${GPG_PASSPHRASE_FILE}" | gpg --batch --pinentry-mode loopback --passphrase-fd 0 --yes \
                 --local-user ${GPG_KEY_ID} --detach-sign --armor -o "${file}.asc" "${file}"
               echo "${GPG_PASSPHRASE_FILE}" gpg --batch --pinentry-mode loopback --passphrase-fd 0 --yes \
