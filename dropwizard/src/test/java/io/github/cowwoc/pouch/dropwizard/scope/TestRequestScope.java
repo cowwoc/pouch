@@ -18,7 +18,7 @@ public final class TestRequestScope extends AbstractRequestScope
 	 * @param serviceLocator the Jersey dependency-injection mechanism
 	 * @throws NullPointerException if any of the arguments are null
 	 */
-	TestRequestScope(ServerScope parent, ServiceLocator serviceLocator)
+	public TestRequestScope(ServerScope parent, ServiceLocator serviceLocator)
 	{
 		super(parent, serviceLocator);
 	}

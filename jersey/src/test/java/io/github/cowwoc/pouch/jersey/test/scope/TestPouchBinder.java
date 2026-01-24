@@ -2,8 +2,14 @@
  * Copyright 2016 Gili Tzabari.
  * Licensed under the Apache License, Version 2.0: http://www.apache.org/licenses/LICENSE-2.0
  */
-package io.github.cowwoc.pouch.jersey.scope;
+package io.github.cowwoc.pouch.jersey.test.scope;
 
+import io.github.cowwoc.pouch.jersey.scope.DatabaseScope;
+import io.github.cowwoc.pouch.jersey.scope.DefaultJvmScope;
+import io.github.cowwoc.pouch.jersey.scope.JvmScope;
+import io.github.cowwoc.pouch.jersey.scope.RequestScope;
+import io.github.cowwoc.pouch.jersey.scope.RunMode;
+import io.github.cowwoc.pouch.jersey.scope.ServerScope;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import org.glassfish.hk2.api.Factory;

@@ -1,6 +1,11 @@
 Minor updates involving cosmetic changes have been omitted from this list. See [commits](../../commits/main)
 for a full list.
 
+## Version 10.0 - 2026/01/24
+
+* Breaking changes
+  * Replaced `UncheckedCallable` with `Supplier`. 
+
 ## Version 9.1 - 2025/06/18
 
 * Added `module-info.java` to dropwizard and jersey modules. 

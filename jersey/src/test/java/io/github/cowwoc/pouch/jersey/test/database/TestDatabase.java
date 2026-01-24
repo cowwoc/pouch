@@ -1,12 +1,12 @@
-package io.github.cowwoc.pouch.jersey.database;
+package io.github.cowwoc.pouch.jersey.test.database;
 
 import io.github.cowwoc.pouch.jersey.scope.DatabaseScope;
 import io.github.cowwoc.pouch.jersey.scope.DefaultJvmScope;
 import io.github.cowwoc.pouch.jersey.scope.JvmScope;
 import io.github.cowwoc.pouch.jersey.scope.RunMode;
-import io.github.cowwoc.pouch.jersey.scope.TestDatabaseScope;
 import io.github.cowwoc.pouch.jersey.scope.TransactionScope;
-import org.junit.Test;
+import io.github.cowwoc.pouch.jersey.test.scope.TestDatabaseScope;
+import org.junit.jupiter.api.Test;
 
 import java.sql.Connection;
 import java.sql.SQLException;

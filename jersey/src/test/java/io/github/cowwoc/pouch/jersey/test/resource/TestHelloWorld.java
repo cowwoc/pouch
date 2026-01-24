@@ -2,9 +2,9 @@
  * Copyright 2016 Gili Tzabari.
  * Licensed under the Apache License, Version 2.0: http://www.apache.org/licenses/LICENSE-2.0
  */
-package io.github.cowwoc.pouch.jersey.resource;
+package io.github.cowwoc.pouch.jersey.test.resource;
 
-import io.github.cowwoc.pouch.jersey.application.TestApplication;
+import io.github.cowwoc.pouch.jersey.test.application.TestApplication;
 import jakarta.ws.rs.core.Application;
 import org.glassfish.jersey.test.JerseyTest;
 import org.junit.jupiter.api.BeforeAll;

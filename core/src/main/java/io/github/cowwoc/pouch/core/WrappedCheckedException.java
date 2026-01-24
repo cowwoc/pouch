@@ -4,6 +4,7 @@ import io.github.cowwoc.pouch.core.annotation.CheckReturnValue;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
+import java.util.function.Supplier;
 
 import static java.util.Objects.requireNonNull;
 
@@ -47,7 +48,7 @@ public final class WrappedCheckedException extends RuntimeException
 	 * @throws NullPointerException if {@code task} is null
 	 */
 	@CheckReturnValue
-	public static <V> UncheckedCallable<V> wrap(Callable<V> task)
+	public static <V> Supplier<V> wrap(Callable<V> task)
 	{
 		return () ->
 		{
@@ -132,22 +133,5 @@ public final class WrappedCheckedException extends RuntimeException
 		 * @throws Exception if unable to compute a result
 		 */
 		void run() throws Exception;
-	}
-
-	/**
-	 * A {@link Callable} that does not throw any checked exceptions.
-	 *
-	 * @param <V> the return type of the {@code call} method
-	 */
-	@FunctionalInterface
-	public interface UncheckedCallable<V>
-	{
-		/**
-		 * Runs the task.
-		 *
-		 * @return computed result
-		 * @throws WrappedCheckedException if unable to compute a result
-		 */
-		V call();
 	}
 }

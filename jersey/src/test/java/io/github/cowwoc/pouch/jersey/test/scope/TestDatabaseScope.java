@@ -1,7 +1,9 @@
-package io.github.cowwoc.pouch.jersey.scope;
+package io.github.cowwoc.pouch.jersey.test.scope;
 
 import io.github.cowwoc.pouch.core.LazyReference;
 import io.github.cowwoc.pouch.core.Reference;
+import io.github.cowwoc.pouch.jersey.scope.AbstractDatabaseScope;
+import io.github.cowwoc.pouch.jersey.scope.JvmScope;
 import org.h2.jdbcx.JdbcDataSource;
 
 import javax.sql.DataSource;

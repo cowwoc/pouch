@@ -1,5 +1,8 @@
-package io.github.cowwoc.pouch.jersey.scope;
+package io.github.cowwoc.pouch.jersey.test.scope;
 
+import io.github.cowwoc.pouch.jersey.scope.AbstractServerScope;
+import io.github.cowwoc.pouch.jersey.scope.DatabaseScope;
+import io.github.cowwoc.pouch.jersey.scope.RequestScope;
 import org.glassfish.hk2.api.ServiceLocator;
 
 /**

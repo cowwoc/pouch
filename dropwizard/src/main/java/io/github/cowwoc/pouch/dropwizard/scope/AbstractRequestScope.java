@@ -17,7 +17,7 @@ import java.util.concurrent.ScheduledExecutorService;
 /**
  * RequestScope common to main and test codebases.
  */
-abstract class AbstractRequestScope extends AbstractScope
+public abstract class AbstractRequestScope extends AbstractScope
 	implements RequestScope
 {
 	private final ServerScope parent;
@@ -31,7 +31,7 @@ abstract class AbstractRequestScope extends AbstractScope
 	 * @param serviceLocator the Jersey dependency-injection mechanism
 	 * @throws NullPointerException if any of the arguments are null
 	 */
-	AbstractRequestScope(ServerScope parent, ServiceLocator serviceLocator)
+	protected AbstractRequestScope(ServerScope parent, ServiceLocator serviceLocator)
 	{
 		if (parent == null)
 			throw new NullPointerException("parent may not be null");

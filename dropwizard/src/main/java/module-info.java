@@ -18,4 +18,5 @@ module io.github.cowwoc.pouch.dropwizard
 
 	exports io.github.cowwoc.pouch.dropwizard.application;
 	exports io.github.cowwoc.pouch.dropwizard.resource;
+	exports io.github.cowwoc.pouch.dropwizard.scope;
 }

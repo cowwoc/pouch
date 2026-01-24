@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>io.github.cowwoc.pouch</groupId>
 		<artifactId>pouch</artifactId>
-		<version>9.2-SNAPSHOT</version>
+		<version>10.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>pouch-jersey</artifactId>
 	<name>pouch-jersey</name>
@@ -12,7 +13,7 @@
 
 	<properties>
 		<project.root.basedir>${project.parent.basedir}</project.root.basedir>
-		<jersey.version>3.1.10</jersey.version>
+		<jersey.version>4.0.1</jersey.version>
 	</properties>
 
 	<dependencies>
@@ -32,6 +33,11 @@
 			<version>${jersey.version}</version>
 		</dependency>
 		<dependency>
+			<groupId>org.glassfish.hk2</groupId>
+			<artifactId>hk2-locator</artifactId>
+			<version>4.0.0-M3</version>
+		</dependency>
+		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>jul-to-slf4j</artifactId>
 			<version>2.0.17</version>
@@ -39,14 +45,13 @@
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
-			<version>2.3.232</version>
+			<version>2.4.240</version>
 		</dependency>
 		<dependency>
 			<groupId>org.glassfish.jaxb</groupId>
 			<artifactId>jaxb-runtime</artifactId>
-			<version>4.0.5</version>
+			<version>4.0.6</version>
 		</dependency>
-
 
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
@@ -57,12 +62,6 @@
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter</artifactId>
-			<version>${junit.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.junit.vintage</groupId>
-			<artifactId>junit-vintage-engine</artifactId>
 			<version>${junit.version}</version>
 			<scope>test</scope>
 		</dependency>
@@ -81,7 +80,7 @@
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
-			<version>1.5.18</version>
+			<version>1.5.25</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
@@ -96,7 +95,7 @@
 					<showDeprecation>true</showDeprecation>
 					<showWarnings>true</showWarnings>
 					<compilerArgs>
-						<arg>-Xlint:-requires-automatic</arg>
+						<arg>-Xlint:-requires-automatic,-module</arg>
 						<arg>-Werror</arg>
 					</compilerArgs>
 				</configuration>

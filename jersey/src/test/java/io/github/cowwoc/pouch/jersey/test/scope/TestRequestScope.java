@@ -2,8 +2,10 @@
  * Copyright 2016 Gili Tzabari.
  * Licensed under the Apache License, Version 2.0: http://www.apache.org/licenses/LICENSE-2.0
  */
-package io.github.cowwoc.pouch.jersey.scope;
+package io.github.cowwoc.pouch.jersey.test.scope;
 
+import io.github.cowwoc.pouch.jersey.scope.AbstractRequestScope;
+import io.github.cowwoc.pouch.jersey.scope.ServerScope;
 import org.glassfish.hk2.api.ServiceLocator;
 
 /**
@@ -18,7 +20,7 @@ public final class TestRequestScope extends AbstractRequestScope
 	 * @param serviceLocator the Jersey dependency-injection mechanism
 	 * @throws NullPointerException if any of the arguments are null
 	 */
-	TestRequestScope(ServerScope parent, ServiceLocator serviceLocator)
+	public TestRequestScope(ServerScope parent, ServiceLocator serviceLocator)
 	{
 		super(parent, serviceLocator);
 	}
