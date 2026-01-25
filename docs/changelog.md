@@ -1,9 +1,10 @@
 Minor updates involving cosmetic changes have been omitted from this list. See [commits](../../commits/main)
 for a full list.
 
-## Version 10.2 - 2026/01/24
+## Version 10.3 - 2026/01/24
 
-* Bugfix: Renamed module from `io.github.cowwoc.pouch.core` to `io.github.cowwoc.pouch10.core`
+* Breaking changes
+  * Bugfix: Renamed module from `io.github.cowwoc.pouch.core` to `io.github.cowwoc.pouch10.core`
 
 ## Version 10.0 - 2026/01/24
 
