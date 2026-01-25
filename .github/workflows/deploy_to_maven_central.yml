@@ -182,13 +182,6 @@ jobs:
           zip -r "../pouch-${{ needs.tag-release.outputs.VERSION }}.zip" .          
           cd ..
 
-      - name: Commit documentation
-        run: |
-          VERSION=${{ needs.tag-release.outputs.VERSION }}
-          git add docs/api/${VERSION}
-          git commit -m "Publishing documentation for version ${VERSION}"
-          git push
-
       - name: Upload bundle
         id: upload
         env:
@@ -207,12 +200,33 @@ jobs:
           --form "publishingType=USER_MANAGED" \
           https://central.sonatype.com/api/v1/publisher/upload)
           
-          echo "ID=${ID}" >> $GITHUB_ENV
+          echo "ID=${ID}" >> $GITHUB_OUTPUT
+
+      - name: Commit documentation
+        id: commit-docs
+        run: |
+          VERSION=${{ needs.tag-release.outputs.VERSION }}
+          git add docs/api/${VERSION}
+          git commit -m "Publishing documentation for version ${VERSION}"
+          git push
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: "docs/api"
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
 
       - name: Poll for deployment status
         env:
           MAVEN_CENTRAL_USERNAME: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
           MAVEN_CENTRAL_PASSWORD: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
+          ID: ${{ steps.upload.outputs.ID }}
         run: |
           BEARER_TOKEN=$(printf "${MAVEN_CENTRAL_USERNAME}:${MAVEN_CENTRAL_PASSWORD}" | base64)
           
@@ -238,6 +252,7 @@ jobs:
         env:
           MAVEN_CENTRAL_USERNAME: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
           MAVEN_CENTRAL_PASSWORD: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
+          ID: ${{ steps.upload.outputs.ID }}
         run: |
           BEARER_TOKEN=$(printf "${MAVEN_CENTRAL_USERNAME}:${MAVEN_CENTRAL_PASSWORD}" | base64)
           
@@ -279,7 +294,7 @@ jobs:
           
           curl --request DELETE --show-error --fail \
             --header "Authorization: Bearer ${BEARER_TOKEN}" \
-            "https://central.sonatype.com/api/v1/publisher/status?id=${{ needs.deploy.outputs.ID }}")
+            "https://central.sonatype.com/api/v1/publisher/status?id=${{ needs.deploy.outputs.ID }}"
 
       - name: Restore the workflow ref to its original position
         if: needs.tag-release.outputs.INITIAL_REF_POSITION != ''
