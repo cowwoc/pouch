@@ -79,7 +79,7 @@
 					<showDeprecation>true</showDeprecation>
 					<showWarnings>true</showWarnings>
 					<compilerArgs>
-						<arg>-Xlint:-requires-automatic</arg>
+						<arg>-Xlint:-requires-automatic,-module</arg>
 						<arg>-Werror</arg>
 					</compilerArgs>
 				</configuration>
@@ -95,7 +95,7 @@
 					</execution>
 				</executions>
 				<configuration>
-					<mainClass>io.github.cowwoc.pouch.dropwizard.application.MainApplication</mainClass>
+					<mainClass>io.github.cowwoc.pouch10.dropwizard.application.MainApplication</mainClass>
 					<arguments>
 						<argument>server</argument>
 						<argument>${project.build.outputDirectory}/main.yml</argument>

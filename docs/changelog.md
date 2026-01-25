@@ -4,11 +4,15 @@ for a full list.
 ## Version 10.0 - 2026/01/24
 
 * Breaking changes
-  * Replaced `UncheckedCallable` with `Supplier`. 
+  * Replaced `WrappedCheckedException.UncheckedCallable` with `Supplier`.
+  * Changed module and package from `io.github.cowwoc.pouch.core` to `io.github.cowwoc.pouch10.core`.
+  * Changed module and package from `io.github.cowwoc.pouch.dropwizard` to
+    `io.github.cowwoc.pouch10.dropwizard`.
+  * Changed module and package from `io.github.cowwoc.pouch.jersey` to `io.github.cowwoc.pouch10.jersey`.
 
 ## Version 9.1 - 2025/06/18
 
-* Added `module-info.java` to dropwizard and jersey modules. 
+* Added `module-info.java` to dropwizard and jersey modules.
 
 ## Version 9.0 - 2025/06/17
 
@@ -70,33 +74,33 @@ for a full list.
 ## Version 4.1 - 2024/02/19
 
 * Changes
-    * `ConcurrentChildScopes.shutdown()` throws an exception if the thread is interrupted while waiting for
-      child scopes to shut down.
+  * `ConcurrentChildScopes.shutdown()` throws an exception if the thread is interrupted while waiting for
+    child scopes to shut down.
 * Improvements
-    * Removed slf4j dependency.
+  * Removed slf4j dependency.
 
 ## Version 4.0 - 2023/07/10
 
 * Breaking changes
-    * Replaced `ConcurrentChildScopes.createChildScope()` with `add()`, and `ConcurrentChildScopes.onClosed()`
-      with `remove()`.
-    * `Scopes.runAll()` now accepts tasks that throw checked exceptions.
+  * Replaced `ConcurrentChildScopes.createChildScope()` with `add()`, and `ConcurrentChildScopes.onClosed()`
+    with `remove()`.
+  * `Scopes.runAll()` now accepts tasks that throw checked exceptions.
 
 ## Version 3.0 - 2023/02/28
 
 * Breaking changes
-    * Replaced `Closeables` with `WrappedCheckedException`.
+  * Replaced `Closeables` with `WrappedCheckedException`.
 * Improvements
-    * The library now requires JDK 8 instead of JDK 11.
+  * The library now requires JDK 8 instead of JDK 11.
 
 ## Version 2.1 - 2020/03/30
 
 * Breaking changes
-    * Changed groupId from `com.github.cowwoc` to `com.github.cowwoc.pouch`.
-    * Changed artifactId from `pouch.core` to `core`.
+  * Changed groupId from `com.github.cowwoc` to `com.github.cowwoc.pouch`.
+  * Changed artifactId from `pouch.core` to `core`.
 
 ## Version 2.0 - 2020/03/24
 
 * Breaking changes
-    * Migrated to GitHub. The new groupId is `com.github.cowwoc`. The new package name is
-      `com.github.cowwoc.pouch.core`.
+  * Migrated to GitHub. The new groupId is `com.github.cowwoc`. The new package name is
+    `com.github.cowwoc.pouch.core`.

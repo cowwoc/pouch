@@ -111,7 +111,7 @@
 					</execution>
 				</executions>
 				<configuration>
-					<mainClass>io.github.cowwoc.pouch.jersey.application.Main</mainClass>
+					<mainClass>io.github.cowwoc.pouch10.jersey.application.Main</mainClass>
 				</configuration>
 			</plugin>
 		</plugins>

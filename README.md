@@ -50,7 +50,7 @@ public enum RunMode
 ```
 
 ```java
-import io.github.cowwoc.pouch.core.Scope;
+import io.github.cowwoc.pouch10.core.Scope;
 
 public interface JvmScope extends Scope
 {
@@ -144,9 +144,9 @@ You can use the
 class to implement this as follows:
 
 ```java
-import io.github.cowwoc.pouch.core.ConcurrentChildScopes;
-import io.github.cowwoc.pouch.core.Scopes;
-import io.github.cowwoc.pouch.core.ConcurrentChildScopes;
+import io.github.cowwoc.pouch10.core.ConcurrentChildScopes;
+import io.github.cowwoc.pouch10.core.Scopes;
+import io.github.cowwoc.pouch10.core.ConcurrentChildScopes;
 
 public abstract class AbstractJvmScope extends AbstractScope
     implements JvmScope
@@ -341,7 +341,7 @@ public final class MainDataSourceFactory extends ConcurrentLazyFactory<DataSourc
 ```
 
 ```java
-import io.github.cowwoc.pouch.core.ConcurrentLazyFactory;
+import io.github.cowwoc.pouch10.core.ConcurrentLazyFactory;
 
 import java.net.URI;
 import java.sql.Connection;

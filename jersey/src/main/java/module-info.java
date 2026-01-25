@@ -1,7 +1,7 @@
 /**
  * Jersey support.
  */
-module io.github.cowwoc.pouch.jersey
+module io.github.cowwoc.pouch10.jersey
 {
 	requires com.h2database;
 	requires io.github.cowwoc.pouch.core;
@@ -16,7 +16,7 @@ module io.github.cowwoc.pouch.jersey
 	requires org.glassfish.jersey.core.server;
 	requires org.glassfish.jersey.core.common;
 
-	exports io.github.cowwoc.pouch.jersey.application;
-	exports io.github.cowwoc.pouch.jersey.resource;
-	exports io.github.cowwoc.pouch.jersey.scope to io.github.cowwoc.pouch.jersey.test;
+	exports io.github.cowwoc.pouch10.jersey.application;
+	exports io.github.cowwoc.pouch10.jersey.resource;
+	exports io.github.cowwoc.pouch10.jersey.scope to io.github.cowwoc.pouch10.jersey.test;
 }

@@ -1,7 +1,7 @@
 /**
  * Dropwizard support.
  */
-module io.github.cowwoc.pouch.dropwizard
+module io.github.cowwoc.pouch10.dropwizard
 {
 	requires java.sql;
 	requires java.naming;
@@ -16,7 +16,7 @@ module io.github.cowwoc.pouch.dropwizard
 	requires io.dropwizard.core;
 	requires io.dropwizard.jersey;
 
-	exports io.github.cowwoc.pouch.dropwizard.application;
-	exports io.github.cowwoc.pouch.dropwizard.resource;
-	exports io.github.cowwoc.pouch.dropwizard.scope;
+	exports io.github.cowwoc.pouch10.dropwizard.application;
+	exports io.github.cowwoc.pouch10.dropwizard.resource;
+	exports io.github.cowwoc.pouch10.dropwizard.scope;
 }
