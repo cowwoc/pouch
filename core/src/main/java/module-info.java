@@ -1,7 +1,7 @@
 /**
  * Core module.
  */
-module io.github.cowwoc.pouch.core
+module io.github.cowwoc.pouch10.core
 {
 	requires org.slf4j;
 	exports io.github.cowwoc.pouch10.core;

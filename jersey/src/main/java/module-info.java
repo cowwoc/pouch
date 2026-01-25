@@ -4,7 +4,7 @@
 module io.github.cowwoc.pouch10.jersey
 {
 	requires com.h2database;
-	requires io.github.cowwoc.pouch.core;
+	requires io.github.cowwoc.pouch10.core;
 	requires jakarta.inject;
 	requires jakarta.ws.rs;
 	requires java.sql;

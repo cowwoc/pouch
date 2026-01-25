@@ -3,6 +3,10 @@ for a full list.
 
 ## Version 10.0 - 2026/01/24
 
+* Bugfix: Renamed module from `io.github.cowwoc.pouch.core` to `io.github.cowwoc.pouch10.core`
+
+## Version 10.0 - 2026/01/24
+
 * Breaking changes
   * Replaced `WrappedCheckedException.UncheckedCallable` with `Supplier`.
   * Changed module and package from `io.github.cowwoc.pouch.core` to `io.github.cowwoc.pouch10.core`.

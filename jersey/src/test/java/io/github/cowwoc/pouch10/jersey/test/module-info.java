@@ -4,7 +4,7 @@
 module io.github.cowwoc.pouch10.jersey.test
 {
 	requires io.github.cowwoc.pouch10.jersey;
-	requires io.github.cowwoc.pouch.core;
+	requires io.github.cowwoc.pouch10.core;
 	requires java.sql;
 	requires jakarta.ws.rs;
 	requires org.glassfish.hk2.locator;

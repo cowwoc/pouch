@@ -8,7 +8,7 @@ module io.github.cowwoc.pouch10.dropwizard
 	requires org.slf4j;
 	requires jakarta.inject;
 	requires jakarta.ws.rs;
-	requires io.github.cowwoc.pouch.core;
+	requires io.github.cowwoc.pouch10.core;
 	requires org.glassfish.hk2.api;
 	requires com.google.common;
 	requires com.h2database;
