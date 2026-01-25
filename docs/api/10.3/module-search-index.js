@@ -1,0 +1,1 @@
+moduleSearchIndex = [{"l":"io.github.cowwoc.pouch10.core"}];updateSearchResults();
